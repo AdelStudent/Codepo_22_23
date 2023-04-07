@@ -1,10 +1,12 @@
+//Le module thingstream click utilise les pin Rx1/Tx1 pour communquer (par extension =>Serial1)
+
 int initThingstream(int *flag_init) {
   delay(10000); // wait for the modem to initialize
   if (*flag_init == 0 ){
     // ERROR : reset the Thingstream click
     Serial.println("DEBUG");
     Serial1.println("AT+IOTDEBUG=0");
-  if(checkReception() == 1) { 
+    if(checkReception() == 1) { 
       *flag_init = 1; 
         Serial.println("Debug : success");
       } else {
@@ -50,7 +52,7 @@ void publish_test(int *init_flag){
 }
 void publish(float SOC_lvl){
 
-  char message[10000] = "\0";
+  char message[10000] = "\0"; //Caractère fin de chaine
   char res[500];
   sprintf(res, "Error: le SOC est de : %f. Veuillez envoyer quelqu'un", SOC_lvl);
   strcat(message, res);
@@ -64,10 +66,10 @@ void publish(float SOC_lvl){
 void publish_initial(float SOC_lvl){
 
   char message[10000] = "\0";
-  char res[500];
-  char mask[50] = "AT+IOTPUBLISH=\"TEST1\",1," ;
-  sprintf(res, "AT+IOTPUBLISH=\"TEST1\",1,\"Error: le SOC est de : %f. Veuillez envoyer quelqu'un\"", SOC_lvl);
-  strcat(message, res);
+  char buffer[500];
+
+  sprintf(buffer, "AT+IOTPUBLISH=\"TEST1\",1,\"Error: le SOC est de : %f. Veuillez envoyer quelqu'un\"", SOC_lvl);
+  strcat(message, buffer);
 
   Serial.print("message : ");//Print le message sur Serial Monitor
   Serial.println(message); 
@@ -104,7 +106,8 @@ int checkReception() {
           }
         }
      }
-  }}
+  }
+}
 
 int analyse (String st) {
   // Arret de la publication si le mot STOP est reçu par le Click
