@@ -1,8 +1,0 @@
-Gestion du WiFi (problème accès étrange)
-Gestion du serveur asynchrone
-Gestion du spiffs (full bug + fichier data)
-Gestion du timer (pour déterminer la date/heure)
-
-Courant/tension battery
-Courant/tension PV
-Courant du réseau
