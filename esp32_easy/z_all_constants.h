@@ -1,0 +1,49 @@
+#include<WiFi.h>
+#include<WebServer.h>
+#include "time.h"
+#include "sntp.h"
+
+#include "FS.h"
+#include "SPIFFS.h"
+
+#include<Arduino.h>
+#include<ESPAsyncWebSrv.h>
+#include<SPIFFS.h> // SPIFFS is a file system that is used to store files on the ESP32 and manage them
+
+//__________________SPIFFS_Manager__________________//
+#define FORMAT_SPIFFS_IF_FAILED true
+/* You only need to format SPIFFS the first time you run a
+   test or else use the SPIFFS plugin to create a partition
+   https://github.com/me-no-dev/arduino-esp32fs-plugin 
+*/
+
+
+//__________________Test_____________________________//
+const int led = 2;
+
+//__________________WiFi_Connection__________________//
+const char *ssid = "LAPTOP-435R1L8O";
+const char *password = "FripouilleWifi";
+
+//__________________Server___________________________//
+//WebServer server(80);
+AsyncWebServer server(80); // Create AsyncWebServer object on port 80 because it is the default port for HTTP
+
+//__________________Time/Date Manager________________//
+const char* ntpServer1 = "pool.ntp.org";
+const char* ntpServer2 = "time.nist.gov";
+const long  gmtOffset_sec = 3600;
+const int   daylightOffset_sec = 3600;
+const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
+//const char* time_zone = "WAT-1";
+/*This sets the time zone to West Africa Time (WAT), which is one hour ahead of Coordinated Universal Time (UTC). Kinshasa is 
+  located in the WAT time zone, so this string will set the correct time zone for the ESP32 to determine the local time in Kinshasa.
+
+  Note that the string format is "TZ-STD,OFFSET", where TZ is the time zone abbreviation, STD is the standard time abbreviation, 
+  and OFFSET is the time offset from UTC in hours. In this case, the time zone abbreviation is WAT, the standard time abbreviation is -1 
+  (indicating a one-hour offset from UTC), and the time offset is -1 hours.
+*/
+
+
+
+
