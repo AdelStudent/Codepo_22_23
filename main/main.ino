@@ -8,6 +8,10 @@ void setup() {
   Serial.begin(9600);
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
 
+  //Initialise les pins permettant de prendre les mesures
+  setup_measure_pins();
+
+
   //Initialise la carte SD
   pinMode(CS_PIN, OUTPUT);
   SD_init(&init_flag_SD);
@@ -33,10 +37,6 @@ void setup() {
 }
 
 void loop() {
-  
-  //measure_currents("pv/current.txt");
-  
-
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();

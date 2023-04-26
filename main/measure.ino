@@ -8,7 +8,11 @@ Pour la personne qui va lire ce code:
 //____________________________USEFULL FUNCTIONS_______________________//
 
 //___________SETUP
-void setup_pins(){
+void setup_measure_pins() {
+  pinMode(Tsensor, INPUT);
+  
+  //Multiplexeur 
+  setup_pins();
   //Initialement pour le multiplexeur
   pinMode(channelA0, OUTPUT);
   pinMode(channelA1, OUTPUT);
@@ -21,12 +25,6 @@ void setup_pins(){
   digitalWrite(channelA1, LOW);
   digitalWrite(channelA2, LOW);
   digitalWrite(enPin, LOW);
-}
-void setup_measure_pins() {
-  pinMode(Tsensor, INPUT);
-  //Multiplexeur 
-  setup_pins();
-
 }
 //___________TAKING MEASURES
 void taking_measures() {
