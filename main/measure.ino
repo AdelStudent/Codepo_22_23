@@ -70,10 +70,10 @@ float calculateThermistance() {
   
   //measure_and_save("thermistance/value.txt",T);
   printThermistance(R, T);
-  return T;
+  
 }
 //___________CAPTEUR COURANT 
-void calculateCurrent(String filename, int currentAnalogInputPin, int calibrationPin) {
+float calculateCurrent(String filename, int currentAnalogInputPin, int calibrationPin) {
   currentSampleSum = 0;               
   currentSampleCount = 0;          
   while(true){
@@ -97,7 +97,6 @@ void calculateCurrent(String filename, int currentAnalogInputPin, int calibratio
       }     
 
       calculateAndPrintCurrent(FinalRMSCurrent);
-      measure_and_save(filename,FinalRMSCurrent);
       return FinalRMSCurrent;
     }
   }
@@ -129,7 +128,10 @@ double selectChannel(int chnl) {
   return Vin;
 }
 void MuxTension() { /* function MuxLED */
-  
+  //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
+  //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
+  //Une fois fait, vaut mieux supprimer la variable global qui porte le même nom (dans all_constant2.h)
+    
   for (int i = 0; i <  numOfMuxPins; i++) {
     double Vin = selectChannel(i);
 
@@ -142,14 +144,7 @@ void MuxTension() { /* function MuxLED */
   delay(10000);
 
 }
-void read_mutex_to_save(float measured_value[]){
-  //Un peu cracra mais ça fonctionne bien
-  measure_and_save("battery/firstline/voltage.txt",measured_value[0]);
-  measure_and_save("battery/secondline/voltage.txt",measured_value[1]);
-  measure_and_save("battery/thirdline/voltage.txt",measured_value[2]);
-  measure_and_save("battery/fourthline/voltage.txt",measured_value[3]);
-    
-}
+
 
 
 //____________________________TEST FUNCTIONS_______________________//
@@ -183,3 +178,11 @@ void calculateAndPrintCurrent(float FinalRMSCurrent) {
   Serial.print(FinalRMSCurrent, decimalPrecision);
   Serial.println(" A ");
 }
+/*void read_mutex_to_save(float* measured_value){
+  //Un peu cracra mais ça fonctionne bien
+  measure_and_save("battery/firstline/voltage.txt",measured_value[0]);
+  measure_and_save("battery/secondline/voltage.txt",measured_value[1]);
+  measure_and_save("battery/thirdline/voltage.txt",measured_value[2]);
+  measure_and_save("battery/fourthline/voltage.txt",measured_value[3]);
+    
+}*/
