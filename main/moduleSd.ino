@@ -1,10 +1,17 @@
-// MOSI/MISO/SCK pin => centre de l'Arduino
-// CS pin => 53
+/*
+Pour la personne qui va lire ce code:
+    -Puisque nous travaillons avec Arduino DUE, les pin MOSI/MISO/SCK pin vojnt au centre de l'Arduino et la CS pin va en 53.
+    -Toutes les fonctions pratiques pour écrire/lire/envoyer la data à partir de la carte SD sont dans la catégorie USEFULL FUNCTIONS.
+    -Dans les cas où l'on veut overwrite un fichier, nous le supprimons avec de le recréer en écrivant dans le même fichier.
+    -Avant d'écrire la data dans la carte SD, nous pouvons faire un parsing (déjà présent). Cependant, pour le moment, nous n'avons pas
+    encore déterminer le comportement de l'Arduino lorsque ce parsing dit que la date/heure/mesure soit incorrect
+*/
 
+//____________________________USEFULL FUNCTIONS_______________________//
 void SD_init(int *init_flag_SD){
   //print_variable("CS_PIN",CS_PIN);
   if(SD.begin(CS_PIN)==true){
-    //Serial.println("La carte SD a bien démarrée");
+    Serial.println("La carte SD a bien démarrée");
     *init_flag_SD = 1;
   }
   else{
@@ -12,24 +19,25 @@ void SD_init(int *init_flag_SD){
   }
 }
 void writeData(String filename, String data){
-  //Cette fonction sert à écrire, dans un ficher de la carte SD, les valeurs voulues
+  //Cette fonction sert à écrire, dans un ficher de la carte SD, les valeurs voulues à condition que la carte SD soit détectée (init_flag_SD==1)
+
   if(init_flag_SD==1){
     file = SD.open(filename,FILE_WRITE);
     if(!file){
-      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING");
+      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING "+data);
     }
     else{
-      Serial.println("WRITING TO THE FILE: "+filename);
+      Serial.println("WRITING '"+data+"' TO THE FILE: "+filename);
       file.println(data);
       file.close();
     }
   }
 }
-
-void readData(String filename){
+void read_data_and_send(String target,String filename){
+  Serial.println("read_data_and_send a été call avec la target : "+target+" et le filename : "+filename);
+  String res = "";
   //Cette fonction sert à lire dans la carte SD
   //Pour l'instant, on lit TOUTES les donnés (à voir si c'est logique)
-
   if(init_flag_SD==1){
     delay(100); //Au cas où l'on enchaine écriture et lecture, on laisse le temps de terminer l'ecriture
     file = SD.open(filename);
@@ -45,7 +53,7 @@ void readData(String filename){
         file.readBytesUntil('\n', buffer, sizeof(buffer));
         Serial.println(buffer);
         
-        send_data("ESP_truc",String(buffer));
+        send_data(target,String(buffer));
         
         memset(buffer, '\0', sizeof(buffer)); // clear the buffer
       }
@@ -57,21 +65,29 @@ void readData(String filename){
   }
 }
 void send_data(String target,String data){
+  /*
   if(!verify_parsed_text(data)){
     return;
   }
   Serial.println("Le texte lu est correctement écrit :"+data);
-
-  if(target=="ThingStream"){
+  */
+  if(target=="PC"){
+    Serial.println(data);
+  }
+  else if(target=="ThingStream"){
     Serial1.println(data);
   }
   else if(target=="ESP32"){
-    Serial2.println(data);
+    Serial2.print(data);
   }
+
   else{
     Serial.println("Je fais semblant d'envoyer la data : "+data);
   }
 }
+
+
+//_____________TEST_____________//
 
 void delete_file(String filename){
   //Si le file existe, on le supprime (utile pour les tests)
@@ -91,6 +107,7 @@ bool verify_file_existing(String filename){
   }
 }
 bool verify_parsed_text(String str) {
+    // Cette fonction a pour unique but de vérifier que le texte lu ait la bonne forme
     // Check the length of the string
 
     Serial.println("Here's the read string :"+str);
@@ -134,8 +151,7 @@ bool verify_parsed_text(String str) {
 }
 
 
-
-/*_____________________________________COMMENTARY_____________________________________*/
+/*_____________________________________PAS UTIL POUR LE MOMENT_____________________________________*/
 int initializeSD(){
   if(is_SD_ready() != 1){
     return 0;
@@ -196,7 +212,6 @@ int writeToFile(char *text){
     return 0;
   }
 }
-
 int readFile(char *text) {
   if (file) {
     const char *res;

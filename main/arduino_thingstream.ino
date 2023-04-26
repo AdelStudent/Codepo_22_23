@@ -1,5 +1,9 @@
 //Le module thingstream click utilise les pin Rx1/Tx1 pour communquer (par extension =>Serial1)
+/*
+Pour la personne qui va lire ce code:
+*/
 
+//____________________________USEFULL FUNCTIONS_______________________//
 int initThingstream(int *flag_init) {
   delay(10000); // wait for the modem to initialize
   if (*flag_init == 0 ){
@@ -81,6 +85,7 @@ int checkReception() {
   char message[150];
   int count = 0;
   
+  Serial2.println("What time is it?");
   while(true) {
     // If maximum time (20s) to wait for message reception exceeded
     if(millis()*0.001 - timeInit > 50.0) { 
@@ -90,7 +95,8 @@ int checkReception() {
     // If not yet exceeded
     //Serial.println(Serial1.available());
     //delay(500);
-    if (Serial1.available()){
+    
+    if (Serial2.available()){
         char st = Serial1.read();
         message[count] = st;  
         message[count+1] = '\0';  

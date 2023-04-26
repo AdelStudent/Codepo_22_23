@@ -1,13 +1,10 @@
-void print_things(float inputCurrent,float outputCurrent,float chargeFlow,float SOC_variation){
-  Serial.print("Input current: ");
-  Serial.print(inputCurrent);
-  Serial.print(" mA\nOutput current: ");
-  Serial.print(outputCurrent);
-  Serial.print(" mA\nCharge flow: ");
-  Serial.print(chargeFlow);
-  Serial.println("mAh\nSOC variation: ");
-  Serial.print(SOC_variation);
-}
+/*
+Pour la personne qui va lire ce code:
+    -Ici, la méthode de Coulomb Couting a été choisie. Il est toute fois possible de changer cet algo par un autre plus fin comme
+      le filtre de Kalman.
+*/
+
+//____________________________USEFULL FUNCTIONS_______________________//
 void determine_SOC(){
 
   float SOC_variation = 0;
@@ -47,4 +44,16 @@ float verify_SOC(float SOC_init,float SOC_variation){
     SOC = SOC_init + SOC_variation;
   }
   return SOC;
+}
+
+//________________________________TEST_______________________________//
+void print_things(float inputCurrent,float outputCurrent,float chargeFlow,float SOC_variation){
+  Serial.print("Input current: ");
+  Serial.print(inputCurrent);
+  Serial.print(" mA\nOutput current: ");
+  Serial.print(outputCurrent);
+  Serial.print(" mA\nCharge flow: ");
+  Serial.print(chargeFlow);
+  Serial.println("mAh\nSOC variation: ");
+  Serial.print(SOC_variation);
 }

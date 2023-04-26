@@ -1,0 +1,6 @@
+E (53577) task_wdt: Task watchdog got triggered. The following tasks did not reset the watchdog in time:
+E (53577) task_wdt:  - async_tcp (CPU 0/1)
+E (53577) task_wdt: Tasks currently running:
+E (53577) task_wdt: CPU 0: wifi
+E (53577) task_wdt: CPU 1: loopTask
+E (53577) task_wdt: Aborting.

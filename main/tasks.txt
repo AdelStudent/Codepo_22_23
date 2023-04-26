@@ -7,6 +7,8 @@ A faire:
 -Taper le rapport (méthode Coulomb Counting) //Commencé
 -Taper le rapport (Carte SD)
 -Taper le rapport (Accès mémoire => lecture SOC saved+watchdog système)
+
+
 ______________________________________________________________________________________________________
 Fait:
 -Merge les codes
