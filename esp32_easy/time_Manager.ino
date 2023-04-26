@@ -19,8 +19,6 @@ void setup_ESP32_time(){
     The ntpServer1 and ntpServer2 parameters specify the IP addresses or domain names of the primary and secondary NTP servers to use 
     for synchronization.
   */
-  
-
   // set notification call-back function
   sntp_set_time_sync_notification_cb( timeavailable );
   sntp_servermode_dhcp(1);    // (optional)
@@ -34,6 +32,7 @@ String get_time(){
   // create a time structure
   tm timeinfo;
   if(!getLocalTime(&timeinfo)){
+    //Voici ce que l'on envoie si on n'a pas réussit à avoir la date/heure
     Serial.println("No time available (yet)");
     return "__/__/__ __:__";
   }
@@ -43,6 +42,7 @@ String get_time(){
   String time = String(timeinfo.tm_hour < 10 ? "0" : "") + String(timeinfo.tm_hour, DEC) + ":" + String(timeinfo.tm_min < 10 ? "0" : "") + String(timeinfo.tm_min, DEC) + ":" + String(timeinfo.tm_sec < 10 ? "0" : "") + String(timeinfo.tm_sec, DEC);
   String datetime = date + " " + time;
 
+  Serial.println("Here's the date : "+datetime);
   return datetime;
 }
 void timeavailable(struct timeval *t){

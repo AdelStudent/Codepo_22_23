@@ -4,11 +4,18 @@
 #include "sntp.h"
 
 #include "FS.h"
-#include "SPIFFS.h"
+//#include "SPIFFS.h"
 
 #include<Arduino.h>
 #include<ESPAsyncWebSrv.h>
 #include<SPIFFS.h> // SPIFFS is a file system that is used to store files on the ESP32 and manage them
+
+#include "esp_task_wdt.h"
+//__________________UART Arduino Comm_______________//
+#define RXD2 16
+#define TXD2 17
+bool already_answering = false; //This variable allows us to NOT send any query to Arduino if it send us something.
+                                  //Otherwise, we could send queries as "get_pv_voltage" beside giving the answer as "23/04/23 13:30"
 
 //__________________SPIFFS_Manager__________________//
 #define FORMAT_SPIFFS_IF_FAILED true
