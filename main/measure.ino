@@ -12,7 +12,7 @@ void setup_measure_pins() {
   pinMode(Tsensor, INPUT);
   
   //Multiplexeur 
-  setup_pins();
+  setup_pins(); 
   //Initialement pour le multiplexeur
   pinMode(channelA0, OUTPUT);
   pinMode(channelA1, OUTPUT);
@@ -32,17 +32,31 @@ void taking_measures() {
     //ATTENTION A MODIFIER POUR OPTIMISER
   
   String date = send_query_ESP32("getDate",5);
+  
   //Thermistance 
-  calculateThermistance();
+  //calculateThermistance();
   measure_and_save("battery/battery/temperature.txt",date,calculateThermistance());
 
   //Courant
-  measure_and_save("battery/thirdline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A1,A2));
-  measure_and_save("battery/foruthline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A3,A4));
-
+  //measure_and_save("battery/thirdline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A1,A2));
+  //measure_and_save("battery/foruthline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A3,A4));
+  measure_and_save("PV_Current.txt",date,calculateCurrent(A2, A3));
+  measure_and_save("Charge_Current.txt",date,calculateCurrent(A4, A5));
+  measure_and_save("Battery_Current.txt",date,calculateCurrent(A6, A7));
   
   //Tension
-  MuxTension();
+  //MuxTension();
+  float* value = MuxTension();
+  
+  float firstValue = value[5]; // porte ou se trouve les 12V inconnu 
+  float secondValue = value[1]; //S4
+  float thirdValue = value[2]; //S2
+  float fourthValue = value[7]; //S7
+
+  mesure_and_save("battery/firstline/voltage.txt",date,firstValue);
+  mesure_and_save("battery/firstline/voltage.txt",date,secondValue);
+  mesure_and_save("battery/firstline/voltage.txt",date,thirdValue);
+  mesure_and_save("battery/firstline/voltage.txt",date,fourthValue);
 
 }
 void measure_and_save(String filename, String date, float value){
@@ -67,13 +81,16 @@ float calculateThermistance() {
   T = (steinhart - 273.15) + 30; // to convert the temperature into degree
   
   //measure_and_save("thermistance/value.txt",T);
-  printThermistance(R, T);
+  //printThermistance(R, T);
+  return T;
   
 }
 //___________CAPTEUR COURANT 
-float calculateCurrent(String filename, int currentAnalogInputPin, int calibrationPin) {
+//float calculateCurrent(String filename, int currentAnalogInputPin, int calibrationPin) {
+float calculateCurrent(int currentAnalogInputPin, int calibrationPin){
   currentSampleSum = 0;               
-  currentSampleCount = 0;          
+  currentSampleCount = 0;    
+  
   while(true){
     if (micros() >= currentLastSample + 200) { 
     // -> Pour que l'analogue input soit lue toutes les 0.2 millisec                 
@@ -94,7 +111,7 @@ float calculateCurrent(String filename, int currentAnalogInputPin, int calibrati
         FinalRMSCurrent =0; 
       }     
 
-      calculateAndPrintCurrent(FinalRMSCurrent);
+      //calculateAndPrintCurrent(FinalRMSCurrent);
       return FinalRMSCurrent;
     }
   }
@@ -125,7 +142,7 @@ double selectChannel(int chnl) {
 
   return Vin;
 }
-void MuxTension() { /* function MuxLED */
+float* MuxTension() { /* function MuxLED */
   //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
   //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
   //Une fois fait, vaut mieux supprimer la variable global qui porte le même nom (dans all_constant2.h)
@@ -140,6 +157,7 @@ void MuxTension() { /* function MuxLED */
   }
   Serial.println("________________________________________________________________________________");
   delay(10000);
+  return measured_value;
 
 }
 
