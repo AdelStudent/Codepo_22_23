@@ -2,6 +2,9 @@
 Pour la personne qui va lire ce code:
     -Ici, la méthode de Coulomb Couting a été choisie. Il est toute fois possible de changer cet algo par un autre plus fin comme
       le filtre de Kalman.
+    -Comme précédement dit, en nous basant sur les travaux réalisés l'année passée, nous allons essayer d'appliquer le filtre de Kalman.
+      Pour ce faire, nous nous baseront sur les valeurs des test HPPC fait à Kinshasa afin de déterminer les coef. des matrices gain
+      de Kalman/d'erreur
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//

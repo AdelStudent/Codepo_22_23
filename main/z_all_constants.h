@@ -20,7 +20,9 @@ Pour la personne qui va lire ce code:
 //Initialisation des variables                                    //
 ////////////////////////////////////////////////////////////////////
 
-//_____________________Multi Threading wish version___//
+//_____________________Kalman Variables___//
+
+//_____________________Multi Threading version Wish___//
 unsigned long lastMeasurementTime = 0; // variable to store the time of the last measurement
 unsigned long lastHearingTime = 0; // variable to store the time of the last time we heard Arduino
 

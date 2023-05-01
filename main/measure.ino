@@ -12,7 +12,7 @@ void setup_measure_pins() {
   pinMode(Tsensor, INPUT);
   
   //Multiplexeur 
-  setup_pins();
+
   //Initialement pour le multiplexeur
   pinMode(channelA0, OUTPUT);
   pinMode(channelA1, OUTPUT);
