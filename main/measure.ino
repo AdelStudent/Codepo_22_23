@@ -31,14 +31,19 @@ void taking_measures() {
     //Il faut encore créer une liste de mesures, à partir de là on écrira tout d'un coup dans la carte SD
     //ATTENTION A MODIFIER POUR OPTIMISER
   
-  String date = send_query_ESP32("getDate",5);
-  //Thermistance 
-  calculateThermistance();
-  measure_and_save("battery/battery/temperature.txt",date,calculateThermistance());
+  //String date = send_query_ESP32("getDate",5);
+  String date = "__/__/__";
+  
+  //Thermistance
+  float calculateThermistance_value = calculateThermistance();
+  Serial.print("calculateThermistance value:");delay(100);
+  Serial.println(calculateThermistance_value);delay(100);
+  measure_and_save("battery/battery/temperature.txt",date,calculateThermistance_value);
 
+  Serial.println("HEHE on est sorti de la boucle");
   //Courant
-  measure_and_save("battery/thirdline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A1,A2));
-  measure_and_save("battery/foruthline/voltage.txt",date,calculateCurrent("battery/firstline/voltage.txt",A3,A4));
+  measure_and_save("battery/thirdline/current.txt",date,calculateCurrent(A1,A2));
+  measure_and_save("battery/fourthline/current.txt",date,calculateCurrent(A3,A4));
 
   
   //Tension
@@ -46,8 +51,11 @@ void taking_measures() {
 
 }
 void measure_and_save(String filename, String date, float value){
+  //Serial.println("Did you call me?_I'm_measure_and_save()");delay(100);
   String line = date+" # "+String(value);
-  writeData(filename,line);
+  //writeData(filename,line);
+  String str_value = String(value);
+  Serial.println("Voila le fichier,la date et la valeur : "+filename+", "+date+", "+str_value);
 }
 
 //___________THERMISTANCE
@@ -55,6 +63,7 @@ float calculateThermistance() {
   //Output : température
   //Lit la termistance et la convertie en degrée
   
+  Serial.println("Did you call me?_I'm_calculateThermistance()");delay(100);
   int Tsensorvalue = analogRead(Tsensor);
   float Vo = Tsensorvalue * (5.0 / 1023.0);
   float V = Vcc - Vo;
@@ -68,10 +77,13 @@ float calculateThermistance() {
   
   //measure_and_save("thermistance/value.txt",T);
   printThermistance(R, T);
+
+  return T;
   
 }
 //___________CAPTEUR COURANT 
-float calculateCurrent(String filename, int currentAnalogInputPin, int calibrationPin) {
+float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
+  Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   currentSampleSum = 0;               
   currentSampleCount = 0;          
   while(true){

@@ -37,6 +37,8 @@ void setup() {
 }
 
 void loop() {
+  taking_measures();
+  /*
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
@@ -44,10 +46,12 @@ void loop() {
   }
 
   if (millis() - lastHearingTime >= 1 * 1 * 1000) {
+    Serial.println("HEHEHE!!");
     checkReception_ESP32();
     lastHearingTime = millis();// update the last measurement time
   }
-  delay(500);
+  */
+  delay(10000);
 }
 
 

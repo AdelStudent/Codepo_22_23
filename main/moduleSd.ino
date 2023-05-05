@@ -21,15 +21,44 @@ void SD_init(int *init_flag_SD){
 void writeData(String filename, String data){
   //Cette fonction sert à écrire, dans un ficher de la carte SD, les valeurs voulues à condition que la carte SD soit détectée (init_flag_SD==1)
 
+  Serial.print("Here's the init_flag_SD value : ");
+  Serial.println(init_flag_SD);delay(100);
+  /*
   if(init_flag_SD==1){
+    Serial.println("Avant");delay(100);
     file = SD.open(filename,FILE_WRITE);
+    Serial.println("Apres");delay(100);
     if(!file){
-      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING "+data);
+      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING "+data);delay(100);
     }
     else{
-      Serial.println("WRITING '"+data+"' TO THE FILE: "+filename);
+      Serial.println("WRITING '"+data+"' TO THE FILE: "+filename);delay(100);
       file.println(data);
       file.close();
+    }
+  }else{
+    Serial.println("Un truc chelou!");delay(100);
+  }
+  */
+  if (SD.exists(filename)) {
+    File file = SD.open(filename, FILE_WRITE);
+    
+    if (file) {
+      file.println(data);
+      file.close();
+    } else {
+      Serial.println("Error opening file for writing");
+    }
+  } else {
+    Serial.println("Un truc chelouuuuuu!");    
+    File file = SD.open(filename, FILE_WRITE);
+    
+    if (file) {
+      file.println(data);
+      file.close();
+      Serial.println("File created: " + filename);
+    } else {
+      Serial.println("Error creating file");
     }
   }
 }
