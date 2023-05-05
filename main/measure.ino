@@ -89,7 +89,7 @@ float calculateCurrent(String filename, int currentAnalogInputPin, int calibrati
       RMSCurrentMean = sqrt(currentMean);   //RMS : Root mean square -> racine carré                    
       FinalRMSCurrent = (((RMSCurrentMean / 1023) * supplyVoltage) / mVperAmpValue) - manualOffset;
 
-      if(FinalRMSCurrent <= (625/mVperAmpValue/100)) or  (FinalRMSCurrent >30)){ //c'est aussi une erreur vu les capacités du courant 
+      if(FinalRMSCurrent <= (625/mVperAmpValue/100)) || (FinalRMSCurrent >30)){ //c'est aussi une erreur vu les capacités du courant 
         //if the current detected is less than or up to 1%, set current value to 0A
         FinalRMSCurrent =0; 
       }     
