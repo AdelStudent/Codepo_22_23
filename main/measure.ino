@@ -67,22 +67,37 @@ void taking_measures() {
   measure_and_save("bat401.txt",date,calculateThermistance_value); //ce fichier se traduit par température de la première ligne de battery
 
   //Courant
-  float calculateCurrent_value = calculateCurrent(A3,A4);
-  measure_and_save("bat020.txt",date,calculateCurrent_value); //ce fichier se traduit par courant sortant du pack de battery
-  measure_and_save("chr010.txt",date,calculateCurrent_value); //ce fichier se traduit par courant entrant dans les charges
-  measure_and_save("ppv020.txt",date,calculateCurrent_value); //ce fichier se traduit par courant sortant des PV
+  float currentbatt = calculateCurrent(A2,A3);
+  float currentchr = calculateCurrent(A4,A5);
+  float currentpv = calculateCurrent(A6,A7);
+    
+  measure_and_save("bat020.txt",date,currentbatt); //ce fichier se traduit par courant sortant du pack de battery
+  measure_and_save("chr010.txt",date,currentchr); //ce fichier se traduit par courant entrant dans les charges
+  measure_and_save("ppv020.txt",date,currentpv); //ce fichier se traduit par courant sortant des PV
 
+  //Tension
+  //MuxTension();
+  float* value = MuxTension();
   
+  float firstValue = value[5]; // porte ou se trouve les 12V inconnu 
+  float secondValue = value[1]; //S4
+  float thirdValue = value[2]; //S2
+  float fourthValue = value[7]; //S7
   
+  float fifthValue = value[3]; //S7
+  float sixValue = value[4]; //S7
+  float sevenValue = value[6]; //S7
+  float nulValue = value[0];
+  
+  measure_and_save("bat101.txt",date,firstValue);
+  measure_and_save("bat102.txt",date,secondValue);
+  measure_and_save("bat103.txt",date,thirdValue);
+  measure_and_save("bat104.txt",date,fourthValue);
+    
   /*measure_and_save("bat2curr.txt",date,calculateCurrent_value);
   measure_and_save("bat3curr.txt",date,calculateCurrent_value);
   measure_and_save("bat4curr.txt",date,calculateCurrent_value);*/
   
-  
-
-  
-  //Tension
-  //MuxTension();
 
 }
 void measure_and_save(String filename, String date, float value){
@@ -110,7 +125,7 @@ float calculateThermistance() {
   float steinhart;
   float T;
   steinhart = 1 / (A + (B * log(R)) + (C * pow((log(R)), 3)));
-  T = (steinhart - 273.15) + 30; // to convert the temperature into degree
+  T = (steinhart - 273.15) + 14; // to convert the temperature into degree
   
   //printThermistance(R, T);
 
@@ -137,7 +152,7 @@ float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
       RMSCurrentMean = sqrt(currentMean);   //RMS : Root mean square -> racine carré                    
       FinalRMSCurrent = (((RMSCurrentMean / 1023) * supplyVoltage) / mVperAmpValue) - manualOffset;
 
-      if(FinalRMSCurrent <= (625/mVperAmpValue/100)){ 
+      if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
         //if the current detected is less than or up to 1%, set current value to 0A
         FinalRMSCurrent =0; 
       }     
@@ -169,11 +184,11 @@ double selectChannel(int chnl) {
   //double Vin = (Vo * (R1 + R2) / R2);
   float Vin = Vo * (R1 + R2) / R2;
 
-  print_channels(A,B,C,Vo,Vin);
+  //print_channels(A,B,C,Vo,Vin);
 
   return Vin;
 }
-void MuxTension() { /* function MuxLED */
+float* MuxTension() { /* function MuxLED */
   //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
   //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
   //Une fois fait, vaut mieux supprimer la variable global qui porte le même nom (dans all_constant2.h)
@@ -184,10 +199,10 @@ void MuxTension() { /* function MuxLED */
     measured_value[i] = Vin;
     //mesaured_value[i] = analogRead(D);
     delay(200);
-    Serial.print("ith porte : "); Serial.print(i); Serial.print("; measured_value[i] : "); Serial.println(measured_value[i]);
+    //Serial.print("ith porte : "); Serial.print(i); Serial.print("; measured_value[i] : "); Serial.println(measured_value[i]);
   }
-  Serial.println("________________________________________________________________________________");
-  delay(10000);
+  //Serial.println("________________________________________________________________________________");
+  //delay(10000);
 
 }
 
