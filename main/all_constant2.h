@@ -41,7 +41,7 @@ float mVperAmpValue = 31.25; //31.25 -20.83    // mVperAmp = maximum voltage ran
 //Specifie le mV/A puissance du transformateur de courant 
 // For a 20A Hall-Effect Current Transformer rated at 20A, 2.5V +/- 0.625V, mVperAmp will be 625 mV / 20A = 31.25mV/A 
 
-float supplyVoltage = 5000;        // Analog input pin maximum supply voltage, Arduino Uno or Mega is 5000mV while Arduino Nano or Node MCU is 3300mV
+float supplyVoltage = 3300;        // Analog input pin maximum supply voltage, Arduino Uno or Mega is 5000mV while Arduino Nano or Node MCU is 3300mV
 // Interessant de noter que toutes les données sont en mV
 //Maximum tension d'entrée aux pins analogue de l'Arduino  
 float offsetSampleRead = 0;        // to read the value of a sample for offset purpose later 
