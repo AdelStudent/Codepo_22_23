@@ -20,46 +20,19 @@ void SD_init(int *init_flag_SD){
 }
 void writeData(String filename, String data){
   //Cette fonction sert à écrire, dans un ficher de la carte SD, les valeurs voulues à condition que la carte SD soit détectée (init_flag_SD==1)
-
-  Serial.print("Here's the init_flag_SD value : ");
-  Serial.println(init_flag_SD);delay(100);
-  /*
+  
   if(init_flag_SD==1){
-    Serial.println("Avant");delay(100);
     file = SD.open(filename,FILE_WRITE);
-    Serial.println("Apres");delay(100);
     if(!file){
-      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING "+data);delay(100);
+      Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR WRITING '"+data+"'");
     }
     else{
-      Serial.println("WRITING '"+data+"' TO THE FILE: "+filename);delay(100);
+      Serial.println("WRITING '"+data+"' TO THE FILE: "+filename);
       file.println(data);
       file.close();
     }
   }else{
     Serial.println("Un truc chelou!");delay(100);
-  }
-  */
-  if (SD.exists(filename)) {
-    File file = SD.open(filename, FILE_WRITE);
-    
-    if (file) {
-      file.println(data);
-      file.close();
-    } else {
-      Serial.println("Error opening file for writing");
-    }
-  } else {
-    Serial.println("Un truc chelouuuuuu!");    
-    File file = SD.open(filename, FILE_WRITE);
-    
-    if (file) {
-      file.println(data);
-      file.close();
-      Serial.println("File created: " + filename);
-    } else {
-      Serial.println("Error creating file");
-    }
   }
 }
 void read_data_and_send(String target,String filename){
@@ -80,7 +53,7 @@ void read_data_and_send(String target,String filename){
       while (file.available()) {
         memset(buffer, '\0', sizeof(buffer)); // clear the buffer      
         file.readBytesUntil('\n', buffer, sizeof(buffer));
-        Serial.println(buffer);
+        //Serial.println(buffer);
         
         send_data(target,String(buffer));
         
@@ -93,6 +66,37 @@ void read_data_and_send(String target,String filename){
     }
   }
 }
+
+
+
+void read_SD_to_print(String filename){
+  Serial.println("read_SD_to_print a été call avec le file : "+filename);
+  File file = SD.open(filename); //open the file
+  if (file) { //if the file opened successfully
+    while (file.available()) { //read the file until the end
+      Serial.write(file.read()); //print the data to the serial monitor
+    }
+    file.close(); //close the file
+  } else {
+    Serial.println("Error opening file!");
+  }
+}
+
+void print_filenames() {
+  File root = SD.open("/"); //open the root directory
+  while (true) {
+    File file = root.openNextFile(); //open the next file in the directory
+    if (!file) { //if there are no more files, break out of the loop
+      break;
+    }
+    Serial.println(file.name()); //print the filename to the serial monitor
+    String file_str = String(file);
+    file.close(); //close the file
+  }
+  root.close(); //close the root directory
+}
+
+
 void send_data(String target,String data){
   /*
   if(!verify_parsed_text(data)){
@@ -119,19 +123,19 @@ void send_data(String target,String data){
 //_____________TEST_____________//
 
 void delete_file(String filename){
-  //Si le file existe, on le supprime (utile pour les tests)
+  //Si le file existe, on le supprime (utile pour les tests)  
   if(verify_file_existing(filename)){
     SD.remove(filename);
-    Serial.println("Le file a été delete");
+    Serial.println("Le file "+filename+" a été delete");
   }
 }
 bool verify_file_existing(String filename){
   //Si le file existe, on le supprime (utile pour les tests)
   if(SD.exists(filename)){
-    Serial.println("Le file existe!");
+    Serial.println("Le file "+filename+" existe!");
     return true;
   }else{
-    Serial.println("Le file n'existe pas, tout n'était qu'une imagination collective hehe!");
+    Serial.println("Le file "+filename+" n'existe pas, tout n'était qu'une imagination collective hehe!");
     return false;
   }
 }

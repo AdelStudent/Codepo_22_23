@@ -15,29 +15,59 @@ void setup() {
   //Initialise la carte SD
   pinMode(CS_PIN, OUTPUT);
   SD_init(&init_flag_SD);
+  
+  String value = "04/04/23 15:30 # 67";
+  String value_bis = "__/__/__ 15:30 # 67";
   /*
-    String value = "04/04/23 15:30 # 67";  
-    writeData("pvCurGener.txt", value);
-    read_data_and_send("PC","pvCurrentGenerated.txt");
+  writeData("pvcurgener.txt", value);
+  writeData("pvcurgener.txt", value_bis);
+  
+  read_data_and_send("PC","pvCurrentGenerated.txt");
+  */
 
-    writeData("test.txt", value);
-    read_data_and_send("PC","test.txt");
-    delete_file("test.txt");
-    
-    //Serial1 permettant de communiquer avec ThingStream
-    Serial1.begin(115200);
-    //initThingstream(&init_flag);
+  /*
+  writeData("test.txt", value);
+  writeData("test.txt", value_bis);
+  writeData("current.txt", value);
+  writeData("current.txt", value_bis);
+  writeData("b/cur.txt", value);
+  writeData("b/cur.txt", value_bis);
+  read_data_and_send("PC","test.txt");
+  read_data_and_send("PC","current.txt");
+  read_data_and_send("PC","b/cur.txt");
+  */
+
+  /*
+  delete_file("test.txt");
+  delete_file("current.txt");
+  delete_file("b\cur.txt");
+  */
+
+  /*
+  //Serial1 permettant de communiquer avec ThingStream
+  Serial1.begin(115200);
+  //initThingstream(&init_flag);
   */
 
   
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   //initESP32(&init_flag);
-    
+  
 
+  
+  /*
+  delete_file("temperature.txt");
+  delete_file("battery/temperature.txt");
+  */
+  //print_filenames();
+
+  taking_measures();
+
+  Serial.println("___________________________________________________________________");
 }
 
 void loop() {
-  taking_measures();
+  
   /*
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {

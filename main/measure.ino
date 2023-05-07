@@ -3,6 +3,34 @@ Pour la personne qui va lire ce code:
     Le rôle de ce paquet de fonction est de prendre une succession de mesures et les écrire dans la carte SD.
     C'est donc ici que l'Arduino demande l'heure/date à l'ESP32 au travers de "measure_and_save()" et écrira la data sous
     une forme voulue.
+
+    ATTENTION: La carte SD a un comportement étrange pour les noms. Elle n'accepte pas plus de 7 caractères pour un nom de fichier
+      et étrangement, elle n'accepte plus une arborescence de dossier/fichier. Dès lors, une pseudo-arborescence a été crée dans le nom
+      même des fichier:
+      Les 3 premiers caractères expriment le système dont on s'intéresse.
+        -Battery : bat
+        -Panneau photovoltaique : ppv
+        -Reseau : res
+        -Charges : chr
+
+      La valeur suivante permet de savoir quelle mesures nous intéresse:
+        -courant : 0
+        -tension  : 1
+        -puissance : 2
+        -temperature : 4
+
+      La valeur suivante permet de savoir si la mesure est entrante/sortante/aucune:
+        -aucune : 0
+        -entrante : 1
+        -sortante : 2
+
+      Enfin, la dernierè valeur est différente de 0 ssi on mesure une ligne de battery particulière:
+        -pack de batteries OU pas de battery : 0
+        -ligne 1 : 1
+        -ligne 2 : 2
+        -ligne 3 : 3
+        -ligne 4 : 4
+                             
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
@@ -36,26 +64,35 @@ void taking_measures() {
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
-  Serial.print("calculateThermistance value:");delay(100);
-  Serial.println(calculateThermistance_value);delay(100);
-  measure_and_save("battery/battery/temperature.txt",date,calculateThermistance_value);
+  measure_and_save("bat401.txt",date,calculateThermistance_value); //ce fichier se traduit par température de la première ligne de battery
 
-  Serial.println("HEHE on est sorti de la boucle");
   //Courant
-  measure_and_save("battery/thirdline/current.txt",date,calculateCurrent(A1,A2));
-  measure_and_save("battery/fourthline/current.txt",date,calculateCurrent(A3,A4));
+  float calculateCurrent_value = calculateCurrent(A3,A4);
+  measure_and_save("bat020.txt",date,calculateCurrent_value); //ce fichier se traduit par courant sortant du pack de battery
+  measure_and_save("chr010.txt",date,calculateCurrent_value); //ce fichier se traduit par courant entrant dans les charges
+  measure_and_save("ppv020.txt",date,calculateCurrent_value); //ce fichier se traduit par courant sortant des PV
+
+  
+  
+  /*measure_and_save("bat2curr.txt",date,calculateCurrent_value);
+  measure_and_save("bat3curr.txt",date,calculateCurrent_value);
+  measure_and_save("bat4curr.txt",date,calculateCurrent_value);*/
+  
+  
 
   
   //Tension
-  MuxTension();
+  //MuxTension();
 
 }
 void measure_and_save(String filename, String date, float value){
   //Serial.println("Did you call me?_I'm_measure_and_save()");delay(100);
   String line = date+" # "+String(value);
-  //writeData(filename,line);
+  writeData(filename,line);
+  /*
   String str_value = String(value);
   Serial.println("Voila le fichier,la date et la valeur : "+filename+", "+date+", "+str_value);
+  */
 }
 
 //___________THERMISTANCE
@@ -63,7 +100,7 @@ float calculateThermistance() {
   //Output : température
   //Lit la termistance et la convertie en degrée
   
-  Serial.println("Did you call me?_I'm_calculateThermistance()");delay(100);
+  //Serial.println("Did you call me?_I'm_calculateThermistance()");delay(100);
   int Tsensorvalue = analogRead(Tsensor);
   float Vo = Tsensorvalue * (5.0 / 1023.0);
   float V = Vcc - Vo;
@@ -75,15 +112,14 @@ float calculateThermistance() {
   steinhart = 1 / (A + (B * log(R)) + (C * pow((log(R)), 3)));
   T = (steinhart - 273.15) + 30; // to convert the temperature into degree
   
-  //measure_and_save("thermistance/value.txt",T);
-  printThermistance(R, T);
+  //printThermistance(R, T);
 
   return T;
   
 }
 //___________CAPTEUR COURANT 
 float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
-  Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
+  //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   currentSampleSum = 0;               
   currentSampleCount = 0;          
   while(true){
@@ -106,7 +142,7 @@ float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
         FinalRMSCurrent =0; 
       }     
 
-      calculateAndPrintCurrent(FinalRMSCurrent);
+      //calculateAndPrintCurrent(FinalRMSCurrent);
       return FinalRMSCurrent;
     }
   }
