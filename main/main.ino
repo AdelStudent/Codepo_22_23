@@ -53,35 +53,30 @@ void setup() {
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   //initESP32(&init_flag);
   
-
-  
   /*
   delete_file("temperature.txt");
   delete_file("battery/temperature.txt");
   */
   //print_filenames();
 
-  taking_measures();
-
   Serial.println("___________________________________________________________________");
 }
 
 void loop() {
   
-  /*
+  
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 10 * 1000) {
     taking_measures();
     lastMeasurementTime = millis();// update the last measurement time
   }
-
+  
+    
   if (millis() - lastHearingTime >= 1 * 1 * 1000) {
-    Serial.println("HEHEHE!!");
-    checkReception_ESP32();
+    //checkReception_ESP32();
     lastHearingTime = millis();// update the last measurement time
   }
-  */
-  delay(10000);
+  delay(100);
 }
 
 

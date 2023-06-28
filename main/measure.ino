@@ -64,19 +64,28 @@ void taking_measures() {
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
-  measure_and_save("bat401.txt",date,calculateThermistance_value); //ce fichier se traduit par température de la première ligne de battery
+  //measure_and_save("bat401.txt",date,calculateThermistance_value); //ce fichier se traduit par température de la première ligne de battery
 
   //Courant
-  float currentbatt = calculateCurrent(A2,A3);
-  float currentchr = calculateCurrent(A4,A5);
-  float currentpv = calculateCurrent(A6,A7);
-    
-  measure_and_save("bat020.txt",date,currentbatt); //ce fichier se traduit par courant sortant du pack de battery
-  measure_and_save("chr010.txt",date,currentchr); //ce fichier se traduit par courant entrant dans les charges
-  measure_and_save("ppv020.txt",date,currentpv); //ce fichier se traduit par courant sortant des PV
+  float currentbatt = calculateCurrent(A3,A2);
+  //measure_and_save("bat020.txt",date,calculateCurrent(A2,A3)); //ce fichier se traduit par courant sortant du pack de battery
+
+  
+  float currentchr = calculateCurrent(A5,A4);//measure_and_save("chr010.txt",date,currentchr); //ce fichier se traduit par courant entrant dans les charges
+  float currentpv = calculateCurrent(A7,A6);//measure_and_save("ppv020.txt",date,currentpv); //ce fichier se traduit par courant sortant des PV
+  
+  
+  
+  
 
   //Tension
-  //MuxTension();
+
+  float value_tention_A8 = analogRead(A8);Serial.print("value_tention_A8 = ");Serial.println(value_tention_A8);
+  float value_tention_A9 = analogRead(A9);Serial.print("value_tention_A9 = ");Serial.println(value_tention_A9);
+  float value_tention_A10 = analogRead(A10);Serial.print("value_tention_A10 = ");Serial.println(value_tention_A10);
+  float value_tention_A11 = analogRead(A11);Serial.print("value_tention_A11 = ");Serial.println(value_tention_A11);
+  
+  /*
   float* value = MuxTension();
   
   float firstValue = value[5]; // porte ou se trouve les 12V inconnu 
@@ -93,7 +102,8 @@ void taking_measures() {
   measure_and_save("bat102.txt",date,secondValue);
   measure_and_save("bat103.txt",date,thirdValue);
   measure_and_save("bat104.txt",date,fourthValue);
-    
+  */
+  Serial.println("We finished the measures \n\n");
   /*measure_and_save("bat2curr.txt",date,calculateCurrent_value);
   measure_and_save("bat3curr.txt",date,calculateCurrent_value);
   measure_and_save("bat4curr.txt",date,calculateCurrent_value);*/
@@ -125,9 +135,9 @@ float calculateThermistance() {
   float steinhart;
   float T;
   steinhart = 1 / (A + (B * log(R)) + (C * pow((log(R)), 3)));
-  T = (steinhart - 273.15) + 14; // to convert the temperature into degree
+  T = (steinhart - 273.15); // to convert the temperature into degree
   
-  //printThermistance(R, T);
+  printThermistance(R, T);
 
   return T;
   
@@ -152,12 +162,22 @@ float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
       RMSCurrentMean = sqrt(currentMean);   //RMS : Root mean square -> racine carré                    
       FinalRMSCurrent = (((RMSCurrentMean / 1023) * supplyVoltage) / mVperAmpValue) - manualOffset;
 
-      if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
+      //if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
+      if(FinalRMSCurrent <= (625/mVperAmpValue/100)) { 
+        
         //if the current detected is less than or up to 1%, set current value to 0A
         FinalRMSCurrent =0; 
       }     
 
-      //calculateAndPrintCurrent(FinalRMSCurrent);
+      calculateAndPrintCurrent(FinalRMSCurrent);
+      
+      /*Serial.println(calibrationPin);
+      Serial.println(currentAnalogInputPin);
+      Serial.print("FinalRMSCurrent : ");
+      Serial.println(FinalRMSCurrent);
+      Serial.println("__________________________________________");
+      */
+
       return FinalRMSCurrent;
     }
   }
@@ -231,7 +251,7 @@ void printThermistance(float R, float T) {
   Serial.print(", t=");
   Serial.print(T);
   Serial.println("°C");
-  delay(1000);
+  //delay(1000);
 }
 void calculateAndPrintCurrent(float FinalRMSCurrent) {
   Serial.print(currentAnalogInputPin);

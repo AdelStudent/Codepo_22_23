@@ -3,6 +3,35 @@ Pour la personne qui va lire ce code:
     -Tout échange de données avec l'ESP32 se font ici. C'est une communcation UART utilisant Serial2 (Rx2/Tx2) pour envoyer/recevoir la data
     -Pour éviter quelques problèmes d'interprétation des données, nous videons le Serial2 à chaque fois qu'on l'on envoit une requête à ESP32
       Cela permet d'être beaucoup sûr que ce qui est recu soit bel et bien une réponde à notre requête.
+    ATTENTION: La carte SD a un comportement étrange pour les noms. Elle n'accepte pas plus de 7 caractères pour un nom de fichier
+      et étrangement, elle n'accepte plus une arborescence de dossier/fichier. Dès lors, une pseudo-arborescence a été crée dans le nom
+      même des fichier:
+      Les 3 premiers caractères expriment le système dont on s'intéresse.
+        -Battery : bat
+        -Panneau photovoltaique : ppv
+        -Reseau : res
+        -Charges : chr
+
+      La valeur suivante permet de savoir quelle mesures nous intéresse:
+        -courant : 0
+        -tension  : 1
+        -puissance : 2
+        -temperature : 4
+        -SOC : 3
+        -SOH : 5
+
+      La valeur suivante permet de savoir si la mesure est entrante/sortante/aucune:
+        -aucune : 0
+        -entrante : 1
+        -sortante : 2
+        
+
+      Enfin, la dernierè valeur est différente de 0 ssi on mesure une ligne de battery particulière:
+        -pack de batteries OU pas de battery : 0
+        -ligne 1 : 1
+        -ligne 2 : 2
+        -ligne 3 : 3
+        -ligne 4 : 4
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
@@ -87,25 +116,28 @@ void analyse_query(String msg){
 
   //________________Web QUERY_________________//
   if (msg=="get_pv_voltage"){
-    read_data_and_send("ESP32","pv/voltage.txt");
+    read_data_and_send("ESP32","ppv100.txt");
   }
   else if (msg=="get_pv_current"){
-    read_data_and_send("ESP32","pv/current.txt");
+    read_data_and_send("ESP32","PPV020.txt");
   }
   else if (msg=="get_battery_voltage"){
-    read_data_and_send("ESP32","battery/voltage.txt");
+    read_data_and_send("ESP32","bat100.txt");
   }
   else if (msg=="get_battery_current"){
-    read_data_and_send("ESP32","battery/voltage.txt");
+    read_data_and_send("ESP32","bat020.txt");
   }
   else if (msg=="get_battery_SOC"){
-    read_data_and_send("ESP32","battery/soc.txt");
+    read_data_and_send("ESP32","bat400.txt");
   }
   else if (msg=="get_battery_SOH"){
-    read_data_and_send("ESP32","battery/soh.txt");
+    read_data_and_send("ESP32","bat500.txt");
+  }
+  else if (msg=="get_battery_temperature"){
+    read_data_and_send("ESP32","bat401.txt");
   }
   else if (msg=="get_charge_current"){
-    read_data_and_send("ESP32","charge/current.txt");
+    read_data_and_send("ESP32","chr010.txt");
   }
 
   //________________TEST QUERY_________________//
@@ -174,7 +206,7 @@ void parse_query(String query){
   //compare the query to PV current/ PV voltage/ PV power/current used/current generated/SOC/SOH
   if (query=="get_pv_voltage"){
     //read data from SD card and send it in a loop
-    read_data_and_send("ESP32","get_pv_voltage.txt");
+    read_data_and_send("ESP32","pv.txt");
   }
   if(query=="get_pv_current"){
     //read data from SD card and send it in a loop

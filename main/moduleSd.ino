@@ -5,6 +5,33 @@ Pour la personne qui va lire ce code:
     -Dans les cas où l'on veut overwrite un fichier, nous le supprimons avec de le recréer en écrivant dans le même fichier.
     -Avant d'écrire la data dans la carte SD, nous pouvons faire un parsing (déjà présent). Cependant, pour le moment, nous n'avons pas
     encore déterminer le comportement de l'Arduino lorsque ce parsing dit que la date/heure/mesure soit incorrect
+    
+    ATTENTION: La carte SD a un comportement étrange pour les noms. Elle n'accepte pas plus de 7 caractères pour un nom de fichier
+      et étrangement, elle n'accepte plus une arborescence de dossier/fichier. Dès lors, une pseudo-arborescence a été crée dans le nom
+      même des fichier:
+      Les 3 premiers caractères expriment le système dont on s'intéresse.
+        -Battery : bat
+        -Panneau photovoltaique : ppv
+        -Reseau : res
+        -Charges : chr
+
+      La valeur suivante permet de savoir quelle mesures nous intéresse:
+        -courant : 0
+        -tension  : 1
+        -puissance : 2
+        -temperature : 4
+
+      La valeur suivante permet de savoir si la mesure est entrante/sortante/aucune:
+        -aucune : 0
+        -entrante : 1
+        -sortante : 2
+
+      Enfin, la dernierè valeur est différente de 0 ssi on mesure une ligne de battery particulière:
+        -pack de batteries OU pas de battery : 0
+        -ligne 1 : 1
+        -ligne 2 : 2
+        -ligne 3 : 3
+        -ligne 4 : 4
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//

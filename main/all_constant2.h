@@ -13,8 +13,6 @@ Pour la personne qui va lire ce code:
   //4 -> Decision de channel du multi
   //7 -> Decision de channel du multi
   //8 -> Decision de channel du multi
-
-
 //___________________THERMISTANCE___________________//
 #define Tsensor A0
 
@@ -28,14 +26,14 @@ float A = 8.79e-03, B =-1.1e-03, C = 6.46e-06; //Coef. permettant de déterminer
   //AC & DC current captor -> HSTS016L Hall effect split core current transformer
   //The current measured is the Root Mean Square (RMS) value.
 
-int decimalPrecision = 3; //Precision -> nombre de décimales 
+int decimalPrecision = 4; //Precision -> nombre de décimales 
 
 //_________________PINS
 int currentAnalogInputPin = A1;    // Pin to measure Current Value -> celle connecté au sensor [JAUNE]
 int calibrationPin = A2;         // Pin to calibrate offset middle value -> calibre le senseur [BLANC]
 
 //_________________Variables
-float manualOffset = 0.230;  //0.26 -0.37  0.280    // Key in value to manually offset the initial value -> Pourrait l'utiliser si on arrive vraiment pas à ce qu'on veut 
+float manualOffset = 0;  //0.26 -0.37  0.280    // Key in value to manually offset the initial value -> Pourrait l'utiliser si on arrive vraiment pas à ce qu'on veut 
 // pour ajuster manuellement la lecture du courant initiale si nécessaire 
 float mVperAmpValue = 31.25; //31.25 -20.83    // mVperAmp = maximum voltage range (in milli volt) / current rating of CT
 //Specifie le mV/A puissance du transformateur de courant 
