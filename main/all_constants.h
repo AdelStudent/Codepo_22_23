@@ -1,5 +1,11 @@
 #include <SD.h>
 #include <SPI.h>
+
+
+#include <Wire.h>
+#include "RTClib.h"
+
+
 ////////////////////////////////////////////////////////////////////
 //Initialisation des variables                                    //
 ////////////////////////////////////////////////////////////////////
@@ -29,3 +35,6 @@ float chargeFlow = 0;
 
 // Define a variable to keep track of the last sample time
 unsigned long lastSampleTime = 0;
+
+// Define the RTC DS3231 object to keep the hour tracking  
+RTC_DS3231 rtc;

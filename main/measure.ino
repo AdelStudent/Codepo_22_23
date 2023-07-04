@@ -80,11 +80,19 @@ void taking_measures() {
 
   //Tension
 
-  float value_tention_A8 = analogRead(A8);Serial.print("value_tention_A8 = ");Serial.println(value_tention_A8);
-  float value_tention_A9 = analogRead(A9);Serial.print("value_tention_A9 = ");Serial.println(value_tention_A9);
-  float value_tention_A10 = analogRead(A10);Serial.print("value_tention_A10 = ");Serial.println(value_tention_A10);
-  float value_tention_A11 = analogRead(A11);Serial.print("value_tention_A11 = ");Serial.println(value_tention_A11);
-  
+  //float value_tention_A8 = analogRead(A8);Serial.print("value_tention_A8 = ");Serial.println(value_tention_A8);
+  //float value_tention_A9 = analogRead(A9);Serial.print("value_tention_A9 = ");Serial.println(value_tention_A9);
+  //float value_tention_A10 = analogRead(A10);Serial.print("value_tention_A10 = ");Serial.println(value_tention_A10);
+  //float value_tention_A11 = analogRead(A11);Serial.print("value_tention_A11 = ");Serial.println(value_tention_A11);
+  float firstValue = calculateTension(A8, 910, 220);
+  float secondValue = calculateTension(A9, 910, 100);
+  float thirdValue = calculateTension(A10, 910, 75);
+  float fourthValue = calculateTension(A11, 910, 56);
+
+  measure_and_save("bat101.txt",date,firstValue);
+  measure_and_save("bat102.txt",date,secondValue);
+  measure_and_save("bat103.txt",date,thirdValue);
+  measure_and_save("bat104.txt",date,fourthValue);
   /*
   float* value = MuxTension();
   
@@ -208,6 +216,13 @@ double selectChannel(int chnl) {
 
   return Vin;
 }
+
+float calculateTension(int pin, int R1, int R2){
+  float Vo = ((analogRead(pin)* Vcc)/1023); 
+  float Vin = Vo * (R1 + R2) / R2;
+  //condition if a mettre pour le calibrage 
+  return Vin;  
+}
 float* MuxTension() { /* function MuxLED */
   //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
   //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
@@ -259,11 +274,4 @@ void calculateAndPrintCurrent(float FinalRMSCurrent) {
   Serial.print(FinalRMSCurrent, decimalPrecision);
   Serial.println(" A ");
 }
-/*void read_mutex_to_save(float* measured_value){
-  //Un peu cracra mais ça fonctionne bien
-  measure_and_save("battery/firstline/voltage.txt",measured_value[0]);
-  measure_and_save("battery/secondline/voltage.txt",measured_value[1]);
-  measure_and_save("battery/thirdline/voltage.txt",measured_value[2]);
-  measure_and_save("battery/fourthline/voltage.txt",measured_value[3]);
-    
-}*/
+

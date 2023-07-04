@@ -4,6 +4,12 @@ Pour la personne qui va lire ce code:
     tout en faisant un merge aisé ainsi que nous permettant de nous y retrouver rapidement.
 */
 
+//ECRAN LCD
+#include "Wire.h"
+#include "LiquidCrystal_I2C.h"
+
+LiquidCrystal_I2C LCD(0x27,16,2);
+
 //PINS
   //A0 -> thermistance 
   //A1 -> mesure courant 

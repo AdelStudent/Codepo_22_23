@@ -59,6 +59,8 @@ void setup() {
   */
   //print_filenames();
 
+  LCD_init();
+  LCD_print_IP("197.87.17.16");
   Serial.println("___________________________________________________________________");
 }
 
@@ -77,6 +79,7 @@ void loop() {
     lastHearingTime = millis();// update the last measurement time
   }
   delay(100);
+  
 }
 
 
