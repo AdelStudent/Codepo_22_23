@@ -36,6 +36,7 @@ void determine_SOC(){
   SOC = verify_SOC(SOC_init,SOC_variation);
   // Print the input and output currents and the charge flow for debugging
   print_things(inputCurrent,outputCurrent,chargeFlow,SOC_variation);
+  
   }
 }
 float verify_SOC(float SOC_init,float SOC_variation){

@@ -38,7 +38,7 @@ int reading = 0;  //Variable tests
 
 File myFile;  //Objet permettant l'ouverture de fichiers en accès w et/ou r
 File myReport;  //Par souçis de cohérence des parties de codes, on garde ces Files
-File file;  //Par souçis de cohérence des parties de codes, on garde ces Files
+File file;  //Par soucis de cohérence des parties de codes, on garde ces Files
 #define CS_PIN 53 //Pin utilisée pour transmettre la data à la carte SD
 int init_flag_SD = 0;
 

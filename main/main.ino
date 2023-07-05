@@ -72,10 +72,13 @@ void loop() {
     taking_measures();
     lastMeasurementTime = millis();// update the last measurement time
   }
-  
+  if (millis() - lastMeasurementTime >= 1 * 30 * 1000) {
+    determine_SOC();
+    lastMeasurementTime = millis();// update the last measurement time
+  }
     
   if (millis() - lastHearingTime >= 1 * 1 * 1000) {
-    //checkReception_ESP32();
+    checkReception_ESP32();
     lastHearingTime = millis();// update the last measurement time
   }
   delay(100);

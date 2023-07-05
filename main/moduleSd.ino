@@ -14,6 +14,7 @@ Pour la personne qui va lire ce code:
         -Panneau photovoltaique : ppv
         -Reseau : res
         -Charges : chr
+        -Rapport : report
 
       La valeur suivante permet de savoir quelle mesures nous intéresse:
         -courant : 0
@@ -26,12 +27,12 @@ Pour la personne qui va lire ce code:
         -entrante : 1
         -sortante : 2
 
-      Enfin, la dernierè valeur est différente de 0 ssi on mesure une ligne de battery particulière:
-        -pack de batteries OU pas de battery : 0
-        -ligne 1 : 1
-        -ligne 2 : 2
-        -ligne 3 : 3
-        -ligne 4 : 4
+      Enfin, la dernière valeur est différente de 0 ssi on mesure une batterie particulière:
+        -pack de batteries OU pas de battery (PV) : 0
+        -batterie num 1 : 1
+        -batterie num 2 : 2
+        -batterie num 3 : 3
+        -batterie num 4 : 4
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
@@ -68,7 +69,7 @@ void read_data_and_send(String target,String filename){
   //Cette fonction sert à lire dans la carte SD
   //Pour l'instant, on lit TOUTES les donnés (à voir si c'est logique)
   if(init_flag_SD==1){
-    delay(100); //Au cas où l'on enchaine écriture et lecture, on laisse le temps de terminer l'ecriture
+    delay(100); //Au cas où l'on enchaine écriture et lecture, on laisse le temps de terminer l'ecriture. On ne sait jamais
     file = SD.open(filename);
     String current_data;
     if(!file){

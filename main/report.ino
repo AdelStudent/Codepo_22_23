@@ -5,103 +5,115 @@ Pour la personne qui va lire ce code:
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
-void Report(String fileNames[], int numFiles){
-
-  if (!SD.begin(CS_PIN)) {
-    Serial.println("SD card initialization failed!");
-    return;
-  }
-  Serial.println("SD card initialization done.");
-
+void writing_report(){
+  int  numFiles = 4; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
+  String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt"};
+  float mean_values[] = {0,0,0,0};
+  
   int count = 0;
   float sum = 0.0;
   float arr[10];
 
-  delete_file("Report.txt");
+  delete_file("report.txt"); //Permet de nettoyer le rapport précédent
 
   for (int i=0; i < numFiles; i++){
     
-    String file = fileNames[i];
-    
-    myFile = SD.open(file);
+    String current_file_name = fileNames[i];
+    myFile = SD.open(current_file_name);
 
     if(myFile){
-    
-      //Serial.print(file);
-      //Serial.println(":");
-    
       char buffer[40];
-
+      count = 0;
+      float sum = 0.0;
 
       while(myFile.available()){
+
         myFile.readBytesUntil('\n', buffer, sizeof(buffer));
         buffer[sizeof(buffer)-1] = '\0';
 
         //Recherche du "#"
-        int pos = -1;
-        for (int i = 0; i < strlen(buffer); i++) {
-          if (buffer[i] == '#') {
-            pos = i;
-            break;
-          }
-        }
+        int pos = search_hashtag(buffer, sizeof(buffer));
 
         if (pos != -1) {
-          char substring[strlen(buffer) - pos];
-          for (int i = pos + 1; i < strlen(buffer); i++) {
-            substring[i - pos - 1] = buffer[i];
-          }
-          substring[strlen(buffer) - pos - 1] = '\0';
-          //Serial.println(substring);
-
-          //Transformation de la valeur après le "#" en float
-          float value = atof(substring);
-          //Serial.println(value);
-
+          sum += find_value(buffer,pos);
           count++;
-          sum += value;
 
         } else {
-          Serial.println("N'a pas trouvé la valeur (associé avec la data, après le #");
+          Serial.println("N'a pas trouvé la valeur (après le #");
         }
 
       }
 
-    //writeMeanToReport(sum, count);
-    
+    float mean_value = calculateMean(sum, count);
+    mean_values[i] = mean_value;
 
-    float mean2 = calculateMean(sum, count);
-    arr[i] = mean2;
-    //nbr_mean ++;
+    Serial.println("La valeur moyenne de : "+current_file_name+" est de : "+String(mean_value));    
     myFile.close();
-    //for (int i = 0; i < 3; i++) {
-    //Serial.println(arr[i]);
-    //}
 
-    } else {
-      Serial.println("Erreur dans la lecture de:");
-      Serial.println(file);
+    }else {
+      Serial.println("Erreur dans la lecture de : "+current_file_name);
     }
     
   }    
-  writingReport(arr);
+  writingReport(arr,"report.txt");
 }
+
 float calculateMean(float sum, int count){
   return sum / count;
 }
-void writingReport(float arr[]){
-  myReport = SD.open("Report.txt", FILE_WRITE);
-  float PV_mean = arr[0];
-  float Batt_mean = arr[1];
-  float Charge_mean = arr[2];
+
+int search_hashtag(char buffer[],int buff_size){
+  int pos = -1;
+  for (int i = 0; i < buff_size; i++) {
+    if (buffer[i] == '#') {
+      //On a trouvé la position du séparateur #
+      pos = i;
+      break;
+    }
+  }
+  return pos;
+}
+
+float find_value(char buffer[], int pos){
+  
+  char sub_string[strlen(buffer) - pos];
+  for (int i = pos + 1; i < strlen(buffer); i++) {
+    sub_string[i - pos - 1] = buffer[i];
+  }
+
+  sub_string[strlen(buffer) - pos - 1] = '\0';
+  Serial.print("Voici la valeur lu dans le fichier text");
+  Serial.println(sub_string);
+
+  //Transformation de la mesure (valeur après le "#" en float)
+  float value = atof(sub_string);
+  //Serial.println(value);
+
+  return value;
+}
+void writingReport(float arr[], String filename){
+  myReport = SD.open(filename, FILE_WRITE);
+  float PV_mean_current = arr[0];
+  float pack_bat_mean_voltage = arr[1]; //
+  float pack_bat_mean_current = arr[2];
+  float bat_mean_temperature = arr[3];
+  
   int getArrayLength = sizeof(arr) / sizeof(float);
 
   if (myReport) {
-    myReport.print("La puissance moyennes des PV est :"); myReport.print(PV_mean); 
+    myReport.print("Le courant moyen des Panneau Photovoltaique vaut: "+String(PV_mean_current)+" Amper");
     delay(100);
-    myReport.print("La puissance moyennes des batteries est de :"); myReport.print(Batt_mean);
+
+    myReport.print("La tension moyenne du pack de batterie vaut : "+String(pack_bat_mean_voltage)+" Volt");
     delay(100);
-    myReport.print("La puissance consommée par les charges est de :");myReport.print(Charge_mean);
+
+    myReport.print("Le courant moyen en sortie du pack de batterie vaut : "+String(pack_bat_mean_current)+" Amper");
+    delay(100);
+    
+    myReport.print("La temperature moyenne des batteries vaut : "+String(bat_mean_temperature)+" Celsius");
+    delay(100);
+    
+    
     Serial.println("Rapport ecrit.");
     myReport.close();
   } else {

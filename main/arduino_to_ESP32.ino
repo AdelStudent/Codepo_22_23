@@ -115,16 +115,26 @@ void analyse_query(String msg){
 
 
   //________________Web QUERY_________________//
-  if (msg=="get_pv_voltage"){
-    read_data_and_send("ESP32","ppv100.txt");
+  if (msg=="get_pv_current"){
+    read_data_and_send("ESP32","ppv020.txt");
   }
-  else if (msg=="get_pv_current"){
-    read_data_and_send("ESP32","PPV020.txt");
-  }
-  else if (msg=="get_battery_voltage"){
+  else if (msg=="get_battery_pack_voltage"){
     read_data_and_send("ESP32","bat100.txt");
   }
-  else if (msg=="get_battery_current"){
+  else if (msg=="get_battery_voltage_1"){
+    read_data_and_send("ESP32","bat101.txt");
+  }
+  else if (msg=="get_battery_voltage_2"){
+    read_data_and_send("ESP32","bat102.txt");
+  }
+  else if (msg=="get_battery_voltage_3"){
+    read_data_and_send("ESP32","bat103.txt");
+  }
+  else if (msg=="get_battery_voltage_4"){
+    read_data_and_send("ESP32","bat104.txt");
+  }
+
+  else if (msg=="get_battery_pack_current"){
     read_data_and_send("ESP32","bat020.txt");
   }
   else if (msg=="get_battery_SOC"){
@@ -138,6 +148,9 @@ void analyse_query(String msg){
   }
   else if (msg=="get_charge_current"){
     read_data_and_send("ESP32","chr010.txt");
+  }
+  else if (msg=="get_report"){
+    read_data_and_send("ESP32","report.txt");
   }
 
   //________________TEST QUERY_________________//
