@@ -12,27 +12,8 @@ copyButton.addEventListener("click", function() {
     The data is downloaded in a .txt file and the name of the file is the name of the measurement.
     Finaly, we call this functions via each button with same name as the measurement.
   */
-function PV_Voltage(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      document.getElementById('variable_name').innerHTML = "PV Voltage Data";
-      document.getElementById('variable_text').innerHTML = "Voici les tensions mesurees de votre system de Pannaux Photovoltaique. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
-      var a = document.createElement('a');
-      var url = window.URL.createObjectURL(this.response);
-      a.href = url;
-      a.download = 'pv_voltage.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    }
-  };
-  
-  xhttp.open("GET", "download_pv_voltage", true);
-  xhttp.responseType = 'blob';
-  xhttp.send();
-}
+
+//Panneau photovoltaique
 function PV_Current(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function(){
@@ -54,16 +35,18 @@ function PV_Current(){
   xhttp.responseType = 'blob';
   xhttp.send();
 }
-function Battery_Voltage(){
+
+//Battery
+function Battery_Temperature(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      document.getElementById('variable_name').innerHTML = "Battery Voltage Data";
-      document.getElementById('variable_text').innerHTML = "Voici les tensions mesurees de votre system de batteries. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      document.getElementById('variable_name').innerHTML = "Battery Temperature Data";
+      document.getElementById('variable_text').innerHTML = "Voici les temperature mesurés de votre system de batteries. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
       var a = document.createElement('a');
       var url = window.URL.createObjectURL(this.response);
       a.href = url;
-      a.download = 'battery_voltage.txt';
+      a.download = 'battery_temperature.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -71,20 +54,129 @@ function Battery_Voltage(){
     }
   };
   
-  xhttp.open("GET", "download_battery_voltage", true);
+  xhttp.open("GET", "download_battery_temperature", true);
   xhttp.responseType = 'blob';
   xhttp.send();
 }
-function Battery_Current(){
+function Battery_Pack_Voltage(){  
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      document.getElementById('variable_name').innerHTML = "Battery Current Data";
+      document.getElementById('variable_name').innerHTML = "Battery Pack Voltage Data";
+      document.getElementById('variable_text').innerHTML = "Voici les tensions mesurees de votre pack de batteries. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'battery_pack_voltage.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_battery_pack_voltage", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+
+
+function Battery_Voltage_1(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Battery Voltage 1 Data";
+      document.getElementById('variable_text').innerHTML = "Voici la tension mesuree de la 1ere batterie. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'battery_voltage_1.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_battery_voltage_1", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+function Battery_Voltage_2(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Battery Voltage 2 Data";
+      document.getElementById('variable_text').innerHTML = "Voici la tension mesuree de la 2eme batterie. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'battery_voltage_2.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_battery_voltage_2", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+function Battery_Voltage_3(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Battery Voltage 3 Data";
+      document.getElementById('variable_text').innerHTML = "Voici la tension mesuree de la 3eme batterie. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'battery_voltage_3.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_battery_voltage_3", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+function Battery_Voltage_4(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Battery Voltage 4 Data";
+      document.getElementById('variable_text').innerHTML = "Voici la tension mesuree de la 4eme batterie. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'battery_voltage_4.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_battery_voltage_4", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+
+
+function Battery_Pack_Current(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Battery Pack Current Data";
       document.getElementById('variable_text').innerHTML = "Voici les courants mesurees de votre system de batteries. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
       var a = document.createElement('a');
       var url = window.URL.createObjectURL(this.response);
       a.href = url;
-      a.download = 'battery_current.txt';
+      a.download = 'battery_pack_current.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -92,7 +184,7 @@ function Battery_Current(){
     }
   };
   
-  xhttp.open("GET", "download_battery_current", true);
+  xhttp.open("GET", "download_battery_pack_current", true);
   xhttp.responseType = 'blob';
   xhttp.send();
 }
@@ -138,16 +230,18 @@ function Battery_SOH(){
   xhttp.responseType = 'blob';
   xhttp.send();
 }
-function Charge_Current(){
+
+//Reporting data
+function Reporting(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      document.getElementById('variable_name').innerHTML = "Charge Current Data";
-      document.getElementById('variable_text').innerHTML = "Voici les courant mesurees de votre system de charges. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      document.getElementById('variable_name').innerHTML = "Ecriture d'un rapport...";
+      document.getElementById('variable_text').innerHTML = "Veuillez patienter, le rapport est en cours de generation. Cela risque de prendre du temps. Merci de votre patience.";
       var a = document.createElement('a');
       var url = window.URL.createObjectURL(this.response);
       a.href = url;
-      a.download = 'charge_current.txt';
+      a.download = 'rapport_complet.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -155,11 +249,10 @@ function Charge_Current(){
     }
   };
   
-  xhttp.open("GET", "download_charge_current", true);
+  xhttp.open("GET", "download_report", true);
   xhttp.responseType = 'blob';
   xhttp.send();
 }
-
 
 /*______Display Functions*/
   /*

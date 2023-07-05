@@ -20,8 +20,6 @@ void setup_SPIFFS(){
   }
 
   listDir(SPIFFS, "/", 1);
-  
-  //Serial.println("\n\nSPIFFS Mount succed");
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 void print_available_memory(){

@@ -1,3 +1,11 @@
+/*
+Pour la personne qui va lire ce code:
+  La communication avec l'Arduino se fait via procédure UART. Pour cale nous utilisons les port Rx/Tx qui correspondent à:
+    -Rx = pin G16
+    -Tx = pin G17  
+*/
+
+
 #include<WiFi.h>
 #include<WebServer.h>
 #include "time.h"
@@ -11,6 +19,7 @@
 #include<SPIFFS.h> // SPIFFS is a file system that is used to store files on the ESP32 and manage them
 
 #include "esp_task_wdt.h"
+
 //__________________UART Arduino Comm_______________//
 #define RXD2 16
 #define TXD2 17
@@ -29,9 +38,14 @@ bool already_answering = false; //This variable allows us to NOT send any query 
 const int led = 2;
 
 //__________________WiFi_Connection__________________//
+
 const char *ssid = "LAPTOP-435R1L8O";
 const char *password = "FripouilleWifi";
 
+/*
+const char *ssid = "cameskininvite";
+const char *password = "FripouilleWifi";
+*/
 //__________________Server___________________________//
 //WebServer server(80);
 AsyncWebServer server(80); // Create AsyncWebServer object on port 80 because it is the default port for HTTP

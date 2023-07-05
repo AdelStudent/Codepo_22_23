@@ -1,66 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>System Communication Data</title>
+  <title>System Communcation data</title>
   <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
-  <div class="center-header">
-    <header>
-        <div class="header-content">
-            <h1>System Communication Data</h1>
-            <img src="Images/Cameskin.jpg" alt="Company Logo">   
-        </div>
-    </header>
-
-    <main>
-      <div class="container">
-        <div class="container-title">
-            <h2>Données du dispositif</h2>
-            <h5>
-              Pour demander des données du dispositif, veuillez appuyer sur l'un des boutons ci-dessous. 
-            </h5>
-        </div>
-        <div class='button-group'>
-            <div class="column-1">
-              <div class="column1-name">
-                <h3>Photovoltaïque</h3>
-              </div>
-              <button onclick="PV_Voltage()">PV Voltage</button>
-              <button onclick="PV_Current()">PV Current</button>
-            </div>
-            <div class="column-2">
-              <div class="column2-name">
-                <h3>Batteries</h3>
-              </div>
-              <button onclick="Battery_Voltage()">Battery Voltage</button>
-              <button onclick="Battery_Current()">Battery Current</button>
-              <button onclick="Battery_SOC()">Battery SOC</button>
-              <button onclick="Battery_SOH()">Battery SOH</button>
-            </div>
-            <div class="column-3">
-              <div class="column3-name">
-                <h3>Charges</h3>
-              </div>
-              <button onclick="Charge_Current()">Charge Current</button>
-            </div>
-        </div>
-      </div>
-      <div class="variable-data">
-        <div class="variable-title">
-            <h2>Variable Name</h2>        
-            <p><span id="valeur_mesure">0</span></p>
-        </div>
-        <textarea id="variable_text" class="scrollable">_</textarea>
-        <div class="cleanbutton">
-          <button onclick="Clean_Screen()">Clean Screen</button>
-        </div>
-        <button id="copy_button">Copy Text</button>
-      </div>
-    </main>
+  <div class='button-group'>
+    <h3 class='button-label'>Panneau Photovoltaique</h3>
+    <button onclick="PV_Current()" style="width: 40%;">Courant généré Panneau Photovoltaique</button>
     
-    <script src='script.js'></script>
+    <h3 class='button-label'>Batteries</h3>
+    <button onclick="Battery_Temperature()" style="width: 40%;">Temperature Batterie</button>
+    <button onclick="Battery_Pack_Voltage()" style="width: 40%;">Tension Pack Batterie</button>
+    <button onclick="Battery_Voltage_1()" style="width: 40%;">Tension Batterie 1</button>
+    <button onclick="Battery_Voltage_2()" style="width: 40%;">Tension Batterie 2</button>
+    <button onclick="Battery_Voltage_3()" style="width: 40%;">Tension Batterie 3</button>
+    <button onclick="Battery_Voltage_4()" style="width: 40%;">Tension Batterie 4</button>
+    
+    <button onclick="Battery_Pack_Current()" style="width: 40%;">Courant sortie pack batteries</button>
+    
+    <!--
+    <button onclick="Battery_SOC()" style="width: 40%;">Battery_SOC</button>
+    <button onclick="Battery_SOH()" style="width: 40%;">Battery_SOH</button>
+    -->
+    
+
+    <h3 class='button-label'>Autre</h3>
+    <!--
+    <button onclick="Charge_Current()" style="width: 40%;">Charge_Current</button>
+    -->
+    <button onclick="Clean_Screen()" style="width: 40%;">Nettoyer le text</button>
+    <button onclick="Reporting()" style="width: 40%;">Ecriture d'un rapport</button>
+    
+    
   </div>
+
+  <div>
+    <h3>Heure et date</h3>
+    <p><span id = "valeur_mesure">0</span></p>
+  </div>
+
+  <div class="container">
+    <p><span id = "variable_name">____</span></p>
+    <textarea id="variable_text" class="scrollable">_</textarea>
+    
+    <button id="copy_button">Copy Text</button>
+  </div>
+
+  <div>
+    <i><a href="https://www.youtube.com/watch?v=uWmPXwQ17Hw">Bonne musique</a></i>
+  </div>
+
+  <script src='script.js'></script>
 </body>
 </html>

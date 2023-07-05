@@ -94,14 +94,8 @@ String ask_hour_to_internet(){
   return date;  
 }
 void button_downloader(){
-    server.on("/download_pv_voltage", HTTP_GET, [](AsyncWebServerRequest *request){
-      Serial.println("/download_pv_voltage on the PATH !");
-      String valStr = exchange_data_arduino("get_pv_voltage");
 
-      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
-      response->addHeader("Content-Disposition", "attachment; filename=\"pv_voltage.txt\"");
-      request->send(response);
-    });
+    //PV
     server.on("/download_pv_current", HTTP_GET, [](AsyncWebServerRequest *request){
       Serial.println("/download_pv_current on the PATH !");
       String valStr = exchange_data_arduino("get_pv_current");
@@ -110,20 +104,64 @@ void button_downloader(){
       response->addHeader("Content-Disposition", "attachment; filename=\"pv_current.txt\"");
       request->send(response);
     });
-    server.on("/download_battery_voltage", HTTP_GET, [](AsyncWebServerRequest *request){
-      Serial.println("/download_battery_voltage on the PATH !");
-      String valStr = exchange_data_arduino("get_battery_voltage");
+
+    //Batteries
+    server.on("/download_battery_temperature", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_temperature on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_temperature");
 
       AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
-      response->addHeader("Content-Disposition", "attachment; filename=\"battery_voltage.txt\"");
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_temperature.txt\"");
       request->send(response);
     });
-    server.on("/download_battery_current", HTTP_GET, [](AsyncWebServerRequest *request){
-      Serial.println("/download_battery_current on the PATH !");
-      String valStr = exchange_data_arduino("get_battery_current");
+    server.on("/download_battery_pack_voltage", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_pack_voltage on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_pack_voltage");
 
       AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
-      response->addHeader("Content-Disposition", "attachment; filename=\"battery_current.txt\"");
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_pack_voltage.txt\"");
+      request->send(response);
+    });
+    server.on("/download_battery_voltage_1", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_voltage_1 on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_voltage_1");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_voltage_1.txt\"");
+      request->send(response);
+    });
+    server.on("/download_battery_voltage_2", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_voltage_2 on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_voltage_2");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_voltage_2.txt\"");
+      request->send(response);
+    });
+    server.on("/download_battery_voltage_3", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_voltage_3 on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_voltage_3");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_voltage_3.txt\"");
+      request->send(response);
+    });
+    server.on("/download_battery_voltage_4", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_voltage_4 on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_voltage_4");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_voltage_4.txt\"");
+      request->send(response);
+    });
+    
+
+    server.on("/download_battery_pack_current", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_battery_pack_current on the PATH !");
+      String valStr = exchange_data_arduino("get_battery_pack_current");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"battery_pack_current.txt\"");
       request->send(response);
     });
     server.on("/download_battery_soc", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -142,6 +180,7 @@ void button_downloader(){
       response->addHeader("Content-Disposition", "attachment; filename=\"battery_soh.txt\"");
       request->send(response);
     });
+    
     server.on("/download_charge_current", HTTP_GET, [](AsyncWebServerRequest *request){
       Serial.println("/download_charge_current on the PATH !");
       String valStr = exchange_data_arduino("get_charge_current");
@@ -150,7 +189,16 @@ void button_downloader(){
       response->addHeader("Content-Disposition", "attachment; filename=\"charge_current.txt\"");
       request->send(response);
     });
-      
+
+    //Rapport
+    server.on("/download_report", HTTP_GET, [](AsyncWebServerRequest *request){
+      Serial.println("/download_report on the PATH !");
+      String valStr = exchange_data_arduino("get_report");
+
+      AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
+      response->addHeader("Content-Disposition", "attachment; filename=\"rapport_complet.txt\"");
+      request->send(response);
+    });      
   
 }
 void old_async_server_setup(){
