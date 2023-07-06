@@ -28,7 +28,7 @@ Pour la personne qui va lire ce code:
         -sortante : 2
 
       Enfin, la dernière valeur est différente de 0 ssi on mesure une batterie particulière:
-        -pack de batteries OU pas de battery (PV) : 0
+        -pack de batteries OU pas de battery (PV/Reseau) : 0
         -batterie num 1 : 1
         -batterie num 2 : 2
         -batterie num 3 : 3
@@ -150,6 +150,21 @@ void send_data(String target,String data){
 
 //_____________TEST_____________//
 
+void delete_all_files(){
+  //Allow to delete ALL FILES easily
+
+  File root = SD.open("/"); //open the root directory
+  while (true) {
+    File file = root.openNextFile(); //open the next file in the directory
+    if (!file) { //if there are no more files, break out of the loop
+      break;
+    }
+    delete_file(file.name());
+    String file_str = String(file);
+    file.close(); //close the file
+  }
+  root.close(); //close the root directory
+}
 void delete_file(String filename){
   //Si le file existe, on le supprime (utile pour les tests)  
   if(verify_file_existing(filename)){

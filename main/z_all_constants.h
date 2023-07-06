@@ -26,6 +26,8 @@ Pour la personne qui va lire ce code:
 //_____________________Multi Threading version Wish___//
 unsigned long lastMeasurementTime = 0; // variable to store the time of the last measurement
 unsigned long lastHearingTime = 0; // variable to store the time of the last time we heard Arduino
+unsigned long lastReportWriting = 0; // variable to store the time of the last time we wrote into the Arduino
+
 
 //_____________________Thingstream___________________//
 unsigned long mytime; //Permet de connaitre le temps d'attente pour recevoir une réponde du thingStream

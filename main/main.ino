@@ -7,6 +7,7 @@ void setup() {
   //Permet l'affichage dans le terminal
   Serial.begin(9600);
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
+  
 
   //Initialise les pins permettant de prendre les mesures
   setup_measure_pins();
@@ -16,33 +17,12 @@ void setup() {
   pinMode(CS_PIN, OUTPUT);
   SD_init(&init_flag_SD);
   
+  //delete_all_files(); //Permet de nettoyer les fichiers facilement
+  //print_filenames();
+  
   String value = "04/04/23 15:30 # 67";
   String value_bis = "__/__/__ 15:30 # 67";
-  /*
-  writeData("pvcurgener.txt", value);
-  writeData("pvcurgener.txt", value_bis);
-  
-  read_data_and_send("PC","pvCurrentGenerated.txt");
-  */
-
-  /*
-  writeData("test.txt", value);
-  writeData("test.txt", value_bis);
-  writeData("current.txt", value);
-  writeData("current.txt", value_bis);
-  writeData("b/cur.txt", value);
-  writeData("b/cur.txt", value_bis);
-  read_data_and_send("PC","test.txt");
-  read_data_and_send("PC","current.txt");
-  read_data_and_send("PC","b/cur.txt");
-  */
-
-  /*
-  delete_file("test.txt");
-  delete_file("current.txt");
-  delete_file("b\cur.txt");
-  */
-
+ 
   /*
   //Serial1 permettant de communiquer avec ThingStream
   Serial1.begin(115200);
@@ -53,11 +33,6 @@ void setup() {
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   //initESP32(&init_flag);
   
-  /*
-  delete_file("temperature.txt");
-  delete_file("battery/temperature.txt");
-  */
-  //print_filenames();
 
   LCD_init();
   LCD_print_IP("197.87.17.16");
@@ -66,21 +41,24 @@ void setup() {
 
 void loop() {
   
-  
+  //Serial.println("HEHEHE"); 
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 10 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 1 * 1000) {
     taking_measures();
-    lastMeasurementTime = millis();// update the last measurement time
-  }
-  if (millis() - lastMeasurementTime >= 1 * 30 * 1000) {
-    determine_SOC();
+    //determine_SOC();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
   if (millis() - lastHearingTime >= 1 * 1 * 1000) {
     checkReception_ESP32();
-    lastHearingTime = millis();// update the last measurement time
+    lastHearingTime = millis();// update the last Hearing time
   }
+
+  if (millis() - lastReportWriting >= 1 * 60 * 1000) {
+    writing_report();
+    lastReportWriting = millis();// update the last report writing time
+  }
+   
   delay(100);
   
 }

@@ -54,6 +54,8 @@ void setup_measure_pins() {
   digitalWrite(channelA2, LOW);
   digitalWrite(enPin, LOW);
 }
+
+
 //___________TAKING MEASURES
 void taking_measures() {
     //Il faut encore créer une liste de mesures, à partir de là on écrira tout d'un coup dans la carte SD
@@ -64,57 +66,35 @@ void taking_measures() {
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
-  //measure_and_save("bat401.txt",date,calculateThermistance_value); //ce fichier se traduit par température de la première ligne de battery
+  measure_and_save("bat101.txt",date,calculateThermistance_value);
+
 
   //Courant
-  float currentbatt = calculateCurrent(A3,A2);
-  //measure_and_save("bat020.txt",date,calculateCurrent(A2,A3)); //ce fichier se traduit par courant sortant du pack de battery
+  float output_pack_bat_current = calculateCurrent(A3,A2);
+  float network_current = calculateCurrent(A5,A4);
+  float pv_generated_current = calculateCurrent(A7,A6);
+  measure_and_save("bat020.txt",date,output_pack_bat_current);
+  measure_and_save("res020.txt",date,network_current);
+  measure_and_save("ppv020.txt",date,pv_generated_current);
+  
+  //float currentchr = calculateCurrent(A5,A4); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
+  
 
-  
-  float currentchr = calculateCurrent(A5,A4);//measure_and_save("chr010.txt",date,currentchr); //ce fichier se traduit par courant entrant dans les charges
-  float currentpv = calculateCurrent(A7,A6);//measure_and_save("ppv020.txt",date,currentpv); //ce fichier se traduit par courant sortant des PV
-  
-  
-  
-  
 
   //Tension
+  float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
+  float bat_volt_1 = calculateTension(A8, 910, 220);
+  float bat_volt_2 = calculateTension(A9, 910, 100);
+  float bat_volt_3 = calculateTension(A10, 910, 75);
+  //float bat_volt_4 = calculateTension(A11, 910, 56);
 
-  //float value_tention_A8 = analogRead(A8);Serial.print("value_tention_A8 = ");Serial.println(value_tention_A8);
-  //float value_tention_A9 = analogRead(A9);Serial.print("value_tention_A9 = ");Serial.println(value_tention_A9);
-  //float value_tention_A10 = analogRead(A10);Serial.print("value_tention_A10 = ");Serial.println(value_tention_A10);
-  //float value_tention_A11 = analogRead(A11);Serial.print("value_tention_A11 = ");Serial.println(value_tention_A11);
-  float firstValue = calculateTension(A8, 910, 220);
-  float secondValue = calculateTension(A9, 910, 100);
-  float thirdValue = calculateTension(A10, 910, 75);
-  float fourthValue = calculateTension(A11, 910, 56);
+  measure_and_save("bat101.txt",date,bat_volt_1);
+  measure_and_save("bat102.txt",date,bat_volt_2);
+  measure_and_save("bat103.txt",date,bat_volt_3);
+  measure_and_save("bat104.txt",date,bat_volt_4);
 
-  measure_and_save("bat101.txt",date,firstValue);
-  measure_and_save("bat102.txt",date,secondValue);
-  measure_and_save("bat103.txt",date,thirdValue);
-  measure_and_save("bat104.txt",date,fourthValue);
-  /*
-  float* value = MuxTension();
-  
-  float firstValue = value[5]; // porte ou se trouve les 12V inconnu 
-  float secondValue = value[1]; //S4
-  float thirdValue = value[2]; //S2
-  float fourthValue = value[7]; //S7
-  
-  float fifthValue = value[3]; //S7
-  float sixValue = value[4]; //S7
-  float sevenValue = value[6]; //S7
-  float nulValue = value[0];
-  
-  measure_and_save("bat101.txt",date,firstValue);
-  measure_and_save("bat102.txt",date,secondValue);
-  measure_and_save("bat103.txt",date,thirdValue);
-  measure_and_save("bat104.txt",date,fourthValue);
-  */
+
   Serial.println("We finished the measures \n\n");
-  /*measure_and_save("bat2curr.txt",date,calculateCurrent_value);
-  measure_and_save("bat3curr.txt",date,calculateCurrent_value);
-  measure_and_save("bat4curr.txt",date,calculateCurrent_value);*/
   
 
 }

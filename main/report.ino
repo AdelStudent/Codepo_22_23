@@ -6,6 +6,7 @@ Pour la personne qui va lire ce code:
 
 //____________________________USEFULL FUNCTIONS_______________________//
 void writing_report(){
+  Serial.println("Report Writing... Please Wait, it can take long time.");
   int  numFiles = 4; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
   String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt"};
   float mean_values[] = {0,0,0,0};
@@ -20,6 +21,7 @@ void writing_report(){
     
     String current_file_name = fileNames[i];
     myFile = SD.open(current_file_name);
+    Serial.println("Lecture du fichier "+current_file_name+" afin d'en faire un rapport.");
 
     if(myFile){
       char buffer[40];
@@ -76,18 +78,22 @@ int search_hashtag(char buffer[],int buff_size){
 
 float find_value(char buffer[], int pos){
   
+  Serial.print("Le Buffer : ");
+  Serial.println(buffer);
+  
   char sub_string[strlen(buffer) - pos];
   for (int i = pos + 1; i < strlen(buffer); i++) {
     sub_string[i - pos - 1] = buffer[i];
   }
 
   sub_string[strlen(buffer) - pos - 1] = '\0';
-  Serial.print("Voici la valeur lu dans le fichier text");
+  Serial.print("Voici la valeur lu : ");
   Serial.println(sub_string);
 
   //Transformation de la mesure (valeur après le "#" en float)
   float value = atof(sub_string);
-  //Serial.println(value);
+  Serial.print("value : ");
+  Serial.println(value);
 
   return value;
 }
