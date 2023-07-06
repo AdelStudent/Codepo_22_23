@@ -15,6 +15,13 @@ Pour la personne qui va lire ce code:
 //____________________________SETUP WIFI and SERVER_____________________________//
 void setup_wifi(){
   esp_task_wdt_init(15, true);
+  
+  IPAddress staticIP(192, 168, 1, 200);  // Set the desired static IP address
+  IPAddress gateway(192, 168, 1, 1);     // Set your gateway IP address
+  IPAddress subnet(255, 255, 255, 0);    // Set your subnet mask
+
+  WiFi.config(staticIP, gateway, subnet);  // Configure static IP address, gateway, and subnet mask
+
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
@@ -22,6 +29,26 @@ void setup_wifi(){
   }
   Serial.print("local ip: ");
   Serial.println(WiFi.localIP());
+
+  
+  /*
+  WiFi.begin(ssid, password);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.println("Connecting to WiFi...");
+  }
+
+  IPAddress ip;
+  if (WiFi.hostByName(domain, ip)) {
+    Serial.print("IP address of ");
+    Serial.print(domain);
+    Serial.print(": ");
+    Serial.println(ip);
+  } else {
+    Serial.println("DNS resolution failed.");
+  }
+  */
 }
 void setup_asynch_server(){ 
     //We setup the behaviour of our server (ESP32) once it receive a query from the javascript

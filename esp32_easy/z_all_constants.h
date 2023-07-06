@@ -6,8 +6,8 @@ Pour la personne qui va lire ce code:
 */
 
 
-#include<WiFi.h>
-#include<WebServer.h>
+#include <WiFi.h>
+#include <WebServer.h>
 #include "time.h"
 #include "sntp.h"
 
@@ -38,14 +38,15 @@ bool already_answering = false; //This variable allows us to NOT send any query 
 const int led = 2;
 
 //__________________WiFi_Connection__________________//
-
+/*
 const char *ssid = "LAPTOP-435R1L8O";
 const char *password = "FripouilleWifi";
-
-/*
-const char *ssid = "cameskininvite";
-const char *password = "FripouilleWifi";
 */
+
+const char *ssid = "cameskin";
+const char *password = "@cameskin@2021";
+const char* domain = "www.mobatelisuite.com";
+
 //__________________Server___________________________//
 //WebServer server(80);
 AsyncWebServer server(80); // Create AsyncWebServer object on port 80 because it is the default port for HTTP
