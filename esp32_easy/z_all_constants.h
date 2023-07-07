@@ -12,13 +12,12 @@ Pour la personne qui va lire ce code:
 #include "sntp.h"
 
 #include "FS.h"
-//#include "SPIFFS.h"
 
 #include<Arduino.h>
 #include<ESPAsyncWebSrv.h>
 #include<SPIFFS.h> // SPIFFS is a file system that is used to store files on the ESP32 and manage them
 
-#include "esp_task_wdt.h"
+#include "esp_task_wdt.h" //Allow to reset ESP32's watchdog. Otherwise, sending too much data would generate an error 
 
 //__________________UART Arduino Comm_______________//
 #define RXD2 16
@@ -33,6 +32,7 @@ bool already_answering = false; //This variable allows us to NOT send any query 
    https://github.com/me-no-dev/arduino-esp32fs-plugin 
 */
 
+unsigned long lastWifiChecking = 0; // variable to store the time of the last time we heard Arduino
 
 //__________________Test_____________________________//
 const int led = 2;

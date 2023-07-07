@@ -110,8 +110,12 @@ void analyse_query(String msg){
   
   Serial.println("Le message recu : "+msg);
   if (msg=="getIP"){
-    Serial2.print("local ip: ");
-    Serial2.println(WiFi.localIP());
+    if (WiFi.status() != WL_CONNECTED) {
+      Serial2.print("IP: ");
+      Serial2.println(WiFi.localIP());
+    }else{
+      Serial2.println("");
+    }
   }
   else if (msg=="getDate" ||msg=="getTime" ){
     Serial2.println(get_time());

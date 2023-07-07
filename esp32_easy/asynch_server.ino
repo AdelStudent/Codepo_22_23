@@ -29,27 +29,14 @@ void setup_wifi(){
   }
   Serial.print("local ip: ");
   Serial.println(WiFi.localIP());
-
-  
-  /*
-  WiFi.begin(ssid, password);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.println("Connecting to WiFi...");
-  }
-
-  IPAddress ip;
-  if (WiFi.hostByName(domain, ip)) {
-    Serial.print("IP address of ");
-    Serial.print(domain);
-    Serial.print(": ");
-    Serial.println(ip);
-  } else {
-    Serial.println("DNS resolution failed.");
-  }
-  */
 }
+void check_Wifi(){
+
+  if (WiFi.status() != WL_CONNECTED) {
+    setup_wifi();
+  }
+}
+
 void setup_asynch_server(){ 
     //We setup the behaviour of our server (ESP32) once it receive a query from the javascript
 

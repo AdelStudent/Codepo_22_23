@@ -20,4 +20,9 @@ void loop(){
   checkReception_Arduino(2);
   checkReception_PC(2);
   esp_task_wdt_reset();
+
+  if (millis() - lastWifiChecking >= 5 * 60 * 1000) {
+    check_Wifi();
+    lastWifiChecking = millis();// update the last report writing time
+  }
 }   
