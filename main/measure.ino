@@ -62,7 +62,7 @@ void taking_measures() {
     //ATTENTION A MODIFIER POUR OPTIMISER
   
   //String date = send_query_ESP32("getDate",5);
-  String date = "__/__/__";
+  String date = "__/__/__ __:__";
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
@@ -76,9 +76,7 @@ void taking_measures() {
   measure_and_save("bat020.txt",date,output_pack_bat_current);
   measure_and_save("res020.txt",date,network_current);
   measure_and_save("ppv020.txt",date,pv_generated_current);
-  
-  //float currentchr = calculateCurrent(A5,A4); AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
-  
+
 
 
   //Tension

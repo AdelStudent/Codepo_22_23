@@ -71,9 +71,8 @@ String check_Anwer_ESP32(String my_query,int waiting_time) {
 
   String correct_received_msg = "";
   while(true) {
-    // If maximum time (5s) to wait for message reception exceeded
+    // If maximum time (5s) to wait for message reception exceeded then we return error_msg
     if(millis()*0.001 - timeInit > waiting_time) { 
-      //Serial.print(".");
       return return_error_msg(my_query);
     }
     if (Serial2.available()>0){
