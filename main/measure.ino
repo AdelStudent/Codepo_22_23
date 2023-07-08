@@ -196,7 +196,7 @@ double selectChannel(int chnl) {
 }
 
 float calculateTension(int pin, int R1, int R2){
-  float Vo = ((analogRead(pin)* Vcc)/1023); 
+  float Vo = ((analogRead(pin)* 3.3)/1023); 
   float Vin = Vo * (R1 + R2) / R2;
   //condition if a mettre pour le calibrage 
   return Vin;  
