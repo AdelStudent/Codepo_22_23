@@ -90,3 +90,11 @@ float R1 = 913, R2 = 280;//en kohm
 
 //#define Vcc 5.0 // tension d'entrée= 5.0V
 //=> Déjà définie pour la thermistance
+//De l'année passée
+int nbSamples = 100;
+double mvPerI_20 = 31.25;
+double offset_20 = 0.36;
+double mvPerI_100 = 6.25;
+double offset_100 = 1.6;
+double mvPerI_30 = 20.83;
+double offset_30 = 0.65; //0.65
