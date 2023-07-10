@@ -61,6 +61,15 @@ float currentMean ;                // to calculate the average value from all sa
 float RMSCurrentMean ;             // square roof of currentMean, in analog values  
 float FinalRMSCurrent ;            // the final RMS current
 
+//Du capteur de l'année passée 
+int nbSamples = 100;
+double mvPerI_20 = 31.25;
+double offset_20 = 0.36;
+double mvPerI_100 = 6.25;
+double offset_100 = 1.6;
+double mvPerI_30 = 20.83;
+double offset_30 = 0.65; //0.65
+
 //_____CAPTEUR DE TENSION/MULTIPLEXEUR___________//
   // basé sur le code https://www.aranacorp.com/fr/utilisation-dun-multiplexer-avec-arduino/
   
