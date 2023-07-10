@@ -84,11 +84,10 @@ int checkReception() {
   unsigned long timeInit = millis()*0.001;
   char message[150];
   int count = 0;
-  
-  Serial2.println("What time is it?");
+
   while(true) {
     // If maximum time (20s) to wait for message reception exceeded
-    if(millis()*0.001 - timeInit > 50.0) { 
+    if(millis()*0.001 - timeInit > 10.0) { 
       Serial.println("To Long Time");
       return 0;
      }
@@ -96,7 +95,7 @@ int checkReception() {
     //Serial.println(Serial1.available());
     //delay(500);
     
-    if (Serial2.available()){
+    if (Serial1.available()){
         char st = Serial1.read();
         message[count] = st;  
         message[count+1] = '\0';  
@@ -126,4 +125,26 @@ int analyse (String st) {
     res = 0;
   }
   return res;
+}
+
+int ask_info_thingstream() {
+  delay(1000); // wait for the modem to initialize
+
+  // ERROR : reset the Thingstream click
+  Serial.println("Asking Info to Thingstream");
+  Serial1.println("AT+IOTINFO");
+}
+
+
+void test_thingstream(){
+  delay(1000); // wait for the modem to initialize
+
+  // ERROR : reset the Thingstream click
+  Serial.println("Complete Thingstream Test");
+  Serial1.println("AT+IOTTEST");
+  if(checkReception() == 1) { 
+      Serial.println("Test : success");
+  } else {
+    Serial.println("Test : fail");
+  }
 }

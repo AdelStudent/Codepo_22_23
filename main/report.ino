@@ -78,22 +78,20 @@ int search_hashtag(char buffer[],int buff_size){
 
 float find_value(char buffer[], int pos){
   
-  Serial.print("Le Buffer : ");
-  Serial.println(buffer);
-  
+  //Serial.print("Le Buffer : ");Serial.println(buffer);
+
   char sub_string[strlen(buffer) - pos];
   for (int i = pos + 1; i < strlen(buffer); i++) {
     sub_string[i - pos - 1] = buffer[i];
   }
 
   sub_string[strlen(buffer) - pos - 1] = '\0';
-  Serial.print("Voici la valeur lu : ");
-  Serial.println(sub_string);
+
+  //Serial.print("Voici la valeur lu : ");Serial.println(sub_string);
 
   //Transformation de la mesure (valeur après le "#" en float)
   float value = atof(sub_string);
-  Serial.print("value : ");
-  Serial.println(value);
+  //Serial.print("value : ");Serial.println(value);
 
   return value;
 }

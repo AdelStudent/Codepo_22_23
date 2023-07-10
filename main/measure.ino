@@ -70,12 +70,9 @@ void taking_measures() {
 
 
   //Courant
-  //float output_pack_bat_current = calculateCurrent(A3,A2);
-  //float network_current = calculateCurrent(A5,A4);
-  //float pv_generated_current = calculateCurrent(A7,A6);
-  double output_pack_bat_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A3, A2);
-  double network_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A5, A4);
-  double pv_generated current = measureCurrent(nbSamples, offset_30, mvPerI_30, A7, A6);
+  float output_pack_bat_current = calculateCurrent(A3,A2);
+  float network_current = calculateCurrent(A5,A4);
+  float pv_generated_current = calculateCurrent(A7,A6);
   measure_and_save("bat020.txt",date,output_pack_bat_current);
   measure_and_save("res020.txt",date,network_current);
   measure_and_save("ppv020.txt",date,pv_generated_current);
@@ -84,15 +81,15 @@ void taking_measures() {
 
   //Tension
   float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
-  float bat_volt_1 = calculateTension(A8, 900, 220.8);
-  float bat_volt_2 = calculateTension(A9, 904, 101);
-  float bat_volt_3 = calculateTension(A10, 903, 75);
-  //float bat_volt_4 = calculateTension(A11, 903, 56.8);
+  float bat_volt_1 = calculateTension(A8, 910, 220);
+  float bat_volt_2 = calculateTension(A9, 910, 100);
+  float bat_volt_3 = calculateTension(A10, 910, 75);
+  //float bat_volt_4 = calculateTension(A11, 910, 56);
 
   measure_and_save("bat101.txt",date,bat_volt_1);
   measure_and_save("bat102.txt",date,bat_volt_2);
   measure_and_save("bat103.txt",date,bat_volt_3);
-  measure_and_save("bat104.txt",date,bat_volt_4);
+  measure_and_save("bat100.txt",date,pack_bat_volt);
 
 
   Serial.println("We finished the measures \n\n");
@@ -132,38 +129,6 @@ float calculateThermistance() {
   
 }
 //___________CAPTEUR COURANT 
-double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
-  //PinVCC = Pin de calibration
-  double sumCur = 0.0;
-  double Vref = 3300; // tension de reference de l'arduino
-  int counter = 0;
-  double currentTime = 0.0;
-  double I = 0.0;
-  double FinalRMSCurrent = 0.0;
-  double RMSCurrent;
-  //Get nbSamples sumCur  
-  while(counter < nbSamples) {
-    if(micros() >= currentTime + 200) {
-      int meas = analogRead(pinCurrent)-analogRead(pinVcc);
-      sumCur = sumCur + meas;  // Add sumCur together
-      currentTime = micros();
-      counter = counter + 1;
-    }
-  }
-  sumCur = sumCur / nbSamples; //Taking Average of sumCur
-  I = ((sumCur * (Vref / 1023.0)) / mvPerI) + offset;
-  // Application d'un threshold sur le courant
-  if(I < 0.3 && I > -0.3) { // A adapter 
-    I = 0.0;
-    FinalRMSCurrent = 0.0;
-  }  
-
-  RMSCurrent = sqrt(-sumCur); 
-  FinalRMSCurrent = ((RMSCurrent * (Vref / 1023.0)) / mvPerI) + offset; //Au lieu de + offset
-  //return I;
-
-  return FinalRMSCurrent;
-}
 float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
   //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   currentSampleSum = 0;               
@@ -231,7 +196,7 @@ double selectChannel(int chnl) {
 }
 
 float calculateTension(int pin, int R1, int R2){
-  float Vo = ((analogRead(pin)* 3.3)/1023); 
+  float Vo = ((analogRead(pin)* Vcc)/1023); 
   float Vin = Vo * (R1 + R2) / R2;
   //condition if a mettre pour le calibrage 
   return Vin;  

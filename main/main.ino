@@ -20,14 +20,14 @@ void setup() {
   //delete_all_files(); //Permet de nettoyer les fichiers facilement
   //print_filenames();
   
-  String value = "04/04/23 15:30 # 67";
-  String value_bis = "__/__/__ 15:30 # 67";
- 
-  /*
+  
+  
   //Serial1 permettant de communiquer avec ThingStream
   Serial1.begin(115200);
-  //initThingstream(&init_flag);
-  */
+  //ask_info_thingstream();
+  //test_thingstream();
+  initThingstream(&init_flag);
+  
 
   
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
@@ -41,7 +41,8 @@ void setup() {
 
 void loop() {
   
-  //Serial.println("HEHEHE"); 
+
+  /*
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 1 * 1 * 1000) {
     taking_measures();
@@ -60,6 +61,7 @@ void loop() {
   }
    
   delay(100);
+  */
   
 }
 
