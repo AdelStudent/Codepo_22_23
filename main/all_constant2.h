@@ -97,4 +97,6 @@ double offset_20 = 0.36;
 double mvPerI_100 = 6.25;
 double offset_100 = 1.6;
 double mvPerI_30 = 20.83;
-double offset_30 = 0.65; //0.65
+double offset_30_bat020 = 0.17;
+double offset_30_res020 = 0.21;
+double offset_30_ppv020 = 0.31;
