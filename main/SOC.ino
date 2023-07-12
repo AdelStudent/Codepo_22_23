@@ -57,7 +57,7 @@ float determine_SOC(){
   SOC = verify_SOC(SOC_init,SOC_variation);
 
   // Print the input and output currents and the charge flow for debugging
-  print_things(inputCurrent,outputCurrent,chargeFlow,SOC_variation);
+  //print_things(inputCurrent,outputCurrent,chargeFlow,SOC_variation);
   return SOC;
   }
 }
@@ -80,6 +80,6 @@ void print_things(float inputCurrent,float outputCurrent,float chargeFlow,float 
   Serial.print(outputCurrent);
   Serial.print(" mA\nCharge flow: ");
   Serial.print(chargeFlow);
-  Serial.println("mAh\nSOC variation: ");
-  Serial.print(SOC_variation);
+  Serial.print("mAh\nSOC variation: ");
+  Serial.println(SOC_variation);
 }

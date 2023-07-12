@@ -3,6 +3,7 @@ void LCD_init() {
   LCD.init();
   LCD.display();
   LCD.backlight();
+  LCD.clear();
 }
 
 void LCD_print_IP(String IP_adress){

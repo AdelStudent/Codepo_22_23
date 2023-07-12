@@ -22,6 +22,8 @@ Pour la personne qui va lire ce code:
         -puissance : 2
         -temperature : 4
         -SOC : 5
+        -SOH : 6
+        
 
       La valeur suivante permet de savoir si la mesure est entrante/sortante/aucune:
         -aucune : 0

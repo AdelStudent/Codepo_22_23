@@ -4,8 +4,8 @@
 
 
 void setup() {
-  //Permet l'affichage dans le terminal
-  Serial.begin(9600);
+  
+  Serial.begin(9600);//Permet l'affichage dans le terminal
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
   
 
@@ -23,7 +23,7 @@ void setup() {
   
   
   //Serial1 permettant de communiquer avec ThingStream
-  Serial1.begin(115200);
+  //Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
   //initThingstream(&init_flag);
@@ -35,7 +35,8 @@ void setup() {
   
 
   LCD_init();
-  esp32_ip = check_Anwer_ESP32("getIP",3);
+  delay(500);
+  esp32_ip = send_query_ESP32("getIP",3);
   LCD_print_IP(esp32_ip);
   Serial.println("___________________________________________________________________");
 }

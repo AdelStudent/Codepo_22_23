@@ -141,10 +141,10 @@ void analyse_query(String msg){
     read_data_and_send("ESP32","bat020.txt");
   }
   else if (msg=="get_battery_SOC"){
-    read_data_and_send("ESP32","bat400.txt");
+    read_data_and_send("ESP32","bat500.txt");
   }
   else if (msg=="get_battery_SOH"){
-    read_data_and_send("ESP32","bat500.txt");
+    read_data_and_send("ESP32","bat600.txt");
   }
   else if (msg=="get_battery_temperature"){
     read_data_and_send("ESP32","bat401.txt");

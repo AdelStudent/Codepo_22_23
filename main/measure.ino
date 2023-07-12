@@ -66,15 +66,10 @@ void taking_measures() {
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
-  measure_and_save("bat101.txt",date,calculateThermistance_value);
+  measure_and_save("bat401.txt",date,calculateThermistance_value);
 
 
   //Courant
-  /*
-  float output_pack_bat_current = calculateCurrent(A3,A2);
-  float network_current = calculateCurrent(A5,A4);
-  float pv_generated_current = calculateCurrent(A7,A6);
-  */
   
   double grid_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A5, A4);
   double pv_generated_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A7, A6);
@@ -83,13 +78,17 @@ void taking_measures() {
   double input_pack_bat_current = grid_current+pv_generated_current;
   double pack_SOC = determine_SOC(input_pack_bat_current,output_pack_bat_current);
 
-  
-  measure_and_save("bat500.txt",date,pack_SOC);
   measure_and_save("bat020.txt",date,output_pack_bat_current);
   measure_and_save("res020.txt",date,grid_current);
   measure_and_save("ppv020.txt",date,pv_generated_current);
 
+  measure_and_save("bat500.txt",date,pack_SOC);
 
+  /*
+  //Si on y arrive
+  float pack_SOC = determine_SOH(???);
+  measure_and_save("bat600.txt",date,pack_SOH);
+  */
 
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
