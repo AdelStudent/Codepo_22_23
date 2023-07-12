@@ -6,6 +6,7 @@ void LCD_init() {
 }
 
 void LCD_print_IP(String IP_adress){
+  Serial.println("LCD affiche : "+IP_adress);
   LCDprint(0,0,"IP :");
   //LCDprint(1,0,"197.87.17.16");
   LCDprint(1,0,IP_adress);

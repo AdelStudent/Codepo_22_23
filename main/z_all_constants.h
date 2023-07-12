@@ -27,6 +27,7 @@ Pour la personne qui va lire ce code:
 unsigned long lastMeasurementTime = 0; // variable to store the time of the last measurement
 unsigned long lastHearingTime = 0; // variable to store the time of the last time we heard Arduino
 unsigned long lastReportWriting = 0; // variable to store the time of the last time we wrote into the Arduino
+unsigned long lastAskingTime = 0; // variable to store the time of the last time we asked IP address to ESP32
 
 
 //_____________________Thingstream___________________//
@@ -46,7 +47,7 @@ int init_flag_SD = 0;
 
 
 //_____________________ESP32______________________//
-
+String esp32_ip = "";
 //_____________________Measures______________________//
 // Define the input and output pins for the current sensors
 #define INPUT_CURRENT_PIN A0

@@ -60,7 +60,11 @@ String return_error_msg(String query){
   if (query=="getDate" || query=="geTime"){
     //Si on ne reçoit rien via RX/TX voici ce que l'on écrit
     return "__/__/__ __:__";
-  }else{
+  }
+  else if(query=="getIP"){
+    return "Server Down, Wait";
+  }
+  else{
     return "No Data";
   }
 }

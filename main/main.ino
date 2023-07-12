@@ -26,7 +26,7 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  initThingstream(&init_flag);
+  //initThingstream(&init_flag);
   
 
   
@@ -35,33 +35,41 @@ void setup() {
   
 
   LCD_init();
-  LCD_print_IP("197.87.17.16");
+  esp32_ip = check_Anwer_ESP32("getIP",3);
+  LCD_print_IP(esp32_ip);
   Serial.println("___________________________________________________________________");
 }
 
 void loop() {
   
-
-  /*
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 1 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 15 * 1000) {
     taking_measures();
     //determine_SOC();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
-  if (millis() - lastHearingTime >= 1 * 1 * 1000) {
+  if (millis() - lastHearingTime >= 1 * 5 * 1000) {
     checkReception_ESP32();
     lastHearingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - lastReportWriting >= 1 * 60 * 1000) {
+  if (millis() - lastReportWriting >= 5 * 60 * 1000) {
     writing_report();
     lastReportWriting = millis();// update the last report writing time
   }
-   
+  
+  if (millis() - lastAskingTime >= 5 * 60 * 1000) {
+    esp32_ip = check_Anwer_ESP32("getIP",3);
+    //A priori, esp32_ip = 192.168.1.127
+    LCD_print_IP(esp32_ip);
+    lastHearingTime = millis();// update the last Hearing time
+  }
+  
+
+
   delay(100);
-  */
+  
   
 }
 
