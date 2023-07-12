@@ -144,7 +144,7 @@ float calculateThermistance() {
   
 }
 //___________CAPTEUR COURANT 
-float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
+/*float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
   //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   currentSampleSum = 0;               
   currentSampleCount = 0;          
@@ -172,17 +172,17 @@ float calculateCurrent(int currentAnalogInputPin, int calibrationPin) {
 
       calculateAndPrintCurrent(FinalRMSCurrent);
       
-      /*Serial.println(calibrationPin);
+      Serial.println(calibrationPin);
       Serial.println(currentAnalogInputPin);
       Serial.print("FinalRMSCurrent : ");
       Serial.println(FinalRMSCurrent);
       Serial.println("__________________________________________");
-      */
+      
 
       return FinalRMSCurrent;
     }
   }
-}
+}*/
 
 double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
   //PinVCC = Pin de calibration
@@ -190,7 +190,7 @@ double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurren
   double Vref = 3300; // tension de reference de l'arduino
   int counter = 0;
   double currentTime = 0.0;
-  double I = 0.0;
+  //double I = 0.0;
   double FinalRMSCurrent = 0.0;
   double RMSCurrent;
   //Get nbSamples sumCur  
@@ -203,23 +203,17 @@ double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurren
     }
   }
   sumCur = sumCur / nbSamples; //Taking Average of sumCur
-  I = ((sumCur * (Vref / 1023.0)) / mvPerI) + offset;
-
-  RMSCurrent = sqrt(-sumCur); 
-  FinalRMSCurrent = ((RMSCurrent * (Vref / 1023.0)) / mvPerI) + offset; //Au lieu de + offset
-  
-  if(FinalRMSCurrent < 0.3 && FinalRMSCurrent > -0.3) { // A adapter
-    // Application d'un threshold sur le courant
-    I = 0.0;
+  //I = ((sumCur * (Vref / 1023.0)) / mvPerI) + offset;
+  // Application d'un threshold sur le courant
+  //RMSCurrent = sqrt(-sumCur); 
+  FinalRMSCurrent = ((sumCur * (Vref / 1023.0)) / mvPerI) + offset; //Au lieu de + offset
+  //return I;
+  if(FinalRMSCurrent < 0.3 && FinalRMSCurrent > -0.3) { // A adapter 
+    //I = 0.0;
     FinalRMSCurrent = 0.0;
   }  
-
-  
-  //return I;
-
   return FinalRMSCurrent;
 }
-
 //___________CAPTEUR TENSION/MULTIPLEXEUR  
 double selectChannel(int chnl) { 
   //Selection des channels/portes pour savoir quel passage faire pour la tension
