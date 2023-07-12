@@ -61,8 +61,8 @@ void taking_measures() {
     //Il faut encore créer une liste de mesures, à partir de là on écrira tout d'un coup dans la carte SD
     //ATTENTION A MODIFIER POUR OPTIMISER
   
-  //String date = send_query_ESP32("getDate",5);
-  String date = "__/__/__ __:__";
+  String date = send_query_ESP32("getDate",5);
+  //String date = "__/__/__ __:__";
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
@@ -75,31 +75,38 @@ void taking_measures() {
   float network_current = calculateCurrent(A5,A4);
   float pv_generated_current = calculateCurrent(A7,A6);
   */
-  double output_pack_bat_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A3, A2);
-  double network_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A5, A4);
-  double pv_generated_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A7, A6);
   
+  double grid_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A5, A4);
+  double pv_generated_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A7, A6);
+  double output_pack_bat_current = measureCurrent(nbSamples, offset_30, mvPerI_30, A3, A2);
+
+  double input_pack_bat_current = grid_current+pv_generated_current;
+  double pack_SOC = determine_SOC(input_pack_bat_current,output_pack_bat_current);
+
+  
+  measure_and_save("bat500.txt",date,pack_SOC);
   measure_and_save("bat020.txt",date,output_pack_bat_current);
-  measure_and_save("res020.txt",date,network_current);
+  measure_and_save("res020.txt",date,grid_current);
   measure_and_save("ppv020.txt",date,pv_generated_current);
 
 
 
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
-  float bat_volt_1 = calculateTension(A8, 900, 220.8);
-  float bat_volt_2 = calculateTension(A9, 904, 101);
-  float bat_volt_3 = calculateTension(A10, 903, 75);
-  float bat_volt_4 = calculateTension(A11, 903, 56.8);
+  float bat_volt_1 = calculateTension(A8, 905, 219.8);
+  float bat_volt_2 = calculateTension(A9, 904, 100.1);
+  float bat_volt_3 = calculateTension(A10, 900, 74.4);
+  float bat_volt_4 = calculateTension(A11, 900, 55.6);
 
   measure_and_save("bat101.txt",date,bat_volt_1);
   measure_and_save("bat102.txt",date,bat_volt_2);
   measure_and_save("bat103.txt",date,bat_volt_3);
-  measure_and_save("bat104.txt",date,bat_volt_3);
+  measure_and_save("bat104.txt",date,bat_volt_4);
 
   //measure_and_save("bat100.txt",date,pack_bat_volt);
 
-
+  
+  
   Serial.println("We finished the measures \n\n");
   
 
@@ -241,7 +248,7 @@ double selectChannel(int chnl) {
 }
 
 float calculateTension(int pin, int R1, int R2){
-  float Vo = ((analogRead(pin)* Vcc)/1023); 
+  float Vo = ((analogRead(pin)* 3.3)/1023); 
   float Vin = Vo * (R1 + R2) / R2;
   //condition if a mettre pour le calibrage 
   return Vin;  

@@ -8,7 +8,28 @@ Pour la personne qui va lire ce code:
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
-void determine_SOC(){
+float determine_SOC(double input_current,double output_current){
+  float SOC_variation = 0;
+  float SOC_init = 0.8;
+  float SOC = 0;
+
+  // Paramètres initiaux
+  float battery_capacity = 200; //unité : [Ah]
+
+
+  // Calculate the charge flow as the integral of the difference between the input and output currents
+  chargeFlow += ((input_current - output_current) * SAMPLE_INTERVAL) / 1000.0;
+  SOC_variation = chargeFlow/battery_capacity;
+  SOC_init = 0.8;
+  SOC = verify_SOC(SOC_init,SOC_variation);
+
+  // Print the input and output currents and the charge flow for debugging
+  print_things(inputCurrent,outputCurrent,chargeFlow,SOC_variation);
+  
+  return SOC;
+  
+}
+float determine_SOC(){
 
   float SOC_variation = 0;
   float SOC_init = 0.8;
@@ -34,9 +55,10 @@ void determine_SOC(){
   SOC_variation = chargeFlow/battery_capacity;
   SOC_init = 0.8;
   SOC = verify_SOC(SOC_init,SOC_variation);
+
   // Print the input and output currents and the charge flow for debugging
   print_things(inputCurrent,outputCurrent,chargeFlow,SOC_variation);
-  
+  return SOC;
   }
 }
 float verify_SOC(float SOC_init,float SOC_variation){

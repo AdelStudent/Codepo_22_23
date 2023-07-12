@@ -7,9 +7,9 @@ Pour la personne qui va lire ce code:
 //____________________________USEFULL FUNCTIONS_______________________//
 void writing_report(){
   Serial.println("Report Writing... Please Wait, it can take long time.");
-  int  numFiles = 4; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
-  String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt"};
-  float mean_values[] = {0,0,0,0};
+  int  numFiles = 5; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
+  String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt","bat500.txt"};
+  float mean_values[] = {0,0,0,0,0};
   
   int count = 0;
   float sum = 0.0;
@@ -101,6 +101,8 @@ void writingReport(float arr[], String filename){
   float pack_bat_mean_voltage = arr[1]; //
   float pack_bat_mean_current = arr[2];
   float bat_mean_temperature = arr[3];
+  float pack_bat_SOC = arr[4];
+  
   
   int getArrayLength = sizeof(arr) / sizeof(float);
 
@@ -115,6 +117,9 @@ void writingReport(float arr[], String filename){
     delay(100);
     
     myReport.print("La temperature moyenne des batteries vaut : "+String(bat_mean_temperature)+" Celsius");
+    delay(100);
+
+    myReport.print("L'etat de charge moyen du pack de batteries vaut : "+String(pack_bat_SOC)+" %");
     delay(100);
     
     

@@ -59,11 +59,12 @@ void loop() {
     lastReportWriting = millis();// update the last report writing time
   }
   
-  if (millis() - lastAskingTime >= 5 * 60 * 1000) {
-    esp32_ip = check_Anwer_ESP32("getIP",3);
+  if (millis() - lastAskingTime >= 1 * 60 * 1000) {
+    Serial.println("IP ASKED");
+    esp32_ip = send_query_ESP32("getIP",3);
     //A priori, esp32_ip = 192.168.1.127
     LCD_print_IP(esp32_ip);
-    lastHearingTime = millis();// update the last Hearing time
+    lastAskingTime = millis();// update the last Hearing time
   }
   
 
