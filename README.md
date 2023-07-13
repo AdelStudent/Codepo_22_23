@@ -9,13 +9,13 @@
 Voici quelques commandes git utiles:
 
 ### Download the project
-git clone https://github.com/AdelStudent/Codepo_22_23.git
+- git clone https://github.com/AdelStudent/Codepo_22_23.git
 
 ### Update a downloaded code
-git status
-git pull
+- git status
+- git pull
 
 ### Commit a new code!!
-git add .
-git commit -a -m "Refactor Class Player_IA"
-git push
+- git add .
+- git commit -a -m "Upade Message"
+- git push
