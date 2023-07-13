@@ -17,5 +17,5 @@ Voici quelques commandes git utiles:
 
 ### Commit a new code!!
 - git add .
-- git commit -a -m "Upade Message"
+- git commit -a -m "Update Message"
 - git push
