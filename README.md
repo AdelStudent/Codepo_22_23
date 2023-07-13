@@ -1,5 +1,5 @@
 ## Contents
-
+- `Modélisation Congo`: Modèle permettant de prédire la consommation en énergie de la cameskin
 - `main`: Code for Arduino
 - `esp32_easy`: Code for ESP32
 - `PCD codepo`: Used to share progress on the PCB
