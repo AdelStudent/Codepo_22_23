@@ -63,10 +63,10 @@ void taking_measures() {
 
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
-  float bat_volt_1 = calculateTension(A8, 905, 219.8);
-  float bat_volt_2 = calculateTension(A9, 904, 100.1);
-  float bat_volt_3 = calculateTension(A10, 900, 74.4);
-  float bat_volt_4 = calculateTension(A11, 900, 55.6);
+  float bat_volt_1 = calculateTension(A8, 900, 220.8);//905, 219.8
+  float bat_volt_2 = calculateTension(A9, 904, 101);//904, 100.1
+  float bat_volt_3 = calculateTension(A10,903, 75 );//900, 74.4
+  float bat_volt_4 = calculateTension(A11,903, 57.8 );//900, 55.6
 
   measure_and_save("bat101.txt",date,bat_volt_1);
   measure_and_save("bat102.txt",date,bat_volt_2);
