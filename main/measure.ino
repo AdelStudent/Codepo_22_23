@@ -2,37 +2,8 @@
 Pour la personne qui va lire ce code:
     Le rôle de ce paquet de fonction est de prendre une succession de mesures et les écrire dans la carte SD.
     C'est donc ici que l'Arduino demande l'heure/date à l'ESP32 au travers de "measure_and_save()" et écrira la data sous
-    une forme voulue.
-
-    ATTENTION: La carte SD a un comportement étrange pour les noms. Elle n'accepte pas plus de 7 caractères pour un nom de fichier
-      et étrangement, elle n'accepte plus une arborescence de dossier/fichier. Dès lors, une pseudo-arborescence a été crée dans le nom
-      même des fichier:
-      Les 3 premiers caractères expriment le système dont on s'intéresse.
-        -Battery : bat
-        -Panneau photovoltaique : ppv
-        -Reseau : res
-        -Charges : chr
-
-      La valeur suivante permet de savoir quelle mesures nous intéresse:
-        -courant : 0
-        -tension  : 1
-        -puissance : 2
-        -temperature : 4
-
-      La valeur suivante permet de savoir si la mesure est entrante/sortante/aucune:
-        -aucune : 0
-        -entrante : 1
-        -sortante : 2
-
-      Enfin, la dernierè valeur est différente de 0 ssi on mesure une ligne de battery particulière:
-        -pack de batteries OU pas de battery : 0
-        -ligne 1 : 1
-        -ligne 2 : 2
-        -ligne 3 : 3
-        -ligne 4 : 4
-                             
+    une forme voulue. (Ex: 13/07/2023 11:10:02 # 27.76)
 */
-
 //____________________________USEFULL FUNCTIONS_______________________//
 
 //___________SETUP
@@ -66,7 +37,7 @@ void taking_measures() {
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();
-  measure_and_save("bat401.txt",date,calculateThermistance_value);
+  measure_and_save("bat400.txt",date,calculateThermistance_value);
 
 
   //Courant
@@ -86,7 +57,7 @@ void taking_measures() {
 
   /*
   //Si on y arrive
-  float pack_SOC = determine_SOH(???);
+  float pack_SOH = determine_SOH(???);
   measure_and_save("bat600.txt",date,pack_SOH);
   */
 
