@@ -209,7 +209,9 @@ void analyse_query_pc(String msg){
   else if (msg=="getDate" ||msg=="getTime" ){
     Serial.println(get_time());
   }
-
+  else if (msg=="getSSID" ||msg=="getssid" ){
+    Serial.println(ssid);
+  }
 
   else{
     /*

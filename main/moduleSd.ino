@@ -77,7 +77,9 @@ void read_data_and_send(String target,String filename){
     String current_data;
     if(!file){
       Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR READING");
-      
+      //ATTENTION, POINT CRITIQUE POUR LA COMMUNIQUATION AVEC ESP32. Ce point doit BIEN être géré
+      answering_mode = false; //Maintenant qu'on a répondu, on se libère du mode answering_mode et on a de nouveau le droit d'envoyer des requêtes à ESP32
+      Serial.println("Hey I turned OFF the mode to answering_mode");
     }
     else{
       Serial.println("READING FROM THE FILE: "+filename);
@@ -88,13 +90,12 @@ void read_data_and_send(String target,String filename){
         //Serial.println(buffer);
         
         send_data(target,String(buffer));
-        
-        //ATTENTION, POINT CRITIQUE POUR LA COMMUNIQUATION AVEC ESP32. Ce point doit BIEN être géré
-        answering_mode = false; //Maintenant qu'on a répondu, on se libère du mode answering_mode et on a de nouveau le droit d'envoyer des requêtes à ESP32
-        Serial.println("Hey I turned ON the mode to answering_mode");
-        
         memset(buffer, '\0', sizeof(buffer)); // clear the buffer
       }
+      //ATTENTION, POINT CRITIQUE POUR LA COMMUNIQUATION AVEC ESP32. Ce point doit BIEN être géré
+      answering_mode = false; //Maintenant qu'on a répondu, on se libère du mode answering_mode et on a de nouveau le droit d'envoyer des requêtes à ESP32
+      Serial.println("Hey I turned OFF the mode to answering_mode");
+
       file.close();
     }
   }
@@ -184,7 +185,7 @@ bool verify_file_existing(String filename){
     Serial.println("Le file "+filename+" existe!");
     return true;
   }else{
-    Serial.println("Le file "+filename+" n'existe pas, tout n'était qu'une imagination collective hehe!");
+    Serial.println("Le file "+filename+" n'existe pas, tout n'était qu'une imagination collective hehe! \n");
     return false;
   }
 }

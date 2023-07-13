@@ -91,6 +91,7 @@ int checkReception_ESP32(){
       //String my_msg = Serial2.readString();
       
       analyse_query(my_msg);
+      
     }
   }
 }
@@ -102,7 +103,9 @@ void analyse_query(String msg){
   //________________Web QUERY_________________//
   if (msg=="change_mode"){
     answering_mode = true;
-    Serial.println("Hey I turned ON the mode to answering_mode");
+    answering_mode_chrono = millis();
+    
+    //Serial.println("Hey I turned ON the mode to answering_mode");
     clean_Serial2_Port();
   }else{
 
@@ -128,10 +131,10 @@ void analyse_query(String msg){
     else if (msg=="get_battery_pack_current"){
       read_data_and_send("ESP32","bat020.txt");
     }
-    else if (msg=="get_battery_SOC"){
+    else if (msg=="get_battery_soc"){
       read_data_and_send("ESP32","bat500.txt");
     }
-    else if (msg=="get_battery_SOH"){
+    else if (msg=="get_battery_soh"){
       read_data_and_send("ESP32","bat600.txt");
     }
     else if (msg=="get_battery_temperature"){
@@ -161,7 +164,7 @@ void analyse_query(String msg){
   }
   else if (msg=="easter" ||msg=="egg" ||msg=="easter egg" ){
     
-    Serial.println("Oh non tu as découvert cet easter egg!");
+    Serial.println("Oh non tu as découvert cet easter egg! :O");
     Serial.println("Hehehe, Oue il y a d'autres chose à faire, allez CIAO!");    
   }
   else{

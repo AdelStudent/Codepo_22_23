@@ -67,13 +67,16 @@ void taking_measures() {
   float bat_volt_2 = calculateTension(A9, 904, 101);//904, 100.1
   float bat_volt_3 = calculateTension(A10,903, 75 );//900, 74.4
   float bat_volt_4 = calculateTension(A11,903, 57.8 );//900, 55.6
+  //measure_and_save("bat100.txt",date,pack_bat_volt);
 
+  
   measure_and_save("bat101.txt",date,bat_volt_1);
   measure_and_save("bat102.txt",date,bat_volt_2);
   measure_and_save("bat103.txt",date,bat_volt_3);
   measure_and_save("bat104.txt",date,bat_volt_4);
 
-  //measure_and_save("bat100.txt",date,pack_bat_volt);
+
+  
 
   
   

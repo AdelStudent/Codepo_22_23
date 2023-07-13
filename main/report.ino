@@ -15,8 +15,8 @@ void writing_report(){
   float sum = 0.0;
   float arr[10];
 
-  delete_file("report.txt"); //Permet de nettoyer le rapport précédent
-
+  //delete_file("rep.txt"); //Permet de nettoyer le rapport précédent
+  Serial.println("reponse");
   for (int i=0; i < numFiles; i++){
     
     String current_file_name = fileNames[i];
@@ -57,7 +57,7 @@ void writing_report(){
     }
     
   }    
-  writingReport(arr,"report.txt");
+  writingReport(arr,"rep.txt");
 }
 
 float calculateMean(float sum, int count){

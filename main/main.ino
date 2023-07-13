@@ -46,7 +46,6 @@ void loop() {
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
     taking_measures();
-    //determine_SOC();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
@@ -55,8 +54,8 @@ void loop() {
     lastHearingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - lastReportWriting >= 5 * 60 * 1000) {
-    writing_report();
+  if (millis() - lastReportWriting >= 1 * 5 * 1000) {
+    //writing_report();
     lastReportWriting = millis();// update the last report writing time
   }
   
@@ -67,11 +66,13 @@ void loop() {
     lastAskingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - answering_mode_chrono >= 1 * 60 * 1000) {
-
-    
+  /*
+  if (millis() - answering_mode_chrono >= 1 * 30 * 1000) {
+    //With that, we're sure that after some time, answering_mode = false and we'll be able to send query again
+    answering_mode = false;
+    answering_mode_chrono=0;
   }
-  
+  */
 
 
   delay(100);

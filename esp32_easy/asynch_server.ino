@@ -15,17 +15,17 @@ Pour la personne qui va lire ce code:
 //____________________________SETUP WIFI and SERVER_____________________________//
 void setup_wifi(){
   esp_task_wdt_init(15, true);
-  
+  /*
   IPAddress staticIP(192, 168, 1, 200);  // Set the desired static IP address
   IPAddress gateway(192, 168, 1, 1);     // Set your gateway IP address
   IPAddress subnet(255, 255, 255, 0);    // Set your subnet mask
 
   WiFi.config(staticIP, gateway, subnet);  // Configure static IP address, gateway, and subnet mask
-
+  */
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
-      Serial.println("Connecting to WiFi..");
+      Serial.print("Connecting to WiFi : ");Serial.println(ssid);
   }
   Serial.print("local ip: ");
   Serial.println(WiFi.localIP());
