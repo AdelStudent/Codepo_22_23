@@ -31,6 +31,8 @@ unsigned long lastReportWriting = 0; // variable to store the time of the last t
 unsigned long lastAskingTime = 0; // variable to store the time of the last time we asked IP address to ESP32
 
 
+
+
 //_____________________Thingstream___________________//
 unsigned long mytime; //Permet de connaitre le temps d'attente pour recevoir une réponde du thingStream
 int init_flag = 0;  //Permet de savoir si toutes les étapes de l'initialisation du Thingstream sont okay
@@ -50,6 +52,7 @@ int init_flag_SD = 0;
 //_____________________ESP32______________________//
 String esp32_ip = "";
 bool answering_mode = false; //It allows to block send any queries to ESP32 if this mode is activated
+unsigned long answering_mode_chrono = 0; // variable to store the time of the last time we asked IP address to ESP32
 //_____________________Measures______________________//
 // Define the input and output pins for the current sensors
 #define INPUT_CURRENT_PIN A0

@@ -34,7 +34,7 @@ String send_query_ESP32(String my_query,int waiting_time){
     answering_mode = false;
     return answer;
   }else{
-    Serial.print("Veulliez patienter, je suis en mode réponse pour ESP32");
+    Serial.println("Veulliez patienter, je suis en mode réponse pour ESP32");
     return return_error_msg(my_query);
   }
 }
@@ -100,8 +100,10 @@ void analyse_query(String msg){
 
 
   //________________Web QUERY_________________//
-  if (msg=="set_mode_to_hearing"){
+  if (msg=="change_mode"){
     answering_mode = true;
+    Serial.println("Hey I turned ON the mode to answering_mode");
+    clean_Serial2_Port();
   }else{
 
     if (msg=="get_pv_current"){

@@ -77,10 +77,11 @@ void read_data_and_send(String target,String filename){
     String current_data;
     if(!file){
       Serial.println("CARE I COULDN'T OPEN THE FILE: "+filename+" FOR READING");
+      
     }
     else{
       Serial.println("READING FROM THE FILE: "+filename);
-      char buffer[128];
+      char buffer[256];
       while (file.available()) {
         memset(buffer, '\0', sizeof(buffer)); // clear the buffer      
         file.readBytesUntil('\n', buffer, sizeof(buffer));
@@ -90,16 +91,14 @@ void read_data_and_send(String target,String filename){
         
         //ATTENTION, POINT CRITIQUE POUR LA COMMUNIQUATION AVEC ESP32. Ce point doit BIEN être géré
         answering_mode = false; //Maintenant qu'on a répondu, on se libère du mode answering_mode et on a de nouveau le droit d'envoyer des requêtes à ESP32
-        
+        Serial.println("Hey I turned ON the mode to answering_mode");
         
         memset(buffer, '\0', sizeof(buffer)); // clear the buffer
       }
-      //Serial2.write(file.read());//Envoie la data à l'ESP par Serial2
-      //Serial2.println(current_data);//Envoie la data à l'ESP par Serial2
-
       file.close();
     }
   }
+  answering_mode = false;
 }
 
 

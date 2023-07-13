@@ -15,11 +15,22 @@ void cleanSerialPort() {
   //Knowing sometimes, the serial keep some noisy bits (during manipulation), this funnction allows to
   // clean the Serial just before using it.
   // This function should be useless once we created the PCB and that nobody can get access to the circuits
-  while (Serial.available() > 0) {
-    Serial.read();
+  while (Serial2.available() > 0) {
+    Serial2.read();
   }
 }
-
+String return_error_msg(String query){
+  if (query=="getDate" || query=="geTime"){
+    //Si on ne reçoit rien via RX/TX voici ce que l'on écrit
+    return "__/__/__ __:__";
+  }
+  else if(query=="getIP"){
+    return "Server Down, Wait";
+  }
+  else{
+    return "Error : No Data";
+  }
+}
 //____________________________SEND CALLED FUNCTIONS
 
 String send_query_Arduino(String my_query,int waiting_time){
@@ -27,9 +38,10 @@ String send_query_Arduino(String my_query,int waiting_time){
   //Serial1.print(my_querry) et Serial1.readStringUntil('\n')
   //La fonction send_query() est appelée au niveau de asynch_server
 
-  //Serial2.println("Here's my query : "+my_query+"! You have "+String(waiting_time)+" seconds to give me the answer!");
-  
-  Serial2.print("set_mode_to_hearing"+'\n');
+  Serial.println("Here's my query : "+my_query+"! You have "+String(waiting_time)+" seconds to give me the answer!");
+  cleanSerialPort();
+  Serial2.print("change_mode\n");
+  delay(300);
   cleanSerialPort();
   Serial2.print(my_query+'\n');
   
@@ -42,10 +54,11 @@ String check_Anwer_Arduino(String my_query,int waiting_time) {
 
   String correct_received_msg = "";
   while(true) {
+    esp_task_wdt_reset();
     // If maximum time (5s) to wait for message reception exceeded
     if(millis()*0.001 - timeInit > waiting_time) { 
-      //Serial.print(".");
-      return "";
+      
+      return return_error_msg(my_query);
     }
     if (Serial2.available()>0){
       while (Serial2.available()>0){
@@ -112,11 +125,13 @@ void analyse_query(String msg){
   
   Serial.println("Le message recu : "+msg);
   if (msg=="getIP"){
-    if (WiFi.status() != WL_CONNECTED) {
-      Serial2.print("IP: ");
+        
+    if (WiFi.status() == WL_CONNECTED) {
+      //Serial2.print("IP: ");
       Serial2.println(WiFi.localIP());
+      //Serial.println(WiFi.localIP());
     }else{
-      Serial2.println("");
+      Serial2.println("No IP Found");
     }
   }
   else if (msg=="getDate" ||msg=="getTime" ){
@@ -194,6 +209,8 @@ void analyse_query_pc(String msg){
   else if (msg=="getDate" ||msg=="getTime" ){
     Serial.println(get_time());
   }
+
+
   else{
     /*
     Serial.println("Query pas reconnue, voici les options:");

@@ -44,13 +44,13 @@ void setup() {
 void loop() {
   
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 15 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
     taking_measures();
     //determine_SOC();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
-  if (millis() - lastHearingTime >= 1 * 5 * 1000) {
+  if (millis() - lastHearingTime >= 1 * 3 * 1000) {
     checkReception_ESP32();
     lastHearingTime = millis();// update the last Hearing time
   }
@@ -60,12 +60,16 @@ void loop() {
     lastReportWriting = millis();// update the last report writing time
   }
   
-  if (millis() - lastAskingTime >= 1 * 60 * 1000) {
-    Serial.println("IP ASKED");
+  if (millis() - lastAskingTime >= 5 * 60 * 1000) {
     esp32_ip = send_query_ESP32("getIP",3);
     //A priori, esp32_ip = 192.168.1.127
     LCD_print_IP(esp32_ip);
     lastAskingTime = millis();// update the last Hearing time
+  }
+
+  if (millis() - answering_mode_chrono >= 1 * 60 * 1000) {
+
+    
   }
   
 

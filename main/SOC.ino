@@ -46,7 +46,7 @@ void print_things(float inputCurrent,float outputCurrent,float chargeFlow,float 
   Serial.print(" mA\nOutput current: ");
   Serial.print(outputCurrent);
   Serial.print(" mA\nCharge flow: ");
-  Serial.print(chargeFlow);
+  Serial.println(chargeFlow);
   Serial.print("mAh\nSOC variation: ");
   Serial.println(SOC_variation);
 }
