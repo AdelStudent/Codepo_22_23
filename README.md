@@ -10,7 +10,7 @@
 Voici quelques commandes git utiles:
 
 ### Download the project
-git clone https://github.com/AdelNehili/Codepo_22_23.git
+git clone https://github.com/AdelStudent/Codepo_22_23.git
 
 ### Update a downloaded code
 git status
