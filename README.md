@@ -6,8 +6,6 @@
 - `projet codepo`: Used for reading different sensors (code to transfer to Arduino)
 - `Report_final`: Used for writing monthly reports (code to transfer to Arduino) 
 
-- test
-
 Voici quelques commandes git utiles:
 
 ### Download the project
