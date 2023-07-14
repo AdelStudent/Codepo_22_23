@@ -42,14 +42,14 @@ const int led = 2;
 //const char *ssid = "Galaxy_A5247AB";
 //const char *password = "imuy8402";
 
-const char *ssid = "LAPTOP-435R1L8O";
-const char *password = "FripouilleWifi";
+//const char *ssid = "LAPTOP-435R1L8O";
+//const char *password = "FripouilleWifi";
 
 //const char *ssid = "ULB CODEPO";
 //const char *password = "Bonjour@2020";
 
-//const char *ssid = "cameskin";
-//const char *password = "@cameskin@2021";
+const char *ssid = "cameskin";
+const char *password = "@cameskin@2021";
 
 const char* domain = "www.mobatelisuite.com";
 

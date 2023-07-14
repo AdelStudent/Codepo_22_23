@@ -5,7 +5,8 @@ Pour la personne qui va lire ce code:
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
-void writing_report(){
+/*
+void writing_report(){>
   Serial.println("Report Writing... Please Wait, it can take long time.");
   int  numFiles = 5; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
   String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt","bat500.txt"};
@@ -62,6 +63,59 @@ void writing_report(){
   }    
   writingReport(arr,"rep.txt");
 }
+*/
+
+const int numFiles = 5;
+const String fileNames[] = {"ppv020.txt", "bat100.txt", "bat020.txt", "bat401.txt", "bat500.txt"};
+float meanValues[numFiles];
+
+void writingReport() {
+  Serial.println("Report Writing... Please wait; it may take a while.");
+  
+  for (int i = 0; i < numFiles; i++) {
+    String currentFileName = fileNames[i];
+    Serial.print("Reading file ");
+    Serial.print(currentFileName);
+    Serial.print(" to generate a report."+ '\n');
+
+    
+    File file = SD.open(currentFileName);
+    Serial.print("OPEN"+ '\n');
+    if (file) {
+      char buffer[60];
+      int count = 0;
+      float sum = 0.0;
+
+      while (file.available()) {
+        file.readBytesUntil('\n', buffer, sizeof(buffer));
+        buffer[sizeof(buffer) - 1] = '\0';
+
+        //Serial.print("buffer : ");
+        //Serial.println(buffer);
+        int pos = search_hashtag(buffer, sizeof(buffer));
+
+        if (pos != -1) {
+          sum += find_value(buffer, pos);
+          count++;
+        } else {
+          Serial.println("Failed to find value (after #).");
+        }
+        memset(buffer, '\0', sizeof(buffer)); // clear the buffer    
+      }
+
+      float meanValue = calculateMean(sum, count);
+      meanValues[i] = meanValue;
+
+      Serial.println("The average value of " + currentFileName + " is: " + String(meanValue));
+      file.close();
+    } else {
+      Serial.println("Error reading file: " + currentFileName);
+    }
+
+  }
+
+  writingReportToFile(meanValues, "rep.txt");
+}
 
 float calculateMean(float sum, int count){
   return sum / count;
@@ -98,7 +152,7 @@ float find_value(char buffer[], int pos){
 
   return value;
 }
-void writingReport(float arr[], String filename){
+void writingReportToFile(float arr[], String filename){
   myReport = SD.open(filename, FILE_WRITE);
   float PV_mean_current = arr[0];
   float pack_bat_mean_voltage = arr[1]; //
