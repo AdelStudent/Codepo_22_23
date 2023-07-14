@@ -144,7 +144,7 @@ void analyse_query(String msg){
       read_data_and_send("ESP32","chr010.txt");
     }
     else if (msg=="get_report"){
-      read_data_and_send("ESP32","report.txt");
+      read_data_and_send("ESP32","rep.txt");
     }
   }
 

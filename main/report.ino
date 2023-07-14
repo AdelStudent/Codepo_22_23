@@ -20,8 +20,11 @@ void writing_report(){
   for (int i=0; i < numFiles; i++){
     
     String current_file_name = fileNames[i];
+    Serial.println("Lecture du fichier "+current_file_name+" afin den faire un rapport.");
     myFile = SD.open(current_file_name);
-    Serial.println("Lecture du fichier "+current_file_name+" afin d'en faire un rapport.");
+    
+    //Serial.println("Lecture du fichier "+current_file_name+" afin d en faire un rapport. \n");
+    
 
     if(myFile){
       char buffer[40];

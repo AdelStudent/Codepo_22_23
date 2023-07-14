@@ -44,7 +44,7 @@ void setup() {
 void loop() {
   
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 30 * 1000) {
     taking_measures();
     lastMeasurementTime = millis();// update the last measurement time
   }
@@ -55,7 +55,7 @@ void loop() {
   }
 
   if (millis() - lastReportWriting >= 1 * 5 * 1000) {
-    //writing_report();
+    writing_report();
     lastReportWriting = millis();// update the last report writing time
   }
   
@@ -66,13 +66,15 @@ void loop() {
     lastAskingTime = millis();// update the last Hearing time
   }
 
-  /*
+  
   if (millis() - answering_mode_chrono >= 1 * 30 * 1000) {
     //With that, we're sure that after some time, answering_mode = false and we'll be able to send query again
     answering_mode = false;
-    answering_mode_chrono=0;
+    answering_mode_chrono = millis();// update the last Hearing time
+    Serial.println("Hey I turned OFF the mode to answering_mode via the loop");
+    
   }
-  */
+  
 
 
   delay(100);
