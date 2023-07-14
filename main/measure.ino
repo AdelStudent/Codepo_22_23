@@ -77,8 +77,6 @@ void taking_measures() {
 
 
   
-
-  
   
   Serial.println("We finished the measures \n\n");
   

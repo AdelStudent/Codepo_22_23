@@ -146,6 +146,11 @@ void analyse_query(String msg){
     else if (msg=="get_report"){
       read_data_and_send("ESP32","rep.txt");
     }
+    else if (msg=="get_grid_current"){
+      read_data_and_send("ESP32","res020.txt");
+    }
+
+    
   }
 
   

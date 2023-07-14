@@ -44,7 +44,7 @@ void setup() {
 void loop() {
   
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
+  if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
     lastMeasurementTime = millis();// update the last measurement time
   }
@@ -54,7 +54,7 @@ void loop() {
     lastHearingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - lastReportWriting >= 1 * 5 * 1000) {
+  if (millis() - lastReportWriting >= 30 * 60 * 1000) {
     writingReport();
     lastReportWriting = millis();// update the last report writing time
   }

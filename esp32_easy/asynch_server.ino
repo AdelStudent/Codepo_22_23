@@ -108,6 +108,13 @@ String ask_hour_to_internet(){
   return date;  
 }
 void button_downloader(){
+    //____________________________Grid DATA
+    server.on("/download_grid_current", HTTP_GET, [](AsyncWebServerRequest *request){
+        Serial.println("/download_grid_current on the PATH !");
+        String valStr = exchange_data_arduino("get_grid_current");
+
+        request->send(200, "text/plain", valStr);
+    });
 
     //PV
     server.on("/download_pv_current", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -220,6 +227,10 @@ void old_async_server_setup(){
     300 lignes. Dès lors, nous optons pour des buttons sur le site qui permette de directement télécharger le fichiers voulu.
     C'est juste mieux, on communique plus de data, plus vite et, du cote de la CAMESKIN, ils ont moins d'opérations à faire.
   */
+
+  
+
+
   //____________________________PV DATA
   server.on("/get_pv_voltage", HTTP_GET, [](AsyncWebServerRequest *request){
       Serial.println("/get_pv_voltage on the PATH !");

@@ -13,6 +13,30 @@ copyButton.addEventListener("click", function() {
     Finaly, we call this functions via each button with same name as the measurement.
   */
 
+
+//Reseau
+function Grid_Current(){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      document.getElementById('variable_name').innerHTML = "Reseau Current Data";
+      document.getElementById('variable_text').innerHTML = "Voici les courants mesurees de votre réseau. Si vous voulez plus d'autres informations, veuillez cliquer sur les autre boutons sur l'ecran.";
+      var a = document.createElement('a');
+      var url = window.URL.createObjectURL(this.response);
+      a.href = url;
+      a.download = 'reseau_current.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }
+  };
+  
+  xhttp.open("GET", "download_grid_current", true);
+  xhttp.responseType = 'blob';
+  xhttp.send();
+}
+
 //Panneau photovoltaique
 function PV_Current(){
   var xhttp = new XMLHttpRequest();
