@@ -28,7 +28,7 @@ String return_error_msg(String query){
     return "Server Down, Wait";
   }
   else{
-    return "Error : No Data";
+    return "Error WiFi Connection : Veuillez recommencer dans quelques instants";
   }
 }
 //____________________________SEND CALLED FUNCTIONS
