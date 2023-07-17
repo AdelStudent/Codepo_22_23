@@ -185,6 +185,107 @@ double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurren
   }  
   return FinalRMSCurrent;
 }
+
+float measure_AC_current(int pinCurrent, int pinRef ){
+  //Pour la calibration
+  int meas = analogRead(pinCurrent)-analogRead(pinRef);
+  Serial.println(meas);
+  delay(10);
+}
+
+//____________MESURE COURANT AC
+float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
+  //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
+  double sumCur = 0;
+  double Vref = 3.300;       
+  int counter = 0; 
+  double currentTime = 0.0; 
+  double FRMSCurrent = 0.0;
+  double RMSCurrent;
+  int mesure_finale; 
+  double meas2 = 0;
+
+  int init_time = millis();
+  //int current_time = millis();
+  int periode_envelope_reseau = 1300; //Exprérimentalement, nous avons mesuré une periode de 1,3 sec pour l'enveloppe du réseau SNEL
+  int summ_value = 0;
+  
+  while(currentTime-init_time < periode_envelope_reseau){
+    if (millis() >= currentTime + periode_envelope_reseau/100) { 
+    // -> Pour que l'analogue input soit lue toutes les 0.2 millisec
+      counter = counter + 1;                   
+      int meas = analogRead(pinCurrent)- analogRead(pinVcc); //Lit la valeur et soustrait la valeur de la calibration
+      //meas += meas;
+      meas2 = meas2 + meas;
+      sumCur = sumCur + sq(meas);  //Accumulation des valeurs racine de meas                    
+      
+      float Meas3 = abs(meas2)/counter;
+      Serial.print("Meas : ");
+      Serial.println(Meas3/4);
+      //int mesure_finale = abs(meas)/counter ;              
+      
+      Serial.print("meas:");
+      Serial.println(meas);
+      Serial.print("sumcur:");
+      Serial.println(sumCur); 
+
+      currentTime = millis(); //Reset -> Pour que l'échantillon soit pris au bon moment 
+    }
+  }
+  //regarde si le compte d'échantillon a atteint 4000 -> fait le code tous les 0.8 secondes 
+  sumCur = sumCur / 100;         
+  RMSCurrent = sqrt(sumCur);   //RMS : Root mean square -> racine carré
+  Serial.print("RMSCurrent:");
+  Serial.println(RMSCurrent);                    
+  FRMSCurrent = ((sumCur * (Vref / 1023.0)) * 20.83); //- offset;
+  Serial.print("FRMSCurrent:");
+  Serial.println(FRMSCurrent);   
+  //if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
+  if(FRMSCurrent <= (625/20.83/100)) { 
+    
+    //if the current detected is less than or up to 1%, set current value to 0A
+    FRMSCurrent =0; 
+  }     
+
+  calculateAndPrintCurrent(FinalRMSCurrent);
+  // Serial.print("Mesure finale");
+  //Serial.println(mesure_finale);
+  return FinalRMSCurrent;
+}
+
+// 
+float AC_Current_mean(int pinCurrent, int pinVcc) {    
+  int counter = 0; 
+  double currentTime = 0.0; 
+
+  int init_time = millis();
+  //int current_time = millis();
+  int periode_envelope_reseau = 1300; //Exprérimentalement, nous avons mesuré une periode de 1,3 sec pour l'enveloppe du réseau SNEL
+  int summ_value = 0;
+  
+  while(currentTime-init_time < periode_envelope_reseau){
+    if (millis() >= currentTime + periode_envelope_reseau/100) { 
+      // -> Pour que l'analogue input soit lue toutes les 0.2 millisec
+      counter = counter + 1;                   
+      int meas = analogRead(pinCurrent)- analogRead(pinVcc); //Lit la valeur et soustrait la valeur de la calibration
+      Serial.println(meas);
+      summ_value+=meas;
+      currentTime = millis(); //Reset -> Pour que l'échantillon soit pris au bon moment 
+    }
+  }
+  //regarde si le compte d'échantillon a atteint 4000 -> fait le code tous les 0.8 secondes 
+  summ_value = summ_value/counter;
+  /*
+  if (25.5 < summ_value & summ_value < 26.5){
+    Serial.println("HEHEH LE RESEAU SEMBLE GOOD");
+  }else{
+    Serial.println("NAAAAAAAN LE RESEAU SEMBLE ETRE DOWN!");
+  }
+  */
+  return 1;
+}
+
+
 //___________CAPTEUR TENSION/MULTIPLEXEUR  
 double selectChannel(int chnl) { 
   //Selection des channels/portes pour savoir quel passage faire pour la tension
