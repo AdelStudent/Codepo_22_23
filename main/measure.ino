@@ -156,7 +156,7 @@ double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurren
 float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
   //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   double sumCur = 0;
-  double Vref = 3.300;       
+  double Vref = 3300.0;       
   int counter = 0; 
   double currentTime = 0.0; 
   double FRMSCurrent = 0.0;
@@ -177,7 +177,7 @@ float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int
       Serial.println(sumCur);         
       RMSCurrent = sqrt(sumCur);   //RMS : Root mean square -> racine carré  
       Serial.println(RMSCurrent);          
-      FRMSCurrent = ((RMSCurrent* (3300.0 / 1023.0)) /20.83) - offset;
+      FRMSCurrent = ((RMSCurrent* (Vref / 1023.0)) /20.83) - offset;
 
       //if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
       if(FRMSCurrent <= (625/mVperAmpValue/100)) { 
