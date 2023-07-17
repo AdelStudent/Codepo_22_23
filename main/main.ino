@@ -8,7 +8,7 @@ void setup() {
   Serial.begin(9600);//Permet l'affichage dans le terminal
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
   
-
+/*
   //Initialise les pins permettant de prendre les mesures
   setup_measure_pins();
 
@@ -38,11 +38,12 @@ void setup() {
   delay(500);
   esp32_ip = send_query_ESP32("getIP",3);
   LCD_print_IP(esp32_ip);
+*/
   Serial.println("___________________________________________________________________");
 }
 
 void loop() {
-  
+/*
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
@@ -74,12 +75,18 @@ void loop() {
     Serial.println("Hey I turned OFF the mode to answering_mode via the loop");
     
   }
-  
-
-
   delay(100);
+*/
+  //measure_AC_current(A7,A6); //Pin utilisée pour le réseau SNEL
+
+  if (millis() - lastMeasurementTime >= 1 * 10 * 1000) {
+    AC_Current_mean(A7,A6);
+    lastMeasurementTime = millis();// update the last measurement time
+  }
   
+
   
+
 }
 
 
