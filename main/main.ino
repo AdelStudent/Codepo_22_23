@@ -31,7 +31,6 @@ void setup() {
 
   
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
-  //initESP32(&init_flag);
   
   /*
   LCD_init();
@@ -50,12 +49,12 @@ void loop() {
     lastMeasurementTime = millis();// update the last measurement time
   }
     
-  if (millis() - lastHearingTime >= 1 * 3 * 1000) {
+  if (millis() - lastHearingTime >= 1 * 2 * 1000) {
     checkReception_ESP32();
     lastHearingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - lastReportWriting >= 1 * 60 * 1000) {
+  if (millis() - lastReportWriting >= 30 * 60 * 1000) {
     writingReport();
     lastReportWriting = millis();// update the last report writing time
   }

@@ -26,7 +26,6 @@ void setup_measure_pins() {
   digitalWrite(enPin, LOW);
 }
 
-
 //___________TAKING MEASURES
 void taking_measures() {
     //Il faut encore créer une liste de mesures, à partir de là on écrira tout d'un coup dans la carte SD
@@ -91,7 +90,7 @@ void measure_and_save(String filename, String date, float value){
   Serial.println("Voila le fichier,la date et la valeur : "+filename+", "+date+", "+str_value);
   */
 }
-void verify_danger(float temperature, double pack_soc){
+void verify_danger(float temperature, double pack_soc, double output_pack_bat_current){
   
   double min_pack_soc = 0.03;
   double max_pack_soc = 0.97;
@@ -103,8 +102,13 @@ void verify_danger(float temperature, double pack_soc){
   if(pack_soc<min_pack_soc || max_pack_soc<pack_soc){
     publish_SOC_warning(pack_soc,&init_flag);
   }
+  if(pack_soc<min_pack_soc){
+    publish_SOC_warning(pack_soc,&init_flag);
+  }
+  
   
 }
+
 //___________THERMISTANCE
 float calculateThermistance() {
   //Output : température
@@ -127,10 +131,9 @@ float calculateThermistance() {
   return T;
   
 }
+
+
 //___________CAPTEUR COURANT 
-
-// ___________MESURE COURANT DC
-
 double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
   //PinVCC = Pin de calibration
   double sumCur = 0.0;
@@ -161,11 +164,6 @@ double measureCurrent(int nbSamples, double offset, double mvPerI, int pinCurren
   }  
   return FinalRMSCurrent;
 }
-
-
-
-//____________MESURE COURANT AC
-
 float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int pinVcc) {
   //Serial.println("Did you call me?_I'm_calculateCurrent()\n");delay(100);
   double sumCur = 0;
@@ -207,59 +205,6 @@ float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int
 }
 
 
-//___________CAPTEUR TENSION/MULTIPLEXEUR  
-double selectChannel(int chnl) { 
-  //Selection des channels/portes pour savoir quel passage faire pour la tension
-  //si chnl = 5 => binaire = 101 => Voir le schéma de sélection des pins 
-  //// Select channel of the multiplexer
-  //Nous transformons le int en sa version binaire et nous transferont ces bits aux portes logiques du MUX
-  int A = bitRead(chnl, 0); //Take first bit from binary value of i channel.
-  int B = bitRead(chnl, 1); //Take second bit from binary value of i channel.
-  int C = bitRead(chnl, 2); //Take third bit from value of i channel.
-  //Les chiffres 0,1,2 sont des sélection de positions dans le mots en bits 
-  digitalWrite(channelA0, A); //Envoie dans la pin de l'Arduino le 0 ou 1 trouvé dans le bit
-  digitalWrite(channelA1, B);
-  digitalWrite(channelA2, C);
-  
-  //Convertissement de la valeur numérique en tension
-  // Tension = (valeur lue* tension d'alimentation)/1024  
-  float Vo = ((analogRead(pinout)* Vcc)/1023); //-2.18
-  // Pour retrouver la tension initiale (réelle) avant le diviseur résistif 
-  // Vérifier que la tension d'alimentation sera de 3.3 
-  //double Vin = (Vo * (R1 + R2) / R2);
-  float Vin = Vo * (R1 + R2) / R2;
-
-  //print_channels(A,B,C,Vo,Vin);
-
-  return Vin;
-}
-
-float calculateTension(int pin, int R1, int R2){
-  float Vo = ((analogRead(pin)* 3.3)/1023); 
-  float Vin = Vo * (R1 + R2) / R2;
-  //condition if a mettre pour le calibrage 
-  return Vin;  
-}
-float* MuxTension() { /* function MuxLED */
-  //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
-  //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
-  //Une fois fait, vaut mieux supprimer la variable global qui porte le même nom (dans all_constant2.h)
-    
-  for (int i = 0; i <  numOfMuxPins; i++) {
-    double Vin = selectChannel(i);
-
-    measured_value[i] = Vin;
-    //mesaured_value[i] = analogRead(D);
-    delay(200);
-    //Serial.print("ith porte : "); Serial.print(i); Serial.print("; measured_value[i] : "); Serial.println(measured_value[i]);
-  }
-  //Serial.println("________________________________________________________________________________");
-  //delay(10000);
-
-}
-
-
-
 //____________________________TEST FUNCTIONS_______________________//
 void print_channels(int A,int B,int C,float Vo,float Vin){
   //Serial.print(F("channel ")); Serial.print(chnl); Serial.print(F(" : "));
@@ -291,4 +236,55 @@ void calculateAndPrintCurrent(float FinalRMSCurrent) {
   Serial.print(FinalRMSCurrent, decimalPrecision);
   Serial.println(" A ");
 }
+
+//___________CAPTEUR TENSION/MULTIPLEXEUR  
+double selectChannel(int chnl) { 
+  //Selection des channels/portes pour savoir quel passage faire pour la tension
+  //si chnl = 5 => binaire = 101 => Voir le schéma de sélection des pins 
+  //// Select channel of the multiplexer
+  //Nous transformons le int en sa version binaire et nous transferont ces bits aux portes logiques du MUX
+  int A = bitRead(chnl, 0); //Take first bit from binary value of i channel.
+  int B = bitRead(chnl, 1); //Take second bit from binary value of i channel.
+  int C = bitRead(chnl, 2); //Take third bit from value of i channel.
+  //Les chiffres 0,1,2 sont des sélection de positions dans le mots en bits 
+  digitalWrite(channelA0, A); //Envoie dans la pin de l'Arduino le 0 ou 1 trouvé dans le bit
+  digitalWrite(channelA1, B);
+  digitalWrite(channelA2, C);
+  
+  //Convertissement de la valeur numérique en tension
+  // Tension = (valeur lue* tension d'alimentation)/1024  
+  float Vo = ((analogRead(pinout)* Vcc)/1023); //-2.18
+  // Pour retrouver la tension initiale (réelle) avant le diviseur résistif 
+  // Vérifier que la tension d'alimentation sera de 3.3 
+  //double Vin = (Vo * (R1 + R2) / R2);
+  float Vin = Vo * (R1 + R2) / R2;
+
+  //print_channels(A,B,C,Vo,Vin);
+
+  return Vin;
+}
+float calculateTension(int pin, int R1, int R2){
+  float Vo = ((analogRead(pin)* 3.3)/1023); 
+  float Vin = Vo * (R1 + R2) / R2;
+  //condition if a mettre pour le calibrage 
+  return Vin;  
+}
+float* MuxTension() { /* function MuxLED */
+  //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
+  //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
+  //Une fois fait, vaut mieux supprimer la variable global qui porte le même nom (dans all_constant2.h)
+    
+  for (int i = 0; i <  numOfMuxPins; i++) {
+    double Vin = selectChannel(i);
+
+    measured_value[i] = Vin;
+    //mesaured_value[i] = analogRead(D);
+    delay(200);
+    //Serial.print("ith porte : "); Serial.print(i); Serial.print("; measured_value[i] : "); Serial.println(measured_value[i]);
+  }
+  //Serial.println("________________________________________________________________________________");
+  //delay(10000);
+
+}
+
 

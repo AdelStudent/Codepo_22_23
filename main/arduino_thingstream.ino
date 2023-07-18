@@ -52,19 +52,7 @@ int initThingstream(int *flag_init) {
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
-void publish_SOC_warning(double SOC_lvl,int *flag_init){
-  char my_msg[500];
-  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
-  publish_message(my_msg,flag_init);
-  memset(my_msg, 0, sizeof(my_msg));
-}
-void publish_temperature_warning(float temperature,int *flag_init){
-  char my_msg[500];
-  sprintf(my_msg, "ERROR, La température des batteries est de : %f. Nous pensons que cela peut poser problème.", temperature);
-  publish_message(my_msg,flag_init);
-  memset(my_msg, 0, sizeof(my_msg));
-}
-
+//___________Sending Messages
 void publish_message(char* msg,int *flag_init){
   if(*flag_init==4){
     char message[10000] = "\0";
@@ -79,8 +67,6 @@ void publish_message(char* msg,int *flag_init){
     Serial.println("Thingstream Error : initThingstream didn't end well");
   }
 }
-
-
 int checkReception() {
   unsigned long timeInit = millis()*0.001;
   char message[150];
@@ -114,7 +100,6 @@ int checkReception() {
      }
   }
 }
-
 int analyse (String st) {
   // Arret de la publication si le mot STOP est reçu par le Click
 
@@ -128,6 +113,29 @@ int analyse (String st) {
   return res;
 }
 
+//___________Warning Messages
+
+void publish_SOC_warning(double SOC_lvl,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+void publish_temperature_warning(float temperature,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, La température des batteries est de : %f. Nous pensons que cela peut poser problème.", temperature);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+void publish_current_warning(double output_pack_bat_current,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, Le courant de sortie des batteries est de : %f. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+
+
+
 //____________________________TEST FUNCTIONS_______________________//
 int ask_info_thingstream() {
   delay(1000); // wait for the modem to initialize
@@ -137,8 +145,6 @@ int ask_info_thingstream() {
   Serial1.println("AT+IOTINFO");
   checkReception();
 }
-
-
 void test_thingstream(){
   delay(1000); // wait for the modem to initialize
 

@@ -10,6 +10,8 @@ Pour la personne qui va lire ce code:
          on libère toujours => impossible de rester bloquer dans ce mode!
 */
 //____________________________USEFULL FUNCTIONS_______________________//
+
+//________Sending Queries
 void clean_Serial2_Port() {
   //Knowing sometimes, the serial keep some noisy bits (during manipulation), this funnction allows to
   // clean the Serial just before using it.
@@ -73,6 +75,7 @@ String check_Anwer_ESP32(String my_query,int waiting_time) {
   }
 }
 
+//________Receiving Queries
 int checkReception_ESP32(){
   //Vérifie quel query l'ESP32 a reçu et la traite
   //Cette fonction est appelée PERIODIQUEMENT contrairement à check_Anwer_ESP32 qui est appelé juste après avoir envoyé une query
@@ -106,7 +109,7 @@ void analyse_query(String msg){
     answering_mode_chrono = millis();
     
     //Serial.println("Hey I turned ON the mode to answering_mode");
-    clean_Serial2_Port();
+    delay(100);
   }else{
 
     if (msg=="get_pv_current"){
@@ -204,8 +207,6 @@ int checkReception_PC(){
     }
   }
 }
-
-
 void send_hello(){
     Serial2.println("AT+SEND=hello\r"); //envoie hello au module thingstream
 }
@@ -216,7 +217,6 @@ void receive(){
       Serial.println(data);
   }
 }
-
 void parse_query(String query){
   //compare the query to PV current/ PV voltage/ PV power/current used/current generated/SOC/SOH
   if (query=="get_pv_voltage"){
