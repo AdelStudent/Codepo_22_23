@@ -3,9 +3,10 @@
 Pour la personne qui va lire ce code:
 */
 
-//____________________________USEFULL FUNCTIONS_______________________//
+//___________SETUP
+
 int initThingstream(int *flag_init) {
-  delay(10000); // wait for the modem to initialize
+  delay(5000); // wait for the modem to initialize
   if (*flag_init == 0 ){
     // ERROR : reset the Thingstream click
     Serial.println("DEBUG");
@@ -48,21 +49,22 @@ int initThingstream(int *flag_init) {
     }
   }
 }
+//____________________________USEFULL FUNCTIONS_______________________//
+
 void publish_test(int *init_flag){
   if(!already_publish && *init_flag==4){
     publish_initial(0.3); // publish the test message
     already_publish = !already_publish;
   }
 }
-void publish(float SOC_lvl){
+void publish_warning_message(float SOC_lvl){
 
   char message[10000] = "\0"; //Caractère fin de chaine
   char res[500];
   sprintf(res, "Error: le SOC est de : %f. Veuillez envoyer quelqu'un", SOC_lvl);
   strcat(message, res);
 
-  Serial.print("message : ");//Print le message sur Serial Monitor
-  Serial.println(message); 
+  Serial.print("message : ");Serial.println(message); 
 
   Serial1.println(message);//COMMUNICATION
 }
@@ -127,6 +129,7 @@ int analyse (String st) {
   return res;
 }
 
+//____________________________TEST FUNCTIONS_______________________//
 int ask_info_thingstream() {
   delay(1000); // wait for the modem to initialize
 
