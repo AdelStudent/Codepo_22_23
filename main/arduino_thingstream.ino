@@ -13,7 +13,7 @@ int initThingstream(int *flag_init) {
     Serial.println("DEBUG");
     Serial1.println("AT+IOTDEBUG=0");
     if(checkReception() == 1) { 
-      *flag_init = 2; 
+      *flag_init = 1; 
         Serial.println("Debug : success");
       } else {
         Serial.println("Debug : fail");
@@ -52,37 +52,29 @@ int initThingstream(int *flag_init) {
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
-void publish_test(int *init_flag){
-  if(!already_publish && *init_flag==4){
-    publish_initial(0.3); // publish the test message
-    already_publish = !already_publish;
+void publish_SOC_warning(float SOC_lvl,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %f. Nous pensons que cela peut poser problème.", SOC_lvl);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+
+void publish_message(char* msg,int *flag_init){
+  if(*flag_init==4){
+    char message[10000] = "\0";
+    char message_to_send[500];
+
+    sprintf(message_to_send, "AT+IOTPUBLISH=\"TEST1\",1,\"%s\"", msg);
+    strcat(message, message_to_send);
+
+    Serial.print("message : ");Serial.println(message); 
+    Serial1.println(message);//COMMUNICATION to Thingstream
+  }else{
+    Serial.println("Thingstream Error : initThingstream didn't end well");
   }
 }
-void publish_warning_message(float SOC_lvl){
 
-  char message[10000] = "\0"; //Caractère fin de chaine
-  char res[500];
-  sprintf(res, "Error: le SOC est de : %f. Veuillez envoyer quelqu'un", SOC_lvl);
-  strcat(message, res);
 
-  Serial.print("message : ");Serial.println(message); 
-
-  Serial1.println(message);//COMMUNICATION
-}
-
-void publish_initial(float SOC_lvl){
-
-  char message[10000] = "\0";
-  char buffer[500];
-
-  sprintf(buffer, "AT+IOTPUBLISH=\"TEST1\",1,\"Error: le SOC est de : %f. Veuillez envoyer quelqu'un\"", SOC_lvl);
-  strcat(message, buffer);
-
-  Serial.print("message : ");//Print le message sur Serial Monitor
-  Serial.println(message); 
-
-  Serial1.println(message);//COMMUNICATION
-}
 int checkReception() {
   unsigned long timeInit = millis()*0.001;
   char message[150];
@@ -90,7 +82,7 @@ int checkReception() {
 
   while(true) {
     // If maximum time (20s) to wait for message reception exceeded
-    if(millis()*0.001 - timeInit > 10.0) { 
+    if(millis()*0.001 - timeInit > 20.0) { 
       Serial.println("To Long Time");
       return 0;
      }

@@ -27,7 +27,7 @@ void setup_ESP32_time(){
 
 //____________________________USEFULL FUNCTIONS_______________________//
 String get_time(){
-  //  This function ask localTime to Internet and return it with the correct form for parsing tests
+  //  This function ask localTime and return it with the correct form for parsing tests
 
   // create a time structure
   tm timeinfo;

@@ -26,14 +26,14 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  initThingstream(&init_flag);
+  //initThingstream(&init_flag);
   
 
-  /*
+  
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   //initESP32(&init_flag);
   
-
+  /*
   LCD_init();
   delay(500);
   esp32_ip = send_query_ESP32("getIP",3);
@@ -43,7 +43,7 @@ void setup() {
 }
 
 void loop() {
-/*
+
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
@@ -76,17 +76,13 @@ void loop() {
     
   }
   delay(100);
-*/
-  //measure_AC_current(A7,A6); //Pin utilisée pour le réseau SNEL
 
+  /*
   if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
-    publish_warning_message(39.7);
+    publish_SOC_warning(20.7,&init_flag_SD);
     lastMeasurementTime = millis();// update the last measurement time
   }
-  
-
-  
-
+  */
 }
 
 
