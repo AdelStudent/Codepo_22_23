@@ -55,7 +55,7 @@ void loop() {
     lastHearingTime = millis();// update the last Hearing time
   }
 
-  if (millis() - lastReportWriting >= 30 * 60 * 1000) {
+  if (millis() - lastReportWriting >= 1 * 60 * 1000) {
     writingReport();
     lastReportWriting = millis();// update the last report writing time
   }
@@ -72,7 +72,7 @@ void loop() {
     //With that, we're sure that after some time, answering_mode = false and we'll be able to send query again
     answering_mode = false;
     answering_mode_chrono = millis();// update the last Hearing time
-    Serial.println("Hey I turned OFF the mode to answering_mode via the loop");
+    //Serial.println("Hey I turned OFF the mode to answering_mode via the loop");
     
   }
   delay(100);

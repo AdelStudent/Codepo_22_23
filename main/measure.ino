@@ -42,7 +42,7 @@ void taking_measures() {
 
   //Courant
   
-   double grid_current = ACCurrent(nbSamples, offset_30_res020, mvPerI_30, A5, A4);
+  double grid_current = ACCurrent(nbSamples, offset_30_res020, mvPerI_30, A5, A4);
   double pv_generated_current = measureCurrent(nbSamples, offset_30_ppv020, mvPerI_30, A7, A6);
   double output_pack_bat_current = measureCurrent(nbSamples, offset_30_bat020, mvPerI_30, A3, A2);
 
@@ -91,7 +91,20 @@ void measure_and_save(String filename, String date, float value){
   Serial.println("Voila le fichier,la date et la valeur : "+filename+", "+date+", "+str_value);
   */
 }
-
+void verify_danger(float temperature, double pack_soc){
+  
+  double min_pack_soc = 0.03;
+  double max_pack_soc = 0.97;
+  float max_temp = 50;
+  
+  if(temperature>max_temp){
+    publish_temperature_warning(temperature,&init_flag);
+  }
+  if(pack_soc<min_pack_soc || max_pack_soc<pack_soc){
+    publish_SOC_warning(pack_soc,&init_flag);
+  }
+  
+}
 //___________THERMISTANCE
 float calculateThermistance() {
   //Output : température

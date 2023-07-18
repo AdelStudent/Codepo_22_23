@@ -52,9 +52,15 @@ int initThingstream(int *flag_init) {
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
-void publish_SOC_warning(float SOC_lvl,int *flag_init){
+void publish_SOC_warning(double SOC_lvl,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %f. Nous pensons que cela peut poser problème.", SOC_lvl);
+  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+void publish_temperature_warning(float temperature,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, La température des batteries est de : %f. Nous pensons que cela peut poser problème.", temperature);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
 }
