@@ -6,13 +6,14 @@ Pour la personne qui va lire ce code:
 //___________SETUP
 
 int initThingstream(int *flag_init) {
+  *flag_init = 0;
   delay(5000); // wait for the modem to initialize
   if (*flag_init == 0 ){
     // ERROR : reset the Thingstream click
     Serial.println("DEBUG");
     Serial1.println("AT+IOTDEBUG=0");
     if(checkReception() == 1) { 
-      *flag_init = 1; 
+      *flag_init = 2; 
         Serial.println("Debug : success");
       } else {
         Serial.println("Debug : fail");
@@ -136,6 +137,7 @@ int ask_info_thingstream() {
   // ERROR : reset the Thingstream click
   Serial.println("Asking Info to Thingstream");
   Serial1.println("AT+IOTINFO");
+  checkReception();
 }
 
 

@@ -23,13 +23,13 @@ void setup() {
   
   
   //Serial1 permettant de communiquer avec ThingStream
-  //Serial1.begin(115200);
+  Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  //initThingstream(&init_flag);
+  initThingstream(&init_flag);
   
 
-  
+  /*
   Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   //initESP32(&init_flag);
   
@@ -38,7 +38,7 @@ void setup() {
   delay(500);
   esp32_ip = send_query_ESP32("getIP",3);
   LCD_print_IP(esp32_ip);
-
+  */
   Serial.println("___________________________________________________________________");
 }
 
@@ -79,7 +79,7 @@ void loop() {
 */
   //measure_AC_current(A7,A6); //Pin utilisée pour le réseau SNEL
 
-  if (millis() - lastMeasurementTime >= 1 * 10 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
     publish_warning_message(39.7);
     lastMeasurementTime = millis();// update the last measurement time
   }
