@@ -63,9 +63,9 @@ void taking_measures() {
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
   float bat_volt_1 = calculateTension(A8, 900, 220.8);//905, 219.8
-  float bat_volt_2 = calculateTension(A9, 904, 101);//904, 100.1
-  float bat_volt_3 = calculateTension(A10,903, 75 );//900, 74.4
-  float bat_volt_4 = calculateTension(A11,903, 57.8 );//900, 55.6
+  float bat_volt_2 = (calculateTension(A9, 904, 101)-calculateTension(A8, 900, 220.8));//904, 100.1
+  float bat_volt_3 = (calculateTension(A10,903, 75 )-calculateTension(A9, 904, 101));//900, 74.4
+  float bat_volt_4 = (calculateTension(A11,903, 57.8 )- calculateTension(A10,903, 75) );//900, 55.6
   //measure_and_save("bat100.txt",date,pack_bat_volt);
 
   
@@ -269,6 +269,7 @@ float calculateTension(int pin, int R1, int R2){
   //condition if a mettre pour le calibrage 
   return Vin;  
 }
+
 float* MuxTension() { /* function MuxLED */
   //Puisque la liste measured_value[] n'existe QUE dans cette fonction, c'est plus propre de définir measured_value ici et 
   //après de return la list (Normalement, il suffit de remplacer void par float* et return measured_value)
