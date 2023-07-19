@@ -100,7 +100,7 @@ int checkReception() {
      }
   }
 }
-int analyse (String st) {
+int analyse(String st) {
   // Arret de la publication si le mot STOP est reçu par le Click
 
   //Serial.println("Analyse has been called");

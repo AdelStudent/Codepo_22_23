@@ -46,7 +46,7 @@ String return_error_msg(String query){
     return "__/__/__ __:__";
   }
   else if(query=="getIP"){
-    return "Server Down, Wait";
+    return "ESP32 Down,Wait";
   }
   else{
     return "No Data";
