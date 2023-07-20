@@ -53,6 +53,7 @@ int init_flag_SD = 0;
 String esp32_ip = "";
 bool answering_mode = false; //It allows to block send any queries to ESP32 if this mode is activated
 unsigned long answering_mode_chrono = 0; // variable to store the time of the last time we asked IP address to ESP32
+
 //_____________________Measures______________________//
 // Define the input and output pins for the current sensors
 #define INPUT_CURRENT_PIN A0

@@ -7,7 +7,7 @@ Pour la personne qui va lire ce code:
 
 int initThingstream(int *flag_init) {
   *flag_init = 0;
-  delay(5000); // wait for the modem to initialize
+  delay(10000); // wait for the modem to initialize
   if (*flag_init == 0 ){
     // ERROR : reset the Thingstream click
     Serial.println("DEBUG");
@@ -31,7 +31,8 @@ int initThingstream(int *flag_init) {
   }
   if(*flag_init == 2){
     Serial.println("CONNECT");
-    Serial1.println("AT+IOTCONNECT=true"); 
+    Serial1.println("AT+IOTCONNECT=true");
+    //Serial1.println("AT+IOTCONNECT=true,1440");
     if(checkReception() == 1) { 
         *flag_init = 3; 
         Serial.println("Connect : success");
@@ -41,7 +42,9 @@ int initThingstream(int *flag_init) {
   }
   if(*flag_init == 3) {
     Serial.println("SUBSCRIBE");
-    Serial1.println("AT+IOTSUBSCRIBE=\"TEST1\",1");
+    
+    Serial1.println("AT+IOTSUBSCRIBE=\"94e402a2.27bbe8\",1");
+    //Serial1.println("AT+IOTSUBSCRIBE=\"TEST1\",1");
     if(checkReception() == 1) { 
         *flag_init = 4; 
         Serial.println("Subscribe : success");
@@ -74,7 +77,7 @@ int checkReception() {
 
   while(true) {
     // If maximum time (20s) to wait for message reception exceeded
-    if(millis()*0.001 - timeInit > 20.0) { 
+    if(millis()*0.001 - timeInit > 30.0) { 
       Serial.println("To Long Time");
       return 0;
      }
@@ -133,7 +136,12 @@ void publish_current_warning(double output_pack_bat_current,int *flag_init){
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
 }
-
+void publish_voltage_warning(double output_pack_bat_current,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, La tension de sur le pack batteries est de : %f. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
 
 
 //____________________________TEST FUNCTIONS_______________________//

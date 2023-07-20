@@ -93,14 +93,14 @@ int checkReception_ESP32(){
       String my_msg = Serial2.readStringUntil('\n');
       //String my_msg = Serial2.readString();
       
-      analyse_query(my_msg);
+      analyse_query(my_msg, "ESP32");
       
     }
   }
 }
-void analyse_query(String msg){
+void analyse_query(String msg,String transmitter){
   //Lis les querys et partage les datas correspondants
-  Serial.println("Le message recu : "+msg);
+  Serial.println("Le message recu de "+transmitter+" : "+msg);
 
 
   //________________Web QUERY_________________//
@@ -203,7 +203,7 @@ int checkReception_PC(){
     }
     while (Serial.available()>0){
       String my_msg = Serial.readStringUntil('\n');
-      analyse_query(my_msg);
+      analyse_query(my_msg,"PC");
     }
   }
 }

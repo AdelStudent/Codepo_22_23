@@ -1,4 +1,4 @@
-//Pour retrouver toutes les constantes, veuillez ouvrir le ficher "all_constants.h"
+//Pour retrouver toutes les constantes, veuillez ouvrir le ficher "z_all_constants.h"
 #include "z_all_constants.h"
 
 
@@ -26,7 +26,7 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  //initThingstream(&init_flag);
+  initThingstream(&init_flag);
   
 
   
