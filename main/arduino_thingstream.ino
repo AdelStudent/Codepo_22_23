@@ -52,6 +52,7 @@ int initThingstream(int *flag_init) {
         Serial.println("Subscribe : fail");
     }
   }
+  publish_message("TESTOTEST",flag_init);
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
@@ -60,8 +61,8 @@ void publish_message(char* msg,int *flag_init){
   if(*flag_init==4){
     char message[10000] = "\0";
     char message_to_send[500];
-
-    sprintf(message_to_send, "AT+IOTPUBLISH=\"TEST1\",1,\"%s\"", msg);
+    sprintf(message_to_send, "AT+IOTPUBLISH=\"94e402a2.27bbe8\",1,\"%s\"", msg);
+    //sprintf(message_to_send, "AT+IOTPUBLISH=\"TEST1\",1,\"%s\"", msg);
     strcat(message, message_to_send);
 
     Serial.print("message : ");Serial.println(message); 
@@ -118,27 +119,28 @@ int analyse(String st) {
 
 //___________Warning Messages
 
-void publish_SOC_warning(double SOC_lvl,int *flag_init){
-  char my_msg[500];
-  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
-  publish_message(my_msg,flag_init);
-  memset(my_msg, 0, sizeof(my_msg));
-}
+
 void publish_temperature_warning(float temperature,int *flag_init){
   char my_msg[500];
   sprintf(my_msg, "ERROR, La température des batteries est de : %f. Nous pensons que cela peut poser problème.", temperature);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
 }
-void publish_current_warning(double output_pack_bat_current,int *flag_init){
+void publish_SOC_warning(double SOC_lvl,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, Le courant de sortie des batteries est de : %f. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
 }
-void publish_voltage_warning(double output_pack_bat_current,int *flag_init){
+void publish_current_warning(double output_pack_bat_current,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, La tension de sur le pack batteries est de : %f. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  sprintf(my_msg, "ERROR, Le courant de sortie des batteries est de : %lf. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  publish_message(my_msg,flag_init);
+  memset(my_msg, 0, sizeof(my_msg));
+}
+void publish_voltage_warning(float battery_voltage,int *flag_init){
+  char my_msg[500];
+  sprintf(my_msg, "ERROR, La tension de sur le pack batteries est de : %f. Nous pensons que cela peut poser problème.", battery_voltage);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
 }

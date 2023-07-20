@@ -283,6 +283,8 @@ function Reporting(){
 function Bonus(){
   document.getElementById('variable_text').innerHTML = "Bonjour tout le monde! C'est l'equipe ULB-CODEPO 22-23, on espere que vous avez autant apprecie le temps passe avec que nous avec vous! Remerciement particulier a Mr le Directeur, Lema, Veka Junion et De Gaulle (Le goat)!! Ca a ete un plaisir de travailler avec vous! On vous souhaite le meilleur pour la suite! \n\nA bientot! \n\n(BOKOKOOOOOO!!)";
 }
+
+
 /*______Display Functions*/
   /*
     This function arent't used anymore, but they can be used to display the data on the screen.
@@ -295,7 +297,7 @@ function Clean_Screen(){
     }
   };
   
-  xhttp.open("GET", "bonus", true);
+  xhttp.open("GET", "clean_screen", true);
   xhttp.send();
 }
 function PV_Voltage_bis(){
