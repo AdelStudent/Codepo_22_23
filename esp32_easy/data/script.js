@@ -278,6 +278,11 @@ function Reporting(){
   xhttp.send();
 }
 
+/*______Bonus Function*/
+
+function Bonus(){
+  document.getElementById('variable_text').innerHTML = "Bonjour tout le monde! C'est l'equipe ULB-CODEPO 22-23, on espere que vous avez autant apprecie le temps passe avec que nous avec vous! Remerciement particulier a Mr le Directeur, Lema, Veka Junion et De Gaulle (Le goat)!! Ca a ete un plaisir de travailler avec vous! On vous souhaite le meilleur pour la suite! \n\nA bientot! \n\n(BOKOKOOOOOO!!)";
+}
 /*______Display Functions*/
   /*
     This function arent't used anymore, but they can be used to display the data on the screen.
@@ -286,14 +291,11 @@ function Clean_Screen(){
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
-      valeur_mesure
-      document.getElementById('valeur_mesure').innerHTML = "0";
-      document.getElementById('variable_name').innerHTML = "____";
       document.getElementById('variable_text').innerHTML = this.responseText;
     }
   };
   
-  xhttp.open("GET", "clean_screen", true);
+  xhttp.open("GET", "bonus", true);
   xhttp.send();
 }
 function PV_Voltage_bis(){
@@ -382,6 +384,8 @@ function Charge_Current_bis(){
   xhttp.send();
 }
 
+
+
 /*______Test Functions*/
 function onButton(){
   //The behaviour of this function is to send a request to the path "on" in the main.cpp file
@@ -400,6 +404,8 @@ function offButton(){
                                     // off is the path to the off function in the main.cpp file
   xhttp.send(); // send the request
 }
+
+
 setInterval(function getData(){ 
   var xhttp = new XMLHttpRequest();
 

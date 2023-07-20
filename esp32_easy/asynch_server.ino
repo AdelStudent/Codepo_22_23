@@ -108,7 +108,7 @@ String ask_hour_to_internet(){
   return date;  
 }
 void button_downloader(){
-    //____________________________Grid DATA
+    //Grid
     server.on("/download_grid_current", HTTP_GET, [](AsyncWebServerRequest *request){
         Serial.println("/download_grid_current on the PATH !");
         String valStr = exchange_data_arduino("get_grid_current");
@@ -219,7 +219,8 @@ void button_downloader(){
       AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", valStr);
       response->addHeader("Content-Disposition", "attachment; filename=\"rapport_complet.txt\"");
       request->send(response);
-    });      
+    });
+          
   
 }
 void old_async_server_setup(){
