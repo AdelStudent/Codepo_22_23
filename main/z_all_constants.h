@@ -5,12 +5,16 @@ Pour la personne qui va lire ce code:
 */
 #include "all_constant2.h"
 
-
-
 #include <SD.h>
 #include <SPI.h>
 #include "TimeLib.h"
 #include "time.h"
+
+#include "RTClib.h" //Downloaded from the follwoing git : https://github.com/adafruit/RTClib
+                    //Also needed this one : https://github.com/adafruit/Adafruit_BusIO/tree/master
+#include <RTCDue.h>
+
+
 
 #include <LiquidCrystal.h>
 
@@ -66,3 +70,7 @@ float SOC_init = 0.8;
 
 // Define a variable to keep track of the last sample time
 unsigned long lastSampleTime = 0;
+
+//_____________________CLOCK________________________//
+RTCDue Arduino_rtc(XTAL); //Arduino RTC
+RTC_Millis rtc; //DS3231 RTC

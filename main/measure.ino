@@ -31,8 +31,11 @@ void taking_measures() {
     //Il faut encore créer une liste de mesures, à partir de là on écrira tout d'un coup dans la carte SD
     //ATTENTION A MODIFIER POUR OPTIMISER
   
-  String date = send_query_ESP32("getDate",5);
   //String date = "__/__/__ __:__";
+  //String date = send_query_ESP32("getDate",5);
+  String date = get_date_arduino_rtc();
+  
+  
   
   //Thermistance
   float calculateThermistance_value = calculateThermistance();

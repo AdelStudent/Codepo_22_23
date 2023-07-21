@@ -8,7 +8,9 @@ void setup() {
   Serial.begin(9600);//Permet l'affichage dans le terminal
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
   
-
+  setup_arduino_rtc();
+  
+  
   //Initialise les pins permettant de prendre les mesures
   setup_measure_pins();
 
@@ -26,23 +28,23 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  initThingstream(&init_flag);
+  //initThingstream(&init_flag);
   
 
+  //Serial2 permettant de communiquer avec ESP32
+  Serial2.begin(115200);
   
-  Serial2.begin(115200); //Serial2 permettant de communiquer avec ESP32
   
-  /*
   LCD_init();
   delay(500);
-  esp32_ip = send_query_ESP32("getIP",3);
-  LCD_print_IP(esp32_ip);
-  */
+  //esp32_ip = send_query_ESP32("getIP",3);
+  //LCD_print_IP(esp32_ip);
+  LCD_print_IP(get_date_arduino_rtc());
   Serial.println("___________________________________________________________________");
 }
 
 void loop() {
-
+  /*
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
@@ -75,13 +77,15 @@ void loop() {
     
   }
   delay(100);
-
+  */
   /*
   if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
     publish_SOC_warning(20.7,&init_flag_SD);
     lastMeasurementTime = millis();// update the last measurement time
   }
   */
+
+  
 }
 
 
