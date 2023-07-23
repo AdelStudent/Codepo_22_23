@@ -167,7 +167,7 @@ void analyse_query(String msg,String transmitter){
     Serial.println("local ip: Hehehe");
   }
   else if (msg=="getDate" ||msg=="getTime" ){
-    Serial.println("Hehehe, je sais pas!");
+    Serial.println(get_date_arduino_rtc());
     //Serial.println("il est : "+get_time());
   }
   else if (msg=="easter" ||msg=="egg" ||msg=="easter egg" ){
