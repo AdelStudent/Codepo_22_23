@@ -33,7 +33,7 @@ unsigned long lastMeasurementTime = 0; // variable to store the time of the last
 unsigned long lastHearingTime = 0; // variable to store the time of the last time we heard Arduino
 unsigned long lastReportWriting = 0; // variable to store the time of the last time we wrote into the Arduino
 unsigned long lastAskingTime = 0; // variable to store the time of the last time we asked IP address to ESP32
-
+unsigned long lastUpdateFilter = 0; //variable qui stock le temps entre les mises à jour des paramètres du Filtre de Kalman 
 
 
 
