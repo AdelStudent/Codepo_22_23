@@ -202,6 +202,7 @@ void FiltreKALMAN(){
   // Doit sauver les paramètres recalculées dans le carte SD 
   if (millis() - lastUpdateFilter >= 60 * 60 * 1000){
     sauvegardeParametresKalman("KALMAN.txt", X, Z, SOCOCV_12, dSOCOCV_12, Px, Pz, Qx, Qz, alpha_x, betha_x, alpha_z, betha_z, &Qn_rated, &voltage_rated, &current_rated);
+    lastUpdateFilter = millis();
   }
 }
 //******************************************************************************
