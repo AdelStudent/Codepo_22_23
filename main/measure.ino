@@ -52,7 +52,7 @@ void taking_measures() {
   double pack_SOC = determine_SOC(input_pack_bat_current, output_pack_bat_current);
 
 
-  measure_and_save("bat500.txt", date, pack_SOC);
+  //measure_and_save("bat500.txt", date, pack_SOC);
   measure_and_save("bat020.txt", date, output_pack_bat_current);
   measure_and_save("res020.txt", date, grid_current);
   measure_and_save("ppv020.txt", date, pv_generated_current);
@@ -77,8 +77,20 @@ void taking_measures() {
   measure_and_save("bat103.txt",date,bat_volt_3);
   measure_and_save("bat104.txt",date,bat_volt_4);
 
+  // Création des vecteurs pour avoir le Filtre de Kalman 
+  V[0] = bat_volt_1;
+  V[1] = bat_volt_2; 
+  V[2] = bat_volt_3;
+  V[3] = bat_volt_4;
+  I[0] = output_pack_bat_current; //I[0] = celui en "sortie" du pack sur celui de l'année passée
+  I[1] = pv_generated_current; 
+  I[2] = grid_current;   
 
-  
+  // enregistrement dans des dossiers de la carte SD avec les heures de l'ESP32
+  measure_and_save("SOC12.txt", date, SOC_12);
+  measure_and_save("SOC24.txt", date, SOC_24);
+  measure_and_save("SOC36.txt", date, SOC_36);
+  measure_and_save("SOC48.txt", date, SOC_48);
   
   Serial.println("We finished the measures \n\n");
   
