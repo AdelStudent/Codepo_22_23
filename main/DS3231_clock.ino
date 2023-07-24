@@ -1,19 +1,19 @@
 // Date and time functions using just software, based on millis() & timer
 
-
-
+//___________SETUP
 void setup_arduino_rtc(){
   
-  //rtc.adjust(DateTime(2023, 7, 21, 14, 53, 40));
-  //rtc.begin(DateTime(2023, 7, 21, 14, 53, 40));
+  rtc.begin(DateTime(2023, 7, 21, 14, 53, 40));
+  rtc.adjust(DateTime(2023, 7, 24, 11, 10, 40));
   
-  Arduino_rtc.begin();
-  synch_Arduino_DS3231();
+  
+  //Arduino_rtc.begin();
+  //synch_Arduino_DS3231();
   Serial.println("DS3231 Time: "+get_date_DS3231_rtc());
   Serial.println("Arduino Time: "+get_date_arduino_rtc());
 }
 
-
+//____________________________USEFULL FUNCTIONS_______________________//
 
 void synch_Arduino_DS3231(){
   DateTime now = rtc.now();
