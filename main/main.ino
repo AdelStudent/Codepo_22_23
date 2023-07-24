@@ -40,6 +40,10 @@ void setup() {
   //esp32_ip = send_query_ESP32("getIP",3);
   //LCD_print_IP(esp32_ip);
   LCD_print_IP(get_date_arduino_rtc());
+
+  //Initialisation de Kalman 
+  creationParametreKalman();
+  
   Serial.println("___________________________________________________________________");
 }
 
@@ -48,6 +52,7 @@ void loop() {
   // check if it's time to take a measurement
   if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
+    FiltreKALMAN();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
