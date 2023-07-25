@@ -1,6 +1,11 @@
-//Le module thingstream click utilise les pin Rx1/Tx1 pour communquer (par extension =>Serial1)
 /*
 Pour la personne qui va lire ce code:
+    -Le module Thingstream Click est un micro-controlleur capable d'envoyer des mails via le Broker du 
+      même nom.
+    -Pour l'envoie de mail, il faut subscribe le Click au même topic que le "Flows" du site web, ici TEST1.
+      Un fois, Click et Flows subscibed au bon topic, le Click n'a qu'à envoyer un message via publish_message().
+    -Le module thingstream click utilise les pin Rx1/Tx1 pour communiquer (par extension =>Serial1). Attention,
+      afin de communiquer, Arduino et Click doivent avoir le même GRD.
 */
 
 //___________SETUP
@@ -43,8 +48,7 @@ int initThingstream(int *flag_init) {
   if(*flag_init == 3) {
     Serial.println("SUBSCRIBE");
     
-    Serial1.println("AT+IOTSUBSCRIBE=\"94e402a2.27bbe8\",1");
-    //Serial1.println("AT+IOTSUBSCRIBE=\"TEST1\",1");
+    Serial1.println("AT+IOTSUBSCRIBE=\"TEST1\",1");
     if(checkReception() == 1) { 
         *flag_init = 4; 
         Serial.println("Subscribe : success");
@@ -52,7 +56,7 @@ int initThingstream(int *flag_init) {
         Serial.println("Subscribe : fail");
     }
   }
-  publish_message("TESTOTEST",flag_init);
+  //publish_message("TESTOTEST",flag_init); //Fonction permettant d'envoyer des messages au topic TEST1
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
@@ -61,8 +65,7 @@ void publish_message(char* msg,int *flag_init){
   if(*flag_init==4){
     char message[10000] = "\0";
     char message_to_send[500];
-    sprintf(message_to_send, "AT+IOTPUBLISH=\"94e402a2.27bbe8\",1,\"%s\"", msg);
-    //sprintf(message_to_send, "AT+IOTPUBLISH=\"TEST1\",1,\"%s\"", msg);
+    sprintf(message_to_send, "AT+IOTPUBLISH=\"TEST1\",1,\"%s\"", msg);
     strcat(message, message_to_send);
 
     Serial.print("message : ");Serial.println(message); 
@@ -118,31 +121,37 @@ int analyse(String st) {
 }
 
 //___________Warning Messages
-
-
 void publish_temperature_warning(float temperature,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, La température des batteries est de : %f. Nous pensons que cela peut poser problème.", temperature);
+  sprintf(my_msg, "ERROR, température des batteries est de : %f.", temperature);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
+
+  checkReception(); //Cela permet de nettoyer le SerialPort ET de debugger si l'envoie du message a été un SUCCESS
 }
 void publish_SOC_warning(double SOC_lvl,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf. Nous pensons que cela peut poser problème.", SOC_lvl);
+  sprintf(my_msg, "ERROR, L'etat de charge des batteries est de : %lf.", SOC_lvl);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
+
+  checkReception(); //Cela permet de nettoyer le SerialPort ET de debugger si l'envoie du message a été un SUCCESS
 }
 void publish_current_warning(double output_pack_bat_current,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, Le courant de sortie des batteries est de : %lf. Nous pensons que cela peut poser problème.", output_pack_bat_current);
+  sprintf(my_msg, "ERROR, Le courant de sortie des batteries est de : %lf.", output_pack_bat_current);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
+
+  checkReception(); //Cela permet de nettoyer le SerialPort ET de debugger si l'envoie du message a été un SUCCESS
 }
 void publish_voltage_warning(float battery_voltage,int *flag_init){
   char my_msg[500];
-  sprintf(my_msg, "ERROR, La tension de sur le pack batteries est de : %f. Nous pensons que cela peut poser problème.", battery_voltage);
+  sprintf(my_msg, "ERROR, La tension de sur le pack batteries est de : %f.", battery_voltage);
   publish_message(my_msg,flag_init);
   memset(my_msg, 0, sizeof(my_msg));
+
+  checkReception(); //Cela permet de nettoyer le SerialPort ET de debugger si l'envoie du message a été un SUCCESS
 }
 
 

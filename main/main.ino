@@ -2,7 +2,6 @@
 #include "z_all_constants.h"
 
 
-
 void setup() {
   
   Serial.begin(9600);//Permet l'affichage dans le terminal
@@ -28,7 +27,7 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  //initThingstream(&init_flag);
+  initThingstream(&init_flag);
   
 
   //Serial2 permettant de communiquer avec ESP32
@@ -68,28 +67,29 @@ void loop() {
   
   if (millis() - lastAskingTime >= 5 * 60 * 1000) {
     esp32_ip = send_query_ESP32("getIP",3);
-    //A priori, esp32_ip = 192.168.1.127
+    //A priori, esp32_ip est proche de 192.168.1.127
     LCD_print_IP(esp32_ip);
     lastAskingTime = millis();// update the last Hearing time
   }
-
   
   if (millis() - answering_mode_chrono >= 1 * 30 * 1000) {
     //With that, we're sure that after some time, answering_mode = false and we'll be able to send query again
+      //to ESP32
     answering_mode = false;
     answering_mode_chrono = millis();// update the last Hearing time
     //Serial.println("Hey I turned OFF the mode to answering_mode via the loop");
     
   }
+
+  if (millis() - last_warning_message >= 29 * 60 * 1000) {
+    already_publish = false;
+    //Serial.println("Hey Now, Thingstream can send another Warning message");
+    last_warning_message = millis();// update the last Hearing time
+  }
+  
+  
   delay(100);
   */
-  /*
-  if (millis() - lastMeasurementTime >= 1 * 60 * 1000) {
-    publish_SOC_warning(20.7,&init_flag_SD);
-    lastMeasurementTime = millis();// update the last measurement time
-  }
-  */
-
   
 }
 

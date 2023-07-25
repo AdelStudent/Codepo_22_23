@@ -29,26 +29,24 @@ Pour la personne qui va lire ce code:
 //_____________________Kalman Variables___//
 
 //_____________________Multi Threading version Wish___//
-unsigned long lastMeasurementTime = 0; // variable to store the time of the last measurement
-unsigned long lastHearingTime = 0; // variable to store the time of the last time we heard Arduino
-unsigned long lastReportWriting = 0; // variable to store the time of the last time we wrote into the Arduino
-unsigned long lastAskingTime = 0; // variable to store the time of the last time we asked IP address to ESP32
-unsigned long lastUpdateFilter = 0; //variable qui stock le temps entre les mises à jour des paramètres du Filtre de Kalman 
+unsigned long lastMeasurementTime = 0; // variable to store the last time measurement
+unsigned long lastHearingTime = 0; // variable to store the last time we heard Arduino
+unsigned long lastReportWriting = 0; // variable to store the last time we wrote into the Arduino
+unsigned long lastAskingTime = 0; // variable to store the last time we asked IP address to ESP32
+unsigned long lastUpdateFilter = 0; //variable to store the last time Kalman Filter parameters update
+unsigned long last_warning_message = 0; //variable to store the last time we send potentially send a Warning Mail
 
 
 
 //_____________________Thingstream___________________//
 unsigned long mytime; //Permet de connaitre le temps d'attente pour recevoir une réponde du thingStream
 int init_flag = 0;  //Permet de savoir si toutes les étapes de l'initialisation du Thingstream sont okay
-bool already_publish = false; //Variable tests 
+bool already_publish = false; //Variable tests
 
 //_____________________SD Card______________________//
-int writing = 0;  //Variable tests 
-int reading = 0;  //Variable tests 
-
 File myFile;  //Objet permettant l'ouverture de fichiers en accès w et/ou r
 File myReport;  //Par souçis de cohérence des parties de codes, on garde ces Files
-File file;  //Par soucis de cohérence des parties de codes, on garde ces Files
+File file;  //Par soucis de cohérence des parties de codes, on garde les 3 files (myFile/myReport/file)
 #define CS_PIN 53 //Pin utilisée pour transmettre la data à la carte SD
 int init_flag_SD = 0;
 

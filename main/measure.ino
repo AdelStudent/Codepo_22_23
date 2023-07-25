@@ -107,42 +107,46 @@ void measure_and_save(String filename, String date, float value){
 }
 void verify_danger(float temperature, double pack_soc, double output_pack_bat_current,float bat_volt_1,float bat_volt_2,float bat_volt_3,float bat_volt_4){
   float max_temp = 50;
-  double min_pack_soc = 0.03;
-  double max_pack_soc = 0.97;
+  double min_pack_soc = 0.40;
+  double max_pack_soc = 0.90;
   
   double min_pack_current = 1;
   double max_pack_current = 25;
 
-  float min_battery_voltage = 1;
-  
-  if(temperature>max_temp){
-    publish_temperature_warning(temperature,&init_flag);
+  float min_battery_voltage = 55;
+  if(!already_publish){
+    if(temperature>max_temp){
+      publish_temperature_warning(temperature,&init_flag);
+      already_publish = true;
+    }
+    else if(pack_soc<min_pack_soc || max_pack_soc<pack_soc){
+      publish_SOC_warning(pack_soc,&init_flag);
+      already_publish = true;
+    }
+    else if(output_pack_bat_current<min_pack_current || max_pack_current<output_pack_bat_current){
+      publish_current_warning(output_pack_bat_current,&init_flag);
+      already_publish = true;
+    }
+    else if(bat_volt_1<min_battery_voltage ){
+      publish_voltage_warning(bat_volt_1,&init_flag);
+      already_publish = true;
+    }
+    else if(bat_volt_2<min_battery_voltage ){
+      publish_voltage_warning(bat_volt_2,&init_flag);
+      already_publish = true;
+    }
+    else if(bat_volt_3<min_battery_voltage ){
+      publish_voltage_warning(bat_volt_3,&init_flag);
+      already_publish = true;
+    }
+    else if(bat_volt_4<min_battery_voltage ){
+      publish_voltage_warning(bat_volt_4,&init_flag);
+      already_publish = true;
+    }
+    else{
+      already_publish = false;
+    }
   }
-  else if(pack_soc<min_pack_soc || max_pack_soc<pack_soc){
-    publish_SOC_warning(pack_soc,&init_flag);
-  }
-  else if(output_pack_bat_current<min_pack_current || max_pack_current<output_pack_bat_current){
-    publish_current_warning(output_pack_bat_current,&init_flag);
-  }
-  else if(bat_volt_1<min_battery_voltage ){
-    publish_voltage_warning(bat_volt_1,&init_flag);
-  }
-  else if(bat_volt_2<min_battery_voltage ){
-    publish_voltage_warning(bat_volt_2,&init_flag);
-  }
-  else if(bat_volt_3<min_battery_voltage ){
-    publish_voltage_warning(bat_volt_3,&init_flag);
-  }
-  else if(bat_volt_4<min_battery_voltage ){
-    publish_voltage_warning(bat_volt_4,&init_flag);
-  }
-  /*
-  publish_temperature_warning
-  publish_SOC_warning
-  publish_current_warning
-  publish_voltage_warning
-  */
-  
 }
 
 //___________THERMISTANCE
