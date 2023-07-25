@@ -73,4 +73,4 @@ unsigned long lastSampleTime = 0;
 
 //_____________________CLOCK________________________//
 RTCDue Arduino_rtc(XTAL); //Arduino RTC
-RTC_Millis rtc; //DS3231 RTC
+RTC_DS3231 rtc; //DS3231 RTC

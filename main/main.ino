@@ -42,7 +42,7 @@ void setup() {
   LCD_print_IP(get_date_arduino_rtc());
 
   //Initialisation de Kalman 
-  creationParametreKalman();
+  //creationParametreKalman();
   
   Serial.println("___________________________________________________________________");
 }

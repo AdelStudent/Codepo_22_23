@@ -1,14 +1,21 @@
-// Date and time functions using just software, based on millis() & timer
-
+/*
+Pour la personne qui va lire ce code:
+    -Le DS3231 est une horloge utilisant sa propre pile, cela permet de conserver le cours du temps même lorsque
+      l'Arduino est éteint.
+    -Le rôle de ce paquet de fonction est d'horodater les mesures, est de lancer le RTC_DS3231 (rtc) et celui
+      d'Arduino afin des les synchroniser. Directement demander l'heure au composant était aussi possible mais
+      nous préférons rester dans la logique de centraliser les informations autour de l'Arduino.
+*/
+//____________________________USEFULL FUNCTIONS_______________________//
 //___________SETUP
 void setup_arduino_rtc(){
   
-  rtc.begin(DateTime(2023, 7, 21, 14, 53, 40));
-  rtc.adjust(DateTime(2023, 7, 24, 11, 10, 40));
+  rtc.begin();
+  rtc.adjust(DateTime(2023, 7, 24, 11, 10, 40)); //Permet de set la date/heure (à commenter après)
   
   
-  //Arduino_rtc.begin();
-  //synch_Arduino_DS3231();
+  Arduino_rtc.begin();
+  synch_Arduino_DS3231();
   Serial.println("DS3231 Time: "+get_date_DS3231_rtc());
   Serial.println("Arduino Time: "+get_date_arduino_rtc());
 }
