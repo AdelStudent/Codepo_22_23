@@ -11,7 +11,7 @@ Pour la personne qui va lire ce code:
 void setup_arduino_rtc(){
   
   rtc.begin();
-  rtc.adjust(DateTime(2023, 7, 24, 11, 10, 40)); //Permet de set la date/heure (à commenter après)
+  rtc.adjust(DateTime(2023, 7, 25, 15, 55, 40)); //Permet de set la date/heure (à commenter après)
   
   
   Arduino_rtc.begin();
