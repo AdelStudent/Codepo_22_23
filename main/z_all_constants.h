@@ -63,8 +63,9 @@ unsigned long answering_mode_chrono = 0; // variable to store the time of the la
 // Define the sample interval (in milliseconds) and the number of samples to take
 #define SAMPLE_INTERVAL 1000
 #define NUM_SAMPLES 10
-// Define variables to store the input and output currents and the charge flow
-float SOC_init = 0.8;
+
+//_______________Coulomb Counting___________________//
+float SOC_init = 0.97; // We only need a start point
 
 // Define a variable to keep track of the last sample time
 unsigned long lastSampleTime = 0;

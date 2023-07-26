@@ -11,9 +11,9 @@ Pour la personne qui va lire ce code:
 float determine_SOC(double input_current,double output_current){
   float SOC_variation = 0;
   float chargeFlow = 0;
-  //float SOC_init = 0.8;
+  
   // Paramètres initiaux
-  float battery_capacity = 200*20; //unité : [Ah]
+  float battery_capacity = 200*20*3600; //unité : [As] Amper Second
 
 
   // Calculate the charge flow as the integral of the difference between the input and output currents

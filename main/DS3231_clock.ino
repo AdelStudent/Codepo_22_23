@@ -5,6 +5,8 @@ Pour la personne qui va lire ce code:
     -Le rôle de ce paquet de fonction est d'horodater les mesures, est de lancer le RTC_DS3231 (rtc) et celui
       d'Arduino afin des les synchroniser. Directement demander l'heure au composant était aussi possible mais
       nous préférons rester dans la logique de centraliser les informations autour de l'Arduino.
+    -Ce point bonus est mis en pause pour le moment, due à un problème de pins. L'écran LCD occupe les pins SCL/SDA qui sont
+      nécessaire au DS3231 et les pin SCL1/SDA1 ne semble pas fonctionner.
 */
 //____________________________USEFULL FUNCTIONS_______________________//
 //___________SETUP

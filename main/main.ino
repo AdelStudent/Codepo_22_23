@@ -7,8 +7,6 @@ void setup() {
   Serial.begin(9600);//Permet l'affichage dans le terminal
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
   
-  setup_arduino_rtc();
-  
   
   //Initialise les pins permettant de prendre les mesures
   setup_measure_pins();
@@ -36,10 +34,9 @@ void setup() {
   
   LCD_init();
   delay(500);
-  //esp32_ip = send_query_ESP32("getIP",3);
-  //LCD_print_IP(esp32_ip);
-  LCD_print_IP(get_date_arduino_rtc());
-
+  esp32_ip = send_query_ESP32("getIP",3);
+  LCD_print_IP(esp32_ip);
+  
   //Initialisation de Kalman 
   //creationParametreKalman();
   

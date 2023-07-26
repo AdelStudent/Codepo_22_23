@@ -32,8 +32,8 @@ void taking_measures() {
     //ATTENTION A MODIFIER POUR OPTIMISER
   
   //String date = "__/__/__ __:__";
-  //String date = send_query_ESP32("getDate",5);
-  String date = get_date_arduino_rtc();
+  String date = send_query_ESP32("getDate",5);
+  //String date = get_date_arduino_rtc();
   
   
   
@@ -57,11 +57,6 @@ void taking_measures() {
   measure_and_save("res020.txt", date, grid_current);
   measure_and_save("ppv020.txt", date, pv_generated_current);
 
-  /*
-  //Si on y arrive
-  float pack_SOH = determine_SOH(???);
-  measure_and_save("bat600.txt",date,pack_SOH);
-  */
 
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
@@ -77,20 +72,14 @@ void taking_measures() {
   measure_and_save("bat103.txt",date,bat_volt_3);
   measure_and_save("bat104.txt",date,bat_volt_4);
 
-  // Création des vecteurs pour avoir le Filtre de Kalman 
-  V[0] = bat_volt_1;
-  V[1] = bat_volt_2; 
-  V[2] = bat_volt_3;
-  V[3] = bat_volt_4;
-  I[0] = output_pack_bat_current; //I[0] = celui en "sortie" du pack sur celui de l'année passée
-  I[1] = pv_generated_current; 
-  I[2] = grid_current;   
 
-  // enregistrement dans des dossiers de la carte SD avec les heures de l'ESP32
-  measure_and_save("SOC12.txt", date, SOC_12);
-  measure_and_save("SOC24.txt", date, SOC_24);
-  measure_and_save("SOC36.txt", date, SOC_36);
-  measure_and_save("SOC48.txt", date, SOC_48);
+
+  update_kalman_vector(bat_volt_1,bat_volt_2,bat_volt_3,bat_volt_4,output_pack_bat_current,pv_generated_current,grid_current);
+
+  measure_and_save("bat501.txt", date, SOC_12);
+  measure_and_save("bat502.txt", date, SOC_24);
+  measure_and_save("bat503.txt", date, SOC_36);
+  measure_and_save("bat504.txt", date, SOC_48);
   
   Serial.println("We finished the measures \n\n");
   
@@ -106,14 +95,16 @@ void measure_and_save(String filename, String date, float value){
   */
 }
 void verify_danger(float temperature, double pack_soc, double output_pack_bat_current,float bat_volt_1,float bat_volt_2,float bat_volt_3,float bat_volt_4){
-  float max_temp = 50;
-  double min_pack_soc = 0.40;
+  float max_temp = 40;
+  double min_pack_soc = 0.50; //A checker : Si le SOC est bien en % ou en valeur absolue
   double max_pack_soc = 0.90;
   
-  double min_pack_current = 1;
-  double max_pack_current = 25;
+  double max_pack_current = 60;
 
-  float min_battery_voltage = 55;
+  float min_battery_voltage = 11.5;
+  float max_battery_voltage = 14.5;
+  
+  
   if(!already_publish){
     if(temperature>max_temp){
       publish_temperature_warning(temperature,&init_flag);
@@ -123,23 +114,23 @@ void verify_danger(float temperature, double pack_soc, double output_pack_bat_cu
       publish_SOC_warning(pack_soc,&init_flag);
       already_publish = true;
     }
-    else if(output_pack_bat_current<min_pack_current || max_pack_current<output_pack_bat_current){
+    else if(output_pack_bat_current<- max_pack_current || max_pack_current<output_pack_bat_current){
       publish_current_warning(output_pack_bat_current,&init_flag);
       already_publish = true;
     }
-    else if(bat_volt_1<min_battery_voltage ){
+    else if(bat_volt_1<min_battery_voltage || max_battery_voltage<bat_volt_1 ){
       publish_voltage_warning(bat_volt_1,&init_flag);
       already_publish = true;
     }
-    else if(bat_volt_2<min_battery_voltage ){
+    else if(bat_volt_2<min_battery_voltage || max_battery_voltage<bat_volt_2){
       publish_voltage_warning(bat_volt_2,&init_flag);
       already_publish = true;
     }
-    else if(bat_volt_3<min_battery_voltage ){
+    else if(bat_volt_3<min_battery_voltage || max_battery_voltage<bat_volt_3){
       publish_voltage_warning(bat_volt_3,&init_flag);
       already_publish = true;
     }
-    else if(bat_volt_4<min_battery_voltage ){
+    else if(bat_volt_4<min_battery_voltage || max_battery_voltage<bat_volt_4){
       publish_voltage_warning(bat_volt_4,&init_flag);
       already_publish = true;
     }

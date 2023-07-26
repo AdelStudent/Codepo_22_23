@@ -1,7 +1,6 @@
 /*
 Pour la personne qui va lire ce code:
-    Le rôle de ce paquet de fonction est UNIQUEMENT d'être un four tout à functions pratiques. La plus part des ces functions ne seront
-    plus utilisées dans le proto final
+    -Le rôle de ce paquet de fonction est UNIQUEMENT d'être un four tout à functions pratiques.
 */
 
 void print_variable_float(char* variable_name, float value){

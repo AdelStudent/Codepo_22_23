@@ -5,68 +5,10 @@ Pour la personne qui va lire ce code:
 */
 
 //____________________________USEFULL FUNCTIONS_______________________//
-/*
-void writing_report(){>
-  Serial.println("Report Writing... Please Wait, it can take long time.");
-  int  numFiles = 5; //ATTENTION, la taille d'une liste est toujours un peu compliqué à gérer. Ici, on choisit manuellement la taille
-  String fileNames[] = {"ppv020.txt","bat100.txt","bat020.txt","bat401.txt","bat500.txt"};
-  float mean_values[] = {0,0,0,0,0};
-  
-  int count = 0;
-  float sum = 0.0;
-  float arr[10];
 
-  //delete_file("rep.txt"); //Permet de nettoyer le rapport précédent
-  Serial.println("reponse");
-  for (int i=0; i < numFiles; i++){
-    
-    String current_file_name = fileNames[i];
-    Serial.println("Lecture du fichier "+current_file_name+" afin den faire un rapport.");
-    myFile = SD.open(current_file_name);
-    
-    //Serial.println("Lecture du fichier "+current_file_name+" afin d en faire un rapport. \n");
-    
-
-    if(myFile){
-      char buffer[40];
-      count = 0;
-      float sum = 0.0;
-
-      while(myFile.available()){
-
-        myFile.readBytesUntil('\n', buffer, sizeof(buffer));
-        buffer[sizeof(buffer)-1] = '\0';
-
-        //Recherche du "#"
-        int pos = search_hashtag(buffer, sizeof(buffer));
-
-        if (pos != -1) {
-          sum += find_value(buffer,pos);
-          count++;
-
-        } else {
-          Serial.println("N'a pas trouvé la valeur (après le #");
-        }
-
-      }
-
-    float mean_value = calculateMean(sum, count);
-    mean_values[i] = mean_value;
-
-    Serial.println("La valeur moyenne de : "+current_file_name+" est de : "+String(mean_value));    
-    myFile.close();
-
-    }else {
-      Serial.println("Erreur dans la lecture de : "+current_file_name);
-    }
-    
-  }    
-  writingReport(arr,"rep.txt");
-}
-*/
 
 const int numFiles = 5;
-const String fileNames[] = {"ppv020.txt", "bat100.txt", "bat020.txt", "bat401.txt", "bat500.txt"};
+const String fileNames[] = {"ppv020.txt", "bat100.txt", "bat020.txt", "bat401.txt", "bat501.txt"};
 float meanValues[numFiles];
 
 void writingReport() {
