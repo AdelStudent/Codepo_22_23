@@ -25,7 +25,7 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  //initThingstream(&init_flag);
+  initThingstream(&init_flag);
   
 
   //Serial2 permettant de communiquer avec ESP32

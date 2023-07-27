@@ -27,7 +27,8 @@ PASSWORD=$(sed -n '2p' < $FILE)
   git add .
   sleep 1
   git commit -a -m "Update"
-)
+) &
+wait
 
 sleep 10
 echo $USERNAME
