@@ -5,7 +5,7 @@ FILE='../../Mes_projets/gitPassword.txt'
 # assuming the file is in format:
 # username
 # password
-#C:\Users\Sandra\OneDrive_EPHEC_asbl\Bureau\Polytech\Mes_projets\gitP
+
 while IFS= read -r line
 do
   if [ -z "$USERNAME" ]
@@ -16,18 +16,19 @@ do
   fi
 done < "$FILE"
 
-
 USERNAME=$(sed -n '1p' < $FILE)
 PASSWORD=$(sed -n '2p' < $FILE)
 
-git status
-git pull
-sleep 1
+(
+  git status
+  git pull
+  sleep 1
 
-git add .
-sleep 1
-git commit -a -m "Update"
-
+  git add .
+  sleep 1
+  git commit -a -m "Update"
+) &
+wait
 
 sleep 10
 echo $USERNAME
