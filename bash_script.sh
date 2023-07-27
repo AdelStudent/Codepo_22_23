@@ -27,11 +27,12 @@ sleep 1
 git add .
 sleep 1
 git commit -a -m "Update"
-sleep 1
-git push
+
 
 
 echo $USERNAME
 sleep 1 # wait for 1 second
 echo $PASSWORD
 
+sleep 1
+git push
