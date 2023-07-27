@@ -296,9 +296,9 @@ void sauvegardeParametresKalman(String filename, double *X, double *Z, double SO
 void update_kalman_vector(float bat_volt_1,float bat_volt_2,float bat_volt_3,float bat_volt_4,double output_pack_bat_current,double pv_generated_current,double grid_current){
     // Création des vecteurs pour avoir le Filtre de Kalman 
     V[0] = bat_volt_1;
-    V[1] = bat_volt_2 - bat_volt_1; 
-    V[2] = bat_volt_3 - bat_volt_2;
-    V[3] = bat_volt_4 - bat_volt_3;
+    V[1] = bat_volt_2; 
+    V[2] = bat_volt_3;
+    V[3] = bat_volt_4;
 
     I[0] = output_pack_bat_current; //I[0] = celui en "sortie" du pack sur celui de l'année passée
     I[1] = pv_generated_current; 
