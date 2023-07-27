@@ -29,7 +29,7 @@ sleep 1
 git commit -a -m "Update"
 
 
-sleep 3
+sleep 5
 echo $USERNAME
 sleep 1 # wait for 1 second
 echo $PASSWORD
