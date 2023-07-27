@@ -25,9 +25,11 @@ git pull
 sleep 1
 
 git add .
-git commit -a -m "Update"
-git push
 sleep 1
+git commit -a -m "Update"
+sleep 1
+git push
+
 
 echo $USERNAME
 sleep 1 # wait for 1 second
