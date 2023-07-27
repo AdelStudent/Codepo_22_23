@@ -52,7 +52,7 @@ void taking_measures() {
   double pack_SOC = determine_SOC(input_pack_bat_current, output_pack_bat_current);
 
 
-  //measure_and_save("bat500.txt", date, pack_SOC);
+  measure_and_save("bat500.txt", date, pack_SOC);
   measure_and_save("bat020.txt", date, output_pack_bat_current);
   measure_and_save("res020.txt", date, grid_current);
   measure_and_save("ppv020.txt", date, pv_generated_current);
@@ -61,8 +61,8 @@ void taking_measures() {
   //Tension
   //float pack_bat_volt = calculateTension(A11, 910, 220);//ATTENTION!!!! LA PIN A11 CORRESPOND AU DIVISEUR RESISTIF LE PLUS FORT
   float bat_volt_1 = calculateTension(A8, 900, 220.8);//905, 219.8
-  float bat_volt_2 = (calculateTension(A9, 904, 101)-calculateTension(A8, 900, 220.8));//904, 100.1
-  float bat_volt_3 = (calculateTension(A10,903, 75 )-calculateTension(A9, 904, 101));//900, 74.4
+  float bat_volt_2 = (calculateTension(A9, 904, 101.7)-calculateTension(A8, 900, 220.8));//904, 100.1
+  float bat_volt_3 = (calculateTension(A10,903, 75 )-calculateTension(A9, 904, 101.7));//900, 74.4
   float bat_volt_4 = (calculateTension(A11,903, 56.8 )- calculateTension(A10,903, 75) );//900, 55.6
   //measure_and_save("bat100.txt",date,pack_bat_volt);
 
@@ -72,7 +72,7 @@ void taking_measures() {
   measure_and_save("bat103.txt",date,bat_volt_3);
   measure_and_save("bat104.txt",date,bat_volt_4);
 
-
+  /*
 
   update_kalman_vector(bat_volt_1,bat_volt_2,bat_volt_3,bat_volt_4,output_pack_bat_current,pv_generated_current,grid_current);
   double SOC_bat1 = SOC_bat[0];
@@ -84,18 +84,19 @@ void taking_measures() {
   measure_and_save("bat502.txt", date, SOC_bat2);
   measure_and_save("bat503.txt", date, SOC_bat3);
   measure_and_save("bat504.txt", date, SOC_bat4);
-
-  double SOH_12 = determineSOH(SOC_bat1, calculateThermistance_value);
-  double SOH_24 = determineSOH(SOC_bat2, calculateThermistance_value);
-  double SOH_36 = determineSOH(SOC_bat3, calculateThermistance_value);
-  double SOH_48 = determineSOH(SOC_bat4, calculateThermistance_value);
-  double SOH_pack = SOHdetermination(calculateThermistance_value);
-
-  measure_and_save("bat601.txt", date, SOH_12);
-  measure_and_save("bat602.txt", date, SOH_24);
-  measure_and_save("bat603.txt", date, SOH_36);
-  measure_and_save("bat604.txt", date, SOH_48);
-  measure_and_save("bat600.txt",date, SOH_pack);
+  */
+  
+  double pack_SOH = determineSOH(pack_SOC, calculateThermistance_value);
+  //double SOH_24 = determineSOH(SOC_bat2, calculateThermistance_value);
+  //double SOH_36 = determineSOH(SOC_bat3, calculateThermistance_value);
+  //double SOH_48 = determineSOH(SOC_bat4, calculateThermistance_value);
+  //double SOH_pack = SOHdetermination(calculateThermistance_value);
+  
+  //measure_and_save("bat600.txt", date, pack_SOH); //Affiche 0.08
+  //measure_and_save("bat602.txt", date, SOH_24);
+  //measure_and_save("bat603.txt", date, SOH_36);
+  //measure_and_save("bat604.txt", date, SOH_48);
+  //measure_and_save("bat600.txt",date, SOH_pack);
   
   Serial.println("We finished the measures \n\n");
   
@@ -163,8 +164,8 @@ float calculateThermistance() {
   
   //Serial.println("Did you call me?_I'm_calculateThermistance()");delay(100);
   int Tsensorvalue = analogRead(Tsensor);
-  float Vo = Tsensorvalue * (5.0 / 1023.0);
-  float V = Vcc - Vo;
+  float Vo = Tsensorvalue * (3.3 / 1023.0);
+  float V = 3.3 - Vo;
   float I = Vo / 10000;
   float R = V / I;
 

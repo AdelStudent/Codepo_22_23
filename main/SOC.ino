@@ -13,7 +13,7 @@ float determine_SOC(double input_current,double output_current){
   float chargeFlow = 0;
   
   // Paramètres initiaux
-  float battery_capacity = 200*20*3600; //unité : [As] Amper Second
+  float battery_capacity = 200*20; //unité : [As] Amper Second
 
 
   // Calculate the charge flow as the integral of the difference between the input and output currents
@@ -31,7 +31,7 @@ float determine_SOC(double input_current,double output_current){
 float verify_SOC(float SOC_init,float SOC_variation){
   float SOC=0;
   if(SOC_init+SOC_variation>=1){
-    Serial.println("Attention, le SOC calculé vaut 1");
+    //Serial.println("Attention, le SOC calculé vaut 1");
     SOC = 1;
   }else{
     SOC = SOC_init + SOC_variation;

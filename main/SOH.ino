@@ -11,7 +11,7 @@ double determineSOH(double SOC, float calculateThermistance_value) {
 
   return SOH;
 }
-
+/*
 double SOHdetermination(float calculateThermistance_value) {
   double capacity[nbBatteries];
 
@@ -36,7 +36,7 @@ double SOHdetermination(float calculateThermistance_value) {
   totalCapacity = capacity[0] + capacity[1] + capacity[2] + capacity[3];
   SOH_pack = (totalCapacity / (nbBatteries * nomCapacity)); //* 100.0;
 
-/*
+  /*
   // Affichage du SOH de chaque batterie
   for (int i = 0; i < nbBatteries; i++) {
     Serial.print("Battery ");
@@ -52,6 +52,7 @@ double SOHdetermination(float calculateThermistance_value) {
   Serial.println("%");
 
   // Ajoutez ici le reste du code pour d'autres actions ou boucles
-*/
-  return SOH_pack; 
-}
+  */
+  //return SOH_pack; 
+//}
+

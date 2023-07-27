@@ -25,7 +25,7 @@ void setup() {
   Serial1.begin(115200);
   //ask_info_thingstream();
   //test_thingstream();
-  initThingstream(&init_flag);
+  //initThingstream(&init_flag);
   
 
   //Serial2 permettant de communiquer avec ESP32
@@ -34,8 +34,9 @@ void setup() {
   
   LCD_init();
   delay(500);
-  //esp32_ip = send_query_ESP32("getIP",3);
-  LCD_print_IP(get_date_arduino_rtc());
+  esp32_ip = send_query_ESP32("getIP",3);
+  LCD_print_IP(esp32_ip);
+  //LCD_print_IP(get_date_arduino_rtc());
   
   //Initialisation de Kalman 
   creationParametreKalman();
@@ -46,7 +47,7 @@ void setup() {
 void loop() {
   
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 30 * 60 * 1000) {
+  if (millis() - lastMeasurementTime >= 1 * 30 * 1000) {
     taking_measures();
     FiltreKALMAN();
     lastMeasurementTime = millis();// update the last measurement time
@@ -65,10 +66,7 @@ void loop() {
   if (millis() - lastAskingTime >= 1 * 60 * 1000) {
     esp32_ip = send_query_ESP32("getIP",3);
     //A priori, esp32_ip est proche de 192.168.1.127
-    //LCD_print_IP(esp32_ip);
-    
-    LCD_print_IP(get_date_arduino_rtc());
-
+    LCD_print_IP(esp32_ip);
     lastAskingTime = millis();// update the last Hearing time
   }
   
