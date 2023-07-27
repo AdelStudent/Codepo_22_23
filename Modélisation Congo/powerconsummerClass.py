@@ -12,7 +12,8 @@ class powerconsummer(TimeUser) :
     
     def getPower(self) :
         return self.puissance_con 
+    
     def adapt_my_y(self):
         self.puissance_con= self.max_power*self.behavior[self.temps%24]
         self.y.append(self.puissance_con)
-        print(self.y)
+        
