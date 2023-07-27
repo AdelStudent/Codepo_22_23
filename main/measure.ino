@@ -75,11 +75,27 @@ void taking_measures() {
 
 
   update_kalman_vector(bat_volt_1,bat_volt_2,bat_volt_3,bat_volt_4,output_pack_bat_current,pv_generated_current,grid_current);
+  double SOC_bat1 = SOC_bat[0];
+  double SOC_bat2 = SOC_bat[1];
+  double SOC_bat3 = SOC_bat[2];
+  double SOC_bat4 = SOC_bat[3];
+    
+  measure_and_save("bat501.txt", date, SOC_bat1);
+  measure_and_save("bat502.txt", date, SOC_bat2);
+  measure_and_save("bat503.txt", date, SOC_bat3);
+  measure_and_save("bat504.txt", date, SOC_bat4);
 
-  measure_and_save("bat501.txt", date, SOC_12);
-  measure_and_save("bat502.txt", date, SOC_24);
-  measure_and_save("bat503.txt", date, SOC_36);
-  measure_and_save("bat504.txt", date, SOC_48);
+  double SOH_12 = determineSOH(SOC_bat1, calculateThermistance_value);
+  double SOH_24 = determineSOH(SOC_bat2, calculateThermistance_value);
+  double SOH_36 = determineSOH(SOC_bat3, calculateThermistance_value);
+  double SOH_48 = determineSOH(SOC_bat4, calculateThermistance_value);
+  double SOH_pack = SOHdetermination(calculateThermistance_value);
+
+  measure_and_save("bat601.txt", date, SOH_12);
+  measure_and_save("bat602.txt", date, SOH_24);
+  measure_and_save("bat603.txt", date, SOH_36);
+  measure_and_save("bat604.txt", date, SOH_48);
+  measure_and_save("bat600.txt",date, SOH_pack);
   
   Serial.println("We finished the measures \n\n");
   
