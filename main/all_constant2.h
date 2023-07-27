@@ -24,7 +24,7 @@ LiquidCrystal_I2C LCD(0x27,16,2);
 
 float A = 2.51e-03, B =1.039e-04, C = 0; //Coef. permettant de déterminer la température grâce 
 #define THERMISTOR 10000 // résistance nominale de la thermistor, 10 kOhm
-#define Vcc 5.0 // tension d'entrée= 5V
+#define Vcc 3.3// tension d'entrée= 3.3V
 
 
 //_________________Capteur COURANT_________________//
