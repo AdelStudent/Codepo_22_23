@@ -12,22 +12,27 @@ Pour la personne qui va lire ce code:
 //___________SETUP
 void setup_arduino_rtc(){
   
-  rtc.begin();
-  rtc.adjust(DateTime(2023, 7, 25, 15, 55, 40)); //Permet de set la date/heure (à commenter après)
+  //rtc.begin();
+  //rtc.adjust(DateTime(2023, 7, 25, 15, 55, 40)); //Permet de set la date/heure (à commenter après)
   
   
   Arduino_rtc.begin();
   synch_Arduino_DS3231();
-  Serial.println("DS3231 Time: "+get_date_DS3231_rtc());
+  //Serial.println("DS3231 Time: "+get_date_DS3231_rtc());
   Serial.println("Arduino Time: "+get_date_arduino_rtc());
 }
 
 //____________________________USEFULL FUNCTIONS_______________________//
 
 void synch_Arduino_DS3231(){
-  DateTime now = rtc.now();
-  Arduino_rtc.setTime(now.hour(),now.minute(),now.second());
-  Arduino_rtc.setDate(now.day(),now.month(),now.year());
+  //DateTime now = rtc.now();
+  //Arduino_rtc.setTime(now.hour(),now.minute(),now.second());
+  //Arduino_rtc.setDate(now.day(),now.month(),now.year());
+
+  Arduino_rtc.setTime(16,23,34);
+  Arduino_rtc.setDate(26,7,2023);
+
+  
   
 }
 void print_time_RTC(){

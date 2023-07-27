@@ -192,11 +192,6 @@ void FiltreKALMAN(){
   SOC_36 = X[4];
   SOC_48 = X[8];
 
-  // enregistrement dans des dossiers de la carte SD avec les heures de l'ESP32
-  //measure_and_save("SOC12", date, SOC_12);
-  //measure_and_save("SOC24", date, SOC_24);
-  //measure_and_save("SOC36", date, SOC_36);
-  //measure_and_save("SOC48", date, SOC_48);
 
 
   // Doit sauver les paramètres recalculées dans le carte SD 

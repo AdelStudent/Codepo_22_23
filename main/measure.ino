@@ -63,7 +63,7 @@ void taking_measures() {
   float bat_volt_1 = calculateTension(A8, 900, 220.8);//905, 219.8
   float bat_volt_2 = (calculateTension(A9, 904, 101)-calculateTension(A8, 900, 220.8));//904, 100.1
   float bat_volt_3 = (calculateTension(A10,903, 75 )-calculateTension(A9, 904, 101));//900, 74.4
-  float bat_volt_4 = (calculateTension(A11,903, 57.8 )- calculateTension(A10,903, 75) );//900, 55.6
+  float bat_volt_4 = (calculateTension(A11,903, 56.8 )- calculateTension(A10,903, 75) );//900, 55.6
   //measure_and_save("bat100.txt",date,pack_bat_volt);
 
   
@@ -210,15 +210,15 @@ float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int
       sumCur = sumCur + sq(meas);  //Accumulation des valeurs racine de meas                    
       counter = counter + 1;                   
       currentTime = millis(); //Reset -> Pour que l'échantillon soit pris au bon moment
-      Serial.println(sumCur);                                   
+      //Serial.println(sumCur);                                   
     }
           
     if (counter == 80) { 
       //regarde si le compte d'échantillon a atteint 4000 -> fait le code tous les 0.8 secondes                      
       sumCur = sumCur / nbSamples;
-      Serial.println(sumCur);         
+      //Serial.println(sumCur);         
       RMSCurrent = sqrt(sumCur);   //RMS : Root mean square -> racine carré  
-      Serial.println(RMSCurrent);          
+      //Serial.println(RMSCurrent);          
       FRMSCurrent = ((RMSCurrent* (Vref / 1023.0)) /20.83) - offset;
 
       //if(FinalRMSCurrent <= (625/mVperAmpValue/100) || FinalRMSCurrent > 30) { 
@@ -228,7 +228,7 @@ float ACCurrent(int nbSamples, double offset, double mvPerI, int pinCurrent, int
         FRMSCurrent =0; 
       }     
 
-      calculateAndPrintCurrent(FRMSCurrent);
+      //calculateAndPrintCurrent(FRMSCurrent);
 
       return FRMSCurrent;
     }
