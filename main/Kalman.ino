@@ -58,10 +58,7 @@ double Capacities[nbBatteries] = {200*3600, 200*3600, 200*3600, 200*3600}; //Ase
 char input[3000];
 
 // Final SOC
-double SOC_12;
-double SOC_24;
-double SOC_36; 
-double SOC_48;
+double SOC_bat[4];
 
 // INITIALISATION DES PARAMETRES POUR LES FILTRES DE KALMAN 
   //Sauvegarde dans la carte SD 
@@ -93,7 +90,8 @@ void initialisationKalman(String filename, double *X, double *Z, double SOCOCV[5
     //}
       para[0] = X[0]; //=SOC_init
       //SOC_init = X[0];
-      SOC_init = determine_SOC(input_pack_bat_current, output_pack_bat_current); 
+      //SOC_init = determine_SOC(input_pack_bat_current, output_pack_bat_current); 
+      //SOC_init = 1.0; //Basé sur ce qu'on a vu 
       para[1] = X[1]; //V1
       para[2]= Z[0]; //R0
       para[3] = Z[1]; //R1
@@ -171,26 +169,14 @@ void FiltreKALMAN(){
   CoulombCounting();
   
   for(int i = 0; i < nbBatteries; i++) { // Kalmann filter applied on each 
-    if(i == 0) {
-      extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_12, dSOCOCV_12, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]);
-    } 
-    else if(i == 1) {
-      extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_24, dSOCOCV_24, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]);
-    } 
-    else if(i == 2) {
-      extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_36, dSOCOCV_36, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]);
-    } 
-    else if(i == 3) {
-      extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_48, dSOCOCV_48, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]);
-      double pack = extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_48, dSOCOCV_48, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]); 
-    }
+    SOC_bat[i] = extendedKalmanFilter(I[0]/5, I[0]/5, X + 2*i, Z + 3*i, SOCOCV_12, dSOCOCV_12, V[i], Px + 4*i, Pz + 9*i, Qx + 4*i, Qz + 9*i, &betha_x[i], &betha_z[i], &alpha_x[i], &alpha_z[i], rho_x, rho_z, DeltaT, Capacities[i]);
   }
   
   // Doit mettre le SOC filtré quelque part -> l'année passée c'était direct sur l'écran LCD 
-  SOC_12 = X[0];
-  SOC_24 = X[2];
-  SOC_36 = X[4];
-  SOC_48 = X[8];
+  SOC_bat[0] = X[0];
+  SOC_bat[1] = X[2];
+  SOC_bat[2] = X[4];
+  SOC_bat[3] = X[8];
 
 
 
@@ -208,12 +194,12 @@ void creationParametreKalman(){
   duplicate(X, Z, Px, Pz, Qx, Qz, alpha_x, betha_x, alpha_z, betha_z, nbBatteries);
     
   // Pour avoir la courbe SOCOCV pour toutes les tensions
-  dubble(SOCOCV_24, SOCOCV_12, 5, 2);  
-  dubble(dSOCOCV_24, dSOCOCV_12, 4, 2);
-  dubble(SOCOCV_36, SOCOCV_12, 5, 3);  
-  dubble(dSOCOCV_36, dSOCOCV_12, 4, 3);
-  dubble(SOCOCV_48, SOCOCV_12, 5, 4);
-  dubble(dSOCOCV_48, dSOCOCV_12, 4, 4);
+  //dubble(SOCOCV_24, SOCOCV_12, 5, 2);  
+  //dubble(dSOCOCV_24, dSOCOCV_12, 4, 2);
+  //dubble(SOCOCV_36, SOCOCV_12, 5, 3);  
+  //dubble(dSOCOCV_36, dSOCOCV_12, 4, 3);
+  //dubble(SOCOCV_48, SOCOCV_12, 5, 4);
+  //dubble(dSOCOCV_48, dSOCOCV_12, 4, 4);
 }
 
 // duplique les valeurs des tableaux d'entrée pour les autres batteries 
@@ -256,8 +242,13 @@ void sauvegardeParametresKalman(String filename, double *X, double *Z, double SO
                                 double *Qz, double *alpha_x, double *betha_x, double *alpha_z,
                                 double *betha_z, double *Qn_rated, double *voltage_rated, double *current_rated) {
   if (SD.begin(CS_PIN) == true) {
+    // Supprimer le fichier pour supprimer les valeurs sur lesquelles on va réécrire 
+    delete_file(filename);
+    
     // Ouvrir le fichier pour écrire les paramètres de Kalman
-    File fichierKalman = SD.open(filename, FILE_WRITE);
+    File fichierKalman;
+    SD.open(filename, FILE_WRITE);
+    
     if (fichierKalman) {
       // Écrire les paramètres dans le fichier
       fichierKalman.println(String(X[0])); // SOC_init
@@ -305,9 +296,9 @@ void sauvegardeParametresKalman(String filename, double *X, double *Z, double SO
 void update_kalman_vector(float bat_volt_1,float bat_volt_2,float bat_volt_3,float bat_volt_4,double output_pack_bat_current,double pv_generated_current,double grid_current){
     // Création des vecteurs pour avoir le Filtre de Kalman 
     V[0] = bat_volt_1;
-    V[1] = bat_volt_2; 
-    V[2] = bat_volt_3;
-    V[3] = bat_volt_4;
+    V[1] = bat_volt_2 - bat_volt_1; 
+    V[2] = bat_volt_3 - bat_volt_2;
+    V[3] = bat_volt_4 - bat_volt_3;
 
     I[0] = output_pack_bat_current; //I[0] = celui en "sortie" du pack sur celui de l'année passée
     I[1] = pv_generated_current; 
