@@ -67,7 +67,7 @@ void writeData(String filename, String data){
   }
 }
 void read_data_and_send(String target,String filename){
-  Serial.println("read_data_and_send a été call avec la target : "+target+" et le filename : "+filename);
+  Serial.println("read_data_and_send a été call avec le filename : "+filename+"et la target : "+target);
   String res = "";
   //Cette fonction sert à lire dans la carte SD
   //Pour l'instant, on lit TOUTES les donnés (à voir si c'est logique)

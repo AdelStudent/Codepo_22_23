@@ -56,7 +56,7 @@ int initThingstream(int *flag_init) {
         Serial.println("Subscribe : fail");
     }
   }
-  //publish_message("TESTOTEST",flag_init); //Fonction permettant d'envoyer des messages au topic TEST1
+  publish_message("TESTOTEST",flag_init); //Fonction permettant d'envoyer des messages au topic TEST1
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
@@ -164,15 +164,28 @@ int ask_info_thingstream() {
   Serial1.println("AT+IOTINFO");
   checkReception();
 }
-void test_thingstream(){
+void connectivity_test_thingstream(){
   delay(1000); // wait for the modem to initialize
 
   // ERROR : reset the Thingstream click
-  Serial.println("Complete Thingstream Test");
+  Serial.println("Connectivity Thingstream Test");
   Serial1.println("AT+IOTTEST");
   if(checkReception() == 1) { 
       Serial.println("Test : success");
   } else {
-    Serial.println("Test : fail");
+    Serial.println("Connectivity Test : fail");
+  }
+}
+
+void reset_thingstream(){
+  delay(1000); // wait for the modem to initialize
+
+  // ERROR : reset the Thingstream click
+  Serial.println("Reset Thingstream");
+  Serial1.println("AT+IOTDESTROY");
+  if(checkReception() == 1) { 
+      Serial.println("Test : success");
+  } else {
+    Serial.println("Reset Test : fail");
   }
 }

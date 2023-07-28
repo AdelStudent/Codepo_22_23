@@ -6,7 +6,12 @@ void setup() {
   
   Serial.begin(9600);//Permet l'affichage dans le terminal
   Serial.println("STAAAAAAAAAAAAAAAAAAAAAAART!!!");
-  
+
+  LCD_init();
+  LCD_print_IP("Waiting Server..");
+
+  reset_thingstream();
+  delay(500);
   
   //Initialise les pins permettant de prendre les mesures
   setup_measure_pins();
@@ -24,22 +29,21 @@ void setup() {
   //Serial1 permettant de communiquer avec ThingStream
   Serial1.begin(115200);
   //ask_info_thingstream();
-  //test_thingstream();
-  //initThingstream(&init_flag);
+  //connectivity_test_thingstream();
+  initThingstream(&init_flag);
   
 
   //Serial2 permettant de communiquer avec ESP32
   Serial2.begin(115200);
   
   
-  LCD_init();
-  delay(500);
-  esp32_ip = send_query_ESP32("getIP",3);
-  LCD_print_IP(esp32_ip);
-  //LCD_print_IP(get_date_arduino_rtc());
+  
+  //esp32_ip = send_query_ESP32("getIP",3);
+  //LCD_print_IP(esp32_ip);
+ 
   
   //Initialisation de Kalman 
-  creationParametreKalman();
+  //creationParametreKalman();
   
   Serial.println("___________________________________________________________________");
 }
@@ -47,9 +51,9 @@ void setup() {
 void loop() {
   
   // check if it's time to take a measurement
-  if (millis() - lastMeasurementTime >= 1 * 30 * 1000) {
+  if (millis() - lastMeasurementTime >= 15 * 60 * 1000) {
     taking_measures();
-    FiltreKALMAN();
+    //FiltreKALMAN();
     lastMeasurementTime = millis();// update the last measurement time
   }
     
