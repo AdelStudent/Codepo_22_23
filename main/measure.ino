@@ -112,14 +112,14 @@ void measure_and_save(String filename, String date, float value){
   */
 }
 void verify_danger(float temperature, double pack_soc, double output_pack_bat_current,float bat_volt_1,float bat_volt_2,float bat_volt_3,float bat_volt_4){
-  float max_temp = 40;
-  double min_pack_soc = 0.50; //A checker : Si le SOC est bien en % ou en valeur absolue
+  float max_temp = 50;
+  double min_pack_soc = 0.50;
   double max_pack_soc = 0.90;
   
-  double max_pack_current = 60;
+  double max_pack_output_current = 60;
 
   float min_battery_voltage = 11.5;
-  float max_battery_voltage = 14.5;
+  float max_battery_voltage = 15.5;
   
   
   if(!already_publish){

@@ -10,7 +10,7 @@ void setup() {
   LCD_init();
   LCD_print_IP("Waiting Server..");
 
-  reset_thingstream();
+  //reset_thingstream();
   delay(500);
   
   //Initialise les pins permettant de prendre les mesures
@@ -35,11 +35,6 @@ void setup() {
 
   //Serial2 permettant de communiquer avec ESP32
   Serial2.begin(115200);
-  
-  
-  
-  //esp32_ip = send_query_ESP32("getIP",3);
-  //LCD_print_IP(esp32_ip);
  
   
   //Initialisation de Kalman 

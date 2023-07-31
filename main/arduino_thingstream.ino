@@ -14,17 +14,19 @@ int initThingstream(int *flag_init) {
   *flag_init = 0;
   delay(10000); // wait for the modem to initialize
   if (*flag_init == 0 ){
+    LCD_print_IP("Waiting Server..");
     // ERROR : reset the Thingstream click
     Serial.println("DEBUG");
     Serial1.println("AT+IOTDEBUG=0");
-    if(checkReception() == 1) { 
-      *flag_init = 1; 
+    if(checkReception() == 1) {
+        *flag_init = 1; 
         Serial.println("Debug : success");
       } else {
         Serial.println("Debug : fail");
       }
   }
   if(*flag_init == 1){
+    LCD_print_IP("Waiting Server..");
     Serial.println("CREATE");
     Serial1.println("AT+IOTCREATE");  
     if(checkReception() == 1) { 
@@ -35,6 +37,7 @@ int initThingstream(int *flag_init) {
      }
   }
   if(*flag_init == 2){
+    LCD_print_IP("Waiting Server..");
     Serial.println("CONNECT");
     Serial1.println("AT+IOTCONNECT=true");
     //Serial1.println("AT+IOTCONNECT=true,1440");
@@ -46,8 +49,8 @@ int initThingstream(int *flag_init) {
     }
   }
   if(*flag_init == 3) {
+    LCD_print_IP("Waiting Server..");
     Serial.println("SUBSCRIBE");
-    
     Serial1.println("AT+IOTSUBSCRIBE=\"TEST1\",1");
     if(checkReception() == 1) { 
         *flag_init = 4; 
@@ -56,7 +59,7 @@ int initThingstream(int *flag_init) {
         Serial.println("Subscribe : fail");
     }
   }
-  publish_message("TESTOTEST",flag_init); //Fonction permettant d'envoyer des messages au topic TEST1
+  //publish_message("TESTOTEST",flag_init); //Fonction permettant d'envoyer des messages au topic TEST1
 }
 //____________________________USEFULL FUNCTIONS_______________________//
 
